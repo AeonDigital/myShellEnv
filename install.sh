@@ -34,7 +34,7 @@ downloadInstallScripts() {
     TMP="${HOME}/tmpInstaller/$1"
     curl -s -w '%http_code' -o "${TMP}" "$2" || true
 
-    if [ ! -f "$TMP" ] || [ $htt_pcode != 200 ]; then
+    if [ ! -f "$TMP" ] || [ $http_code != 200 ]; then
       ISOK=0
 
       printf "Não foi possível fazer o download do arquivo de instalação '$1'\n"
