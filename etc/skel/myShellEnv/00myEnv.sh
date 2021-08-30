@@ -7,16 +7,7 @@ set +e
 
 
 
-#
-# Repositório dos scripts de instalação e atualização
-URL_ETC="https://raw.githubusercontent.com/AeonDigital/Tutorial-Arch/master/shell/etc/"
-URL_MYSHELLENV="https://raw.githubusercontent.com/AeonDigital/Tutorial-Arch/master/shell/etc/skel/myShellEnv/"
-URL_UPDATE="https://raw.githubusercontent.com/AeonDigital/Tutorial-Arch/master/shell/"
-
-
-
-
-
+' :
 #
 # Atualiza os arquivos que compõe o 'myShellEnv'.
 #
@@ -77,3 +68,4 @@ listUserFunctions() {
     echo -e "    ${fDesc}"
   done
 }
+'

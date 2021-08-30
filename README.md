@@ -11,7 +11,7 @@ Conjunto de ferramentas comuns de uso com scripts em **Bash**.
 Para instalar use no seu ambiente use as instruções abaixo.
 
 ``` bash
-  curl -O https://raw.githubusercontent.com/AeonDigital/myShellEnv/master/install.sh
+  curl -O https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/install.sh
   chmod u+x install.sh
   ./install.sh
 ```

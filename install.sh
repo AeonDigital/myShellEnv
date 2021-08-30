@@ -90,7 +90,7 @@ createTmpInstallerEnv() {
 #
 # Efetua o download de todos os scripts necessários para a instalação
 
-URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/master/"
+URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
 URL_ETC="${URL_BASE}shell/etc/"
 URL_INSTALL="${URL_BASE}shell/etc/skel/myShellEnv/"
 
