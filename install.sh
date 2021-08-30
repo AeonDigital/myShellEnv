@@ -32,9 +32,9 @@ downloadInstallScripts() {
     printf "ERROR in ${FUNCNAME[0]}: expected 2 arguments"
   else
     TMP="${HOME}/tmpInstaller/$1"
-    curl -s -o "${TMP}" "$2" || true
+    curl -s -w '%http_code' -o "${TMP}" "$2" || true
 
-    if [ ! -f "$TMP" ]; then
+    if [ ! -f "$TMP" ] || [ $htt_pcode != 200 ]; then
       ISOK=0
 
       printf "Não foi possível fazer o download do arquivo de instalação '$1'\n"
@@ -174,9 +174,9 @@ if [ $ISOK == 1 ]; then
     if [ -f "/etc/issue" ]; then
       cp /etc/issue /etc/issue_beforeMyShellEnv
     fi
-    curl -s -o /etc/issue "${URL_ETC}loginMessage" || true
+    curl -s -w '%http_code' -o /etc/issue "${URL_ETC}loginMessage" || true
 
-    if [ ! -f "/etc/issue" ]; then
+    if [ ! -f "/etc/issue" ] || [ $http_code != 200 ]; then
       ISOK=0
 
       setIMessage "" 1

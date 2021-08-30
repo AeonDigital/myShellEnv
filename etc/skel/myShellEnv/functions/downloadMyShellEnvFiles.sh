@@ -58,9 +58,9 @@ downloadMyShellEnvFiles() {
           if [ $ISOK == 1 ]; then
             printf "${ALERT_INDENT} ... ${LBLUE}${script}${NONE} "
             TMP="${2}${script}"
-            curl -s -o "$TMP" "${1}${script}" || true
+            curl -s -w '%http_code' -o "$TMP" "${1}${script}" || true
 
-            if [ ! -f "$TMP" ]; then
+            if [ ! -f "$TMP" ] || [ $http_code != 200 ]; then
               ISOK=0
               printf " ${LRED}[x]${NONE}\n"
             else

@@ -12,7 +12,7 @@ set +e
 # Atualiza os arquivos que compõe o 'myShellEnv'.
 #
 updateMyShellEnv() {
-  curl -O "${URL_UPDATE}updateMyShellEnv.sh"
+  curl -s -w '%http_code' -O "${URL_UPDATE}updateMyShellEnv.sh"
   chmod u+x updateMyShellEnv.sh
   ./updateMyShellEnv.sh
 }
@@ -20,7 +20,7 @@ updateMyShellEnv() {
 # Efetua a reinstalação completa do 'myShellEnv'.
 #
 reinstallMyShellEnv() {
-  curl -O "${URL_UPDATE}installMyShellEnv.sh"
+  curl -s -w '%http_code' -O "${URL_UPDATE}installMyShellEnv.sh"
   chmod u+x installMyShellEnv.sh
   ./installMyShellEnv.sh
 }
