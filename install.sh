@@ -283,6 +283,6 @@ if [ $ISOK == 1 ]; then
 
 
   rm -R "${HOME}/tmpInstaller"
-  rm installMyShellEnv.sh
+  rm install.sh
   waitUser
 fi
