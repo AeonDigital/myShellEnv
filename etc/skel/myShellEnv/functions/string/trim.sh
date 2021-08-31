@@ -18,7 +18,5 @@ set +e
 #     echo $result # "texto aqui"
 #
 trim() {
-  TMP=$(trimL $1)
-  TMP=$(trimR $TMP)
-  echo $TMP
+  echo $1 | xargs
 }
