@@ -37,7 +37,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 if [ "$USER" != "" ]; then
   MYSHELLENV_START=1
 
-  for tgtFile in "~/myShellEnv/functions/interface/*"; do
+  for tgtFile in ~/myShellEnv/functions/interface/*; do
     source "${tgtFile}" || true
   done
 

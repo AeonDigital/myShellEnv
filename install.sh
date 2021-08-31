@@ -257,11 +257,11 @@ if [ $ISOK == 1 ]; then
       rm /etc/issue_beforeMyShellEnv
     fi
 
-    if [ "$INSTALL_IN_SKEL" == "1" ] && [ d "/etc/skel/myShellEnv" ]; then
+    if [ "$INSTALL_IN_SKEL" == "1" ] && [ -d "/etc/skel/myShellEnv" ]; then
       rm -r "/etc/skel/myShellEnv"
     fi
 
-    if [ "$INSTALL_IN_MY_USER" == "1" ] && [ d "${HOME}/myShellEnv" ]; then
+    if [ "$INSTALL_IN_MY_USER" == "1" ] && [ -d "${HOME}/myShellEnv" ]; then
       rm -r "${HOME}/myShellEnv"
     fi
   else
