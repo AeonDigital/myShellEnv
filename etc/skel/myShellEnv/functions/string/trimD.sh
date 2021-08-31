@@ -22,7 +22,8 @@ set +e
 #     echo $result # "Keep  calm:and   ...:think"
 #
 trimD() {
-  TMP=$(trimDL $1 $2)
-  TMP=$(trimDR $1 $TMP)
+  # sed 's/\s*:\s*/:/g' <<< "Keep  calm   :   and   ... :   think"
+  REG='s/\s*'"$1"'\s*/'"$1"'/g'
+  TMP="$(echo $2 | sed ${REG})"
   echo $TMP
 }
