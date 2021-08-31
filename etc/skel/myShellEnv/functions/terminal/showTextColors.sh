@@ -38,7 +38,7 @@ showTextColors() {
     Ciano claro:    LCYAN:    \\\\e[01;36m: ${LCYAN}myShellEnv${NONE} \n
   ")
 
-  printf "\nAs seguintes opções de cores estão disponíveis: \n\n"
+  printf "\n\n{$SILVER}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
   COLOR_TEXT=$(sed 's/^\s*//g' <<< "${COLOR_TEXT}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')
   column -s ":" -o " | " -t -N "Cor,Raw,Variavel,Aparencia" <<< "${COLOR_TEXT}"
 

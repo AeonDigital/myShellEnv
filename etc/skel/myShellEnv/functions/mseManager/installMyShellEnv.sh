@@ -104,7 +104,7 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       FN_DIR="${TARGET_DIR}prompts/"
       FN_URL="${URL_INSTALL}prompts/"
-      TARGET_FILES=("prompt.sh")
+      TARGET_FILES=("prompt.sh" "definePrompt.sh")
       downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
     fi
   fi
