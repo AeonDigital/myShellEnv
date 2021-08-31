@@ -106,7 +106,7 @@ selectPromptStyle() {
         PROMPT_STYLE=$style
         PROMPT_STYLEI=$COUNTER
       fi
-      COUNTER="${COUNTER}+1"
+      COUNTER="$((COUNTER + 1))
     done
 
     if [ $ISVALID == 0 ]; then
@@ -181,7 +181,7 @@ selectPromptColors() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPrompt() {
-  PSQUEMA=$PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
+  PSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
   PSQUEMA="$(echo $PSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
 
@@ -218,11 +218,11 @@ previewPrompt() {
   REG='s/\\h/'"$HOSTNAME"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
-  DIRECTORY=$(echo pwd)
+  DIRECTORY="\/${HOME}\/myShellEnv"
   REG='s/\\w/'"$DIRECTORY"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
 
-  printf "\n\n${SILVER}Resultado da configuração do prompt${NONE}\n"
-  printf "$PSQUEMA \n\n"
+  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}\n"
+  printf "${PSQUEMA} \n\n"
 }
