@@ -77,10 +77,10 @@ showPromptColors() {
 #
 showPromptConfiguration() {
   printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
-  printf "${LBLUE}STYLE     ${NONE}: ${PROMPT_STYLE}\n"
-  printf "${LBLUE}SYMBOLS   ${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
-  printf "${LBLUE}USERNAME  ${NONE}: ${PROMPT_COLOR_USERNAME}\n"
-  printf "${LBLUE}DIRECTORY ${NONE}: ${PROMPT_COLOR_DIRECTORY}\n"
+  printf "     ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
+  printf "   ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
+  printf "  ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
+  printf " ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
 }
 
 #
@@ -183,16 +183,19 @@ selectPromptColors() {
 previewPrompt() {
   PSQUEMA=$PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
 
-  RSYMBOL="${R$PROMPT_COLOR_SYMBOLS}"
-  REG='s/[[SYMBOL]]/'"$RSYMBOL"'/g'
+  TMP="R${PROMPT_COLOR_SYMBOLS}"
+  NEW="${TMP}"
+  REG='s/[[SYMBOL]]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
 
-  RUSERNAME="${R$PROMPT_COLOR_USERNAME}"
-  REG='s/[[USERNAME]]/'"$RUSERNAME"'/g'
+  TMP="R${PROMPT_COLOR_USERNAME}"
+  NEW="${TMP}"
+  REG='s/[[USERNAME]]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
 
-  RDIRECTORY="${R$PROMPT_COLOR_DIRECTORY}"
-  REG='s/[[DIRECTORY]]/'"$PROMPT_COLOR_DIRECTORY"'/g'
+  TMP="R${PROMPT_COLOR_DIRECTORY}"
+  NEW="${TMP}"
+  REG='s/[[DIRECTORY]]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
 
   printf "\n$PSQUEMA\n\n"
