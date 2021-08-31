@@ -23,6 +23,6 @@ set +e
 #
 trimDR() {
   REG='s/'"$1"'\s*/'"$1"'/g'
-  TMP=$(sed $REF <<< $2)
+  TMP=$(sed $REG <<< $2)
   echo $TMP
 }
