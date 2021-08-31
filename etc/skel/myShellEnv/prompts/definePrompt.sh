@@ -182,21 +182,38 @@ selectPromptColors() {
 #
 previewPrompt() {
   PSQUEMA=$PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
+  \[\e[40;[[SYMBOL]]\]
+  PSQUEMA="$(echo $PSQUEMA | sed 's/\\\[\\e\[40;/\\e\[/g' | sed 's/\]\]\]\\/\\]\]/g')"
+
 
   TMP="R${PROMPT_COLOR_SYMBOLS}"
-  NEW="${TMP}"
-  REG='s/[[SYMBOL]]/'"$NEW"'/g'
+  NEW="${!TMP}"
+  REG='s/\[\[SYMBOL\]\]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
 
   TMP="R${PROMPT_COLOR_USERNAME}"
-  NEW="${TMP}"
-  REG='s/[[USERNAME]]/'"$NEW"'/g'
+  NEW="${!TMP}"
+  REG='s/\[\[USERNAME\]\]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
 
   TMP="R${PROMPT_COLOR_DIRECTORY}"
-  NEW="${TMP}"
-  REG='s/[[DIRECTORY]]/'"$NEW"'/g'
+  NEW="${!TMP}"
+  REG='s/\[\[DIRECTORY\]\]/'"$NEW"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
+
+
+  REG='s/[\u]/'"$USER"'/g'
+  PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
+
+  HOSTNAME=`uname -n`
+  REG='s/[\h]/'"$HOSTNAME"'/g'
+  PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
+
+  DIRECTORY=$(echo pwd)
+  REG='s/[\w]/'"$DIRECTORY"'/g'
+  PSQUEMA="$(echo $PSQUEMA | sed ${REG})"
+
+
 
   printf "\n$PSQUEMA\n\n"
 }
