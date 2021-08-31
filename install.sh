@@ -265,7 +265,7 @@ if [ $ISOK == 1 ]; then
       rm -r "${HOME}/myShellEnv"
     fi
   else
-    setIMessage "${LRED}Processo de instalação encerrado com sucesso!${NONE}"
+    setIMessage "${LGREEN}Processo de instalação encerrado com sucesso!${NONE}"
     setIMessage "As atualizações serão carregadas no próximo login."
     setIMessage ""
 
