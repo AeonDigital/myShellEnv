@@ -98,11 +98,11 @@ ISOK=1
 
 createTmpInstallerEnv
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "installMyShellEnv.sh" "${URL_INSTALL}functions/installMyShellEnv.sh"
+  downloadInstallScripts "installMyShellEnv.sh" "${URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
 fi
 
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${URL_INSTALL}functions/downloadMyShellEnvFiles.sh"
+  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${URL_INSTALL}functions/mseManager/downloadMyShellEnvFiles.sh"
 fi
 
 

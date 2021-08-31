@@ -68,7 +68,8 @@ if [ "$MYSHELLENV_START" == 1 ]; then
   BASE_DIR="${HOME}/myShellEnv/"
   DIR_SCRIPTS=(
     "functions/*" "functions/string/*"
-    "functions/terminal/*" "functions/thirdPart/*" "prompts/*"
+    "functions/terminal/*" "functions/thirdPart/*"
+    "functions/mseManager/*" "prompts/*"
   )
 
   for tgtdir in "${DIR_SCRIPTS[@]}"; do
