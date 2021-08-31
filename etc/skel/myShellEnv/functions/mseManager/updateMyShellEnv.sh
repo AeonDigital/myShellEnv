@@ -33,5 +33,6 @@ updateMyShellEnv() {
     chmod u+x $TMP
     source $TMP
     installMyShellEnvTmp 0
+    rm "${HOME}/installMyShellEnvTmp.sh"
   fi
 }
