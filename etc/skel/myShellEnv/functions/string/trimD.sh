@@ -22,5 +22,7 @@ set +e
 #     echo $result # "Keep  calm:and   ...:think"
 #
 trimD() {
-  echo "$2" | sed "'s/\s*$1/$1/g'" | sed "'s/$1\s*/$1/g'"
+  TMP=$(trimDL $1 $2)
+  TMP=$(trimDR $1 $TMP)
+  echo $TMP
 }

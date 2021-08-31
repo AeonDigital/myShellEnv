@@ -22,5 +22,7 @@ set +e
 #     echo $result # "Keep calm   ,and..."
 #
 trimDR() {
-  echo "$2" | sed "'s/$1\s*/$1/g'"
+  REG='s/'"$1"'\s*/'"$1"'/g'
+  TMP=$(sed $REF <<< $2)
+  echo $TMP
 }

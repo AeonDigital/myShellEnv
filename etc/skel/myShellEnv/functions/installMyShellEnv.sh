@@ -8,6 +8,14 @@ set +e
 
 
 #
+# @variables
+URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
+URL_ETC="${URL_BASE}etc/"
+URL_INSTALL="${URL_BASE}etc/skel/myShellEnv/"
+
+
+
+#
 # Efetua o download e instalação dos arquivos necessários para
 # o funcionamento do 'myShellEnv'.
 #
