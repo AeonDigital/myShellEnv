@@ -24,7 +24,7 @@ PROMPT_AVAILABLE_SQUEMA=()
 #
 # Estilo simples
 PROMPT_AVAILABLE_STYLE_NAME[0]="SIMPLE"
-PROMPT_AVAILABLE_STYLE_FORMAT[0]="${NONE}$ username@host : "
+PROMPT_AVAILABLE_STYLE_FORMAT[0]="${NONE}$ username@host : _"
 PROMPT_AVAILABLE_SQUEMA[0]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] :\[\e[40;[[NONE]]\] '
 
 #
@@ -56,8 +56,8 @@ showPromptStyles() {
   l=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
 
   for (( i=0; i<l; i++)); do
-    printf "${LBLUE}${PROMPT_AVAILABLE_STYLE_NAME[$i];\n"
-    printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]}\n"
+    printf "${LBLUE}${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
+    printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n\n"
   done
 
   printf "\n"
@@ -69,6 +69,18 @@ showPromptStyles() {
 #
 showPromptColors() {
   showTextColors
+}
+
+#
+# Mostra as configurações atualmente selecionadas para a
+# amostragem do prompt.
+#
+showPromptConfiguration() {
+  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
+  printf "${LBLUE}STYLE     ${NONE}: ${PROMPT_STYLE}\n"
+  printf "${LBLUE}SYMBOLS   ${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
+  printf "${LBLUE}USERNAME  ${NONE}: ${PROMPT_COLOR_USERNAME}\n"
+  printf "${LBLUE}DIRECTORY ${NONE}: ${PROMPT_COLOR_DIRECTORY}\n"
 }
 
 #
@@ -94,7 +106,7 @@ selectPromptStyle() {
         PROMPT_STYLE=$style
         PROMPT_STYLEI=$COUNTER
       fi
-      COUNTER++
+      COUNTER="${COUNTER}+1"
     done
 
     if [ $ISVALID == 0 ]; then
@@ -169,7 +181,7 @@ selectPromptColors() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPrompt() {
-  PSQUEMA=PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
+  PSQUEMA=$PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
 
   RSYMBOL="${R$PROMPT_COLOR_SYMBOLS}"
   REG='s/[[SYMBOL]]/'"$RSYMBOL"'/g'
