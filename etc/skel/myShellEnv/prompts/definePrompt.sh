@@ -106,7 +106,7 @@ selectPromptStyle() {
         PROMPT_STYLE=$style
         PROMPT_STYLEI=$COUNTER
       fi
-      COUNTER="$((COUNTER + 1))
+      COUNTER="$((COUNTER + 1))"
     done
 
     if [ $ISVALID == 0 ]; then
@@ -218,13 +218,13 @@ previewPrompt() {
   REG='s/\\h/'"$HOSTNAME"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
-  DIRECTORY="\/${HOME}\/myShellEnv"
+  DIRECTORY="\/etc\/skel\/myShellEnv"
   REG='s/\\w/'"$DIRECTORY"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
 
-  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}\n"
-  printf "\n${LBLUE} ``` \n"
-  printf "${PSQUEMA} \n"
-  printf "\n${LBLUE} ``` \n\n"
+  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE} \n"
+  printf "\n${LBLUE}...${NONE} \n"
+  printf "${PSQUEMA}\n"
+  printf "\n${LBLUE}...${NONE} \n\n"
 }
