@@ -183,7 +183,13 @@ selectPromptColors() {
 previewPrompt() {
   PSQUEMA=$PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]
   PSQUEMA="$(echo $PSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
-  PSQUEMA="$(echo $PSQUEMA | sed -e 's/\\e\[\[\[NONE]\]\]//g')"
+
+
+
+  NEW="${RNONE}"
+  REG='s/\[\[NONE\]\]/'"$NEW"'/g'
+  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+
 
 
   TMP="R${PROMPT_COLOR_SYMBOLS}"
@@ -202,6 +208,9 @@ previewPrompt() {
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
 
+  REG='s/\\\$/\$/g'
+  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+
   REG='s/\\u/'"$USER"'/g'
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
@@ -214,6 +223,6 @@ previewPrompt() {
   PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
 
 
-
-  printf "\n$PSQUEMA\n\n"
+  printf "\n\n${SILVER}Resultado da configuração do prompt${NONE}\n"
+  printf "$PSQUEMA \n\n"
 }
