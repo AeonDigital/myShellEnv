@@ -146,7 +146,7 @@ selectPromptColors() {
     "PURPLE" "LPURPLE" "CYAN" "LCYAN"
   )
 
-  if [ $# >= 1 ]; then
+  if [ $# -ge 1 ]; then
     for color in "${ACOLORS[@]}"; do
       if [ $1 == $color ]; then
         SYMBOLS=$color
@@ -154,7 +154,7 @@ selectPromptColors() {
     done
   fi
 
-  if [ $# >= 2 ]; then
+  if [ $# -ge 2 ]; then
     for color in "${ACOLORS[@]}"; do
       if [ $2 == $color ]; then
         USERNAME=$color
@@ -162,7 +162,7 @@ selectPromptColors() {
     done
   fi
 
-  if [ $# >= 3 ]; then
+  if [ $# -ge 3 ]; then
     for color in "${ACOLORS[@]}"; do
       if [ $3 == $color ]; then
         DIRECTORY=$color
@@ -224,7 +224,7 @@ previewPrompt() {
 
 
   printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
-  printf "\n${LBLUE}...${NONE} \n":
+  printf "\n${LBLUE}...${NONE} \n"
   printf "${PSQUEMA}\n"
   printf "\n${LBLUE}...${NONE} \n\n"
 }
