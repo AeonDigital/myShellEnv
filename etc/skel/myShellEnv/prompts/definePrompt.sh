@@ -225,6 +225,6 @@ previewPrompt() {
 
   printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
   printf "\n${LBLUE}...${NONE} \n"
-  printf "${PSQUEMA}\n"
+  printf "${PSQUEMA}"
   printf "\n${LBLUE}...${NONE} \n\n"
 }
