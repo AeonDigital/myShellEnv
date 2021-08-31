@@ -53,7 +53,7 @@ installMyShellEnv() {
       FN_URL="${URL_INSTALL}functions/interface/"
       TARGET_FILES=(
         "alertUser.sh" "aliases.sh" "errorAlert.sh" "promptUser.sh"
-        "setIMessage.sh" "textColor.sh" "textColors.sh" "waitUser.sh"
+        "setIMessage.sh" "textColors.sh" "waitUser.sh"
       )
       downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
     fi
