@@ -65,7 +65,7 @@ fi
 # carrega o restante dos scripts
 #
 if [ "$MYSHELLENV_START" == 1 ]; then
-  BASE_DIR="~/myShellEnv/"
+  BASE_DIR="${HOME}/myShellEnv/"
   DIR_SCRIPTS=(
     "functions/*" "functions/string/*"
     "functions/terminal/*" "functions/thirdPart/*" "prompts/*"
@@ -74,8 +74,10 @@ if [ "$MYSHELLENV_START" == 1 ]; then
   for tgtdir in "${DIR_SCRIPTS[@]}"; do
     TMP="${BASE_DIR}${tgtdir}"
 
-    for tgtFile in "${TMP}"; do
-      source "$tgtFile" || true
+    for tgtFile in $TMP; do
+      if [ -f $tgtFile ]; then
+        source "$tgtFile" || true
+      fi
     done
   done
 
