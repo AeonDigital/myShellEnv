@@ -93,7 +93,9 @@ function print_blocks {
 
 
 #
-# Printa na tela as 256 cores.
+# Mostra as cores de tela disponíveis no shell e
+# que podem ser utilizadas para a estilização das mensagens
+# de interface.
 #
 print256Colours() {
     print_run 0 16 # The first 16 colours are spread over the whole spectrum
