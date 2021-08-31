@@ -50,7 +50,7 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       FN_DIR="${TARGET_DIR}functions/"
       FN_URL="${URL_INSTALL}functions/"
-      TARGET_FILES=("installMyShellEnv.sh" "downloadMyShellEnvFiles.sh" "uninstallMyShellEnv.sh")
+      TARGET_FILES=("installMyShellEnv.sh" "downloadMyShellEnvFiles.sh" "updateMyShellEnv.sh" "uninstallMyShellEnv.sh")
       downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
     fi
 
