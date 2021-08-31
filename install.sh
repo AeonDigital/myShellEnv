@@ -39,8 +39,8 @@ downloadInstallScripts() {
 
       printf "Não foi possível fazer o download do arquivo de instalação '$1'\n"
       printf "A instalação foi encerrada.\n"
-      printf "URL: $2 \n"
       printf "TGT: ${TMP} \n"
+      printf "URL: $2 \n"
     else
       printf " > Carregando script: ${TMP} \n"
       source "${TMP}"
@@ -91,8 +91,8 @@ createTmpInstallerEnv() {
 # Efetua o download de todos os scripts necessários para a instalação
 
 URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-URL_ETC="${URL_BASE}shell/etc/"
-URL_INSTALL="${URL_BASE}shell/etc/skel/myShellEnv/"
+URL_ETC="${URL_BASE}etc/"
+URL_INSTALL="${URL_BASE}etc/skel/myShellEnv/"
 
 ISOK=1
 
