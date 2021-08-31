@@ -66,7 +66,10 @@ fi
 #
 if [ "$MYSHELLENV_START" == 1 ]; then
   BASE_DIR="~/myShellEnv/"
-  DIR_SCRIPTS=("*" "string/*" "terminal/*" "thirdPart/*" "prompts/*")
+  DIR_SCRIPTS=(
+    "functions/*" "functions/string/*"
+    "functions/terminal/*" "functions/thirdPart/*" "prompts/*"
+  )
 
   for tgtdir in "${DIR_SCRIPTS[@]}"; do
     TMP="${BASE_DIR}${tgtdir}"
