@@ -18,5 +18,7 @@ set +e
 #     echo $result # "texto aqui"
 #
 trim() {
-  echo "$1" | trimL | trim R
+  TMP=$(trimL $1)
+  TMP=$(trimR $TMP)
+  echo $TMP
 }
