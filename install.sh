@@ -37,12 +37,12 @@ downloadInstallScripts() {
     if [ ! -f "$TMP" ] || [ $SCODE != 200 ]; then
       ISOK=0
 
-      printf "Não foi possível fazer o download do arquivo de instalação '$1'\n"
-      printf "A instalação foi encerrada.\n"
-      printf "TGT: ${TMP} \n"
-      printf "URL: $2 \n"
+      printf "    Não foi possível fazer o download do arquivo de instalação '$1'\n"
+      printf "    A instalação foi encerrada.\n"
+      printf "    TGT: ${TMP} \n"
+      printf "    URL: $2 \n\n"
     else
-      printf " > Carregando script: ${TMP} \n"
+      printf "    > Carregando script: ${TMP} \n"
       source "${TMP}"
     fi
   fi
@@ -65,8 +65,8 @@ createTmpInstallerEnv() {
   if [ ! -d "${HOME}/tmpInstaller" ]; then
     ISOK=0
 
-    printf "Não foi possível criar o diretório temporário de instalação. \n"
-    printf "A instalação foi encerrada.\n"
+    printf "    Não foi possível criar o diretório temporário de instalação. \n"
+    printf "    A instalação foi encerrada.\n"
   else
     if [ $ISOK == 1 ]; then
       INSTALL_FILES=(
