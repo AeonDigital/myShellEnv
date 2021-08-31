@@ -50,7 +50,10 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       FN_DIR="${TARGET_DIR}functions/mseManager/"
       FN_URL="${URL_INSTALL}functions/mseManager/"
-      TARGET_FILES=("installMyShellEnv.sh" "downloadMyShellEnvFiles.sh" "updateMyShellEnv.sh" "uninstallMyShellEnv.sh")
+      TARGET_FILES=(
+        "installMyShellEnv.sh" "downloadMyShellEnvFiles.sh"
+        "updateMyShellEnv.sh" "uninstallMyShellEnv.sh"
+      )
       downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
     fi
 

@@ -25,10 +25,13 @@ updateMyShellEnv() {
     printf "    URL: ${URL} \n\n"
   else
     printf "    > Carregando script: ${TMP} \n"
-    sed -i 's/installMyShellEnv()/installMyShellEnvTmp()/g' /etc/sudoers
+
+    TMPOLD='installMyShellEnv()'
+    TMPNEW='installMyShellEnvTmp()'
+    sed -i "s/$TMPOLD/$TMPNEW/g" $TMP
 
     chmod u+x $TMP
-    source "${TMP}"
+    source $TMP
     installMyShellEnvTmp 0
   fi
 }
