@@ -53,12 +53,14 @@ PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 #
 showPromptStyles() {
   printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
-  l=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
+  mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
 
-  for (( i=0; i<l; i++)); do
+  for (( i=0; i<mseLength; i++)); do
     printf "${LBLUE}${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
     printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n\n"
   done
+
+  unset mseLength
 
   printf "\n"
 }
@@ -77,11 +79,13 @@ showPromptColors() {
 #
 showPromptConfiguration() {
   printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
-  printf "     ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
-  printf "   ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
-  printf "  ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
-  printf " ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
+  printf "          ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
+  printf "        ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
+  printf "       ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
+  printf "      ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
 }
+
+
 
 #
 # Define o tipo do prompt que será usado.
@@ -97,21 +101,26 @@ selectPromptStyle() {
   if [ $# != 1 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
-    ISVALID=0
-    COUNTER=0
+    mseIsValid=0
+    mseCounter=0
+    mseUStyle=$(toUpperCase $1)
 
-    for style in "${PROMPT_AVAILABLE_STYLE_NAME[@]}"; do
-      if [ $1 == $style ]; then
-        ISVALID=1
-        PROMPT_STYLE=$style
-        PROMPT_STYLEI=$COUNTER
+    for mseStyle in "${PROMPT_AVAILABLE_STYLE_NAME[@]}"; do
+      if [ $mseUStyle == $mseStyle ]; then
+        mseIsValid=1
+        PROMPT_STYLE=$mseStyle
+        PROMPT_STYLEI=$mseCounter
       fi
-      COUNTER="$((COUNTER + 1))"
+      mseCounter="$((mseCounter + 1))"
     done
 
-    if [ $ISVALID == 0 ]; then
+    if [ $mseIsValid == 0 ]; then
       errorAlert "${FUNCNAME[0]}" "invalid argument"
     fi
+
+    unset mseStyle
+    unset mseCounter
+    unset mseIsValid
   fi
 }
 
@@ -136,44 +145,55 @@ selectPromptStyle() {
 #     selectPromptColors "LPURPLE" "DGRAY"
 #
 selectPromptColors() {
-  SYMBOLS='WHITE'
-  USERNAME='WHITE'
-  DIRECTORY='WHITE'
+  mseSYMBOLS='WHITE'
+  mseUSERNAME='WHITE'
+  mseDIRECTORY='WHITE'
 
-  ACOLORS=(
+  mseACOLORS=(
     "BLACK" "DGREY" "WHITE" "SILVER" "RED" "LRED"
     "GREEN" "LGREEN" "BROWN" "YELLOW" "BLUE" "LBLUE"
     "PURPLE" "LPURPLE" "CYAN" "LCYAN"
   )
 
   if [ $# -ge 1 ]; then
-    for color in "${ACOLORS[@]}"; do
-      if [ $1 == $color ]; then
-        SYMBOLS=$color
+    mseUColor=$(toUpperCase $1)
+
+    for mseColor in "${mseACOLORS[@]}"; do
+      if [ $mseUColor == $mseColor ]; then
+        mseSYMBOLS=$mseColor
       fi
     done
   fi
 
   if [ $# -ge 2 ]; then
-    for color in "${ACOLORS[@]}"; do
-      if [ $2 == $color ]; then
-        USERNAME=$color
+    mseUColor=$(toUpperCase $2)
+
+    for mseColor in "${mseACOLORS[@]}"; do
+      if [ $mseUColor == $mseColor ]; then
+        mseUSERNAME=$mseColor
       fi
     done
   fi
 
   if [ $# -ge 3 ]; then
-    for color in "${ACOLORS[@]}"; do
-      if [ $3 == $color ]; then
-        DIRECTORY=$color
+    mseUColor=$(toUpperCase $3)
+
+    for mseColor in "${mseACOLORS[@]}"; do
+      if [ $mseUColor == $mseColor ]; then
+        mseDIRECTORY=$mseColor
       fi
     done
   fi
 
 
-  PROMPT_COLOR_SYMBOLS=$SYMBOLS
-  PROMPT_COLOR_USERNAME=$USERNAME
-  PROMPT_COLOR_DIRECTORY=$DIRECTORY
+  PROMPT_COLOR_SYMBOLS=$mseSYMBOLS
+  PROMPT_COLOR_USERNAME=$mseUSERNAME
+  PROMPT_COLOR_DIRECTORY=$mseDIRECTORY
+
+  unset mseSYMBOLS
+  unset mseUSERNAME
+  unset mseDIRECTORY
+  unset mseACOLORS
 }
 
 #
@@ -181,50 +201,56 @@ selectPromptColors() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPrompt() {
-  PSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
-  PSQUEMA="$(echo $PSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
+  msePSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
 
 
-  NEW="${RNONE}"
-  REG='s/\[\[NONE\]\]/'"$NEW"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseNEW="${RNONE}"
+  mseREG='s/\[\[NONE\]\]/'"$mseNEW"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
 
   TMP="R${PROMPT_COLOR_SYMBOLS}"
-  NEW="${!TMP}"
-  REG='s/\[\[SYMBOL\]\]/'"$NEW"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseNEW="${!TMP}"
+  mseREG='s/\[\[SYMBOL\]\]/'"$mseNEW"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
   TMP="R${PROMPT_COLOR_USERNAME}"
-  NEW="${!TMP}"
-  REG='s/\[\[USERNAME\]\]/'"$NEW"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseNEW="${!TMP}"
+  mseREG='s/\[\[USERNAME\]\]/'"$mseNEW"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
   TMP="R${PROMPT_COLOR_DIRECTORY}"
-  NEW="${!TMP}"
-  REG='s/\[\[DIRECTORY\]\]/'"$NEW"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseNEW="${!TMP}"
+  mseREG='s/\[\[DIRECTORY\]\]/'"$mseNEW"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
-  REG='s/\\\$/\$/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseREG='s/\\\$/\$/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  REG='s/\\u/'"$USER"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseREG='s/\\u/'"$USER"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  HOSTNAME=`uname -n`
-  REG='s/\\h/'"$HOSTNAME"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseHOSTNAME=`uname -n`
+  mseREG='s/\\h/'"$mseHOSTNAME"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  DIRECTORY="\/etc\/skel\/myShellEnv"
-  REG='s/\\w/'"$DIRECTORY"'/g'
-  PSQUEMA="$(echo $PSQUEMA | sed -e ${REG})"
+  mseDIRECTORY="\/etc\/skel\/myShellEnv"
+  mseREG='s/\\w/'"$mseDIRECTORY"'/g'
+  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
   printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
   printf "\n${SILVER}...${NONE} \n"
-  printf "${PSQUEMA}"
+  printf "${msePSQUEMA}"
   printf "\n${SILVER}...${NONE} \n\n"
+
+  unset msePSQUEMA
+  unset mseNEW
+  unset mseREG
+  unset mseHOSTNAME
+  unset mseDIRECTORY
 }
