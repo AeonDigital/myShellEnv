@@ -10,7 +10,7 @@ set +e
 #
 # @variables
 #
-PROMPT_STYLE='SIMPLE'
+PROMPT_STYLE='NEWLINE03'
 PROMPT_STYLEI=0
 PROMPT_COLOR_SYMBOLS='WHITE'
 PROMPT_COLOR_USERNAME='DGREY'
@@ -213,8 +213,13 @@ showPromptSelection() {
 # Efetua o processamento da seleção feitas para a configuração do prompt
 # e retorna o seu string devidamente configurado.
 #
+#   @param bool $1
+#   Use '1' quando desejar que o resultado obtido vá ser usado para efetivamente
+#   definir as variáveis de ambiente que estilizam o prompt.
+#   Use '0' se quiser apenas obter o resultado para visualizar.
+#
 #   @exemple
-#     PS1=$(retrievePromptSelectionCode)
+#     PS1=$(retrievePromptSelectionCode 0)
 #
 retrievePromptSelectionCode() {
   msePSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
@@ -254,9 +259,11 @@ retrievePromptSelectionCode() {
   mseREG='s/\\h/'"$mseHOSTNAME"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  mseDIRECTORY="\/etc\/skel\/myShellEnv"
-  mseREG='s/\\w/'"$mseDIRECTORY"'/g'
-  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+  if [ $# == 0 ] || [ $1 != 1 ]; then
+    mseDIRECTORY="\/etc\/skel\/myShellEnv"
+    mseREG='s/\\w/'"$mseDIRECTORY"'/g'
+    msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+  fi
 
   echo $msePSQUEMA
 
@@ -273,7 +280,7 @@ retrievePromptSelectionCode() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPromptSelection() {
-  msePSQUEMA=$(retrievePromptSelectionCode)
+  msePSQUEMA=$(retrievePromptSelectionCode 0)
 
   printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
   printf "\n${SILVER}...${NONE} \n"
@@ -286,5 +293,5 @@ previewPromptSelection() {
 # encontradas nas variáveis que armazenam as seleções feitas.
 #
 setPromptSelection() {
-  PS1=$(retrievePromptSelectionCode)
+  PS1=$(retrievePromptSelectionCode 1)
 }
