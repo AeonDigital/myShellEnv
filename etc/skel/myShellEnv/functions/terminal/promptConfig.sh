@@ -11,7 +11,7 @@ set +e
 # @variables
 #
 PROMPT_STYLE='NEWLINE02'
-PROMPT_STYLEI=2
+PROMPT_STYLEI='2'
 PROMPT_COLOR_SYMBOLS='WHITE'
 PROMPT_COLOR_USERNAME='DGREY'
 PROMPT_COLOR_DIRECTORY='DGREY'
@@ -295,4 +295,11 @@ previewPromptSelection() {
 #
 setPromptSelection() {
   PS1=$(retrievePromptSelectionCode 1)
+  $mseCfgFile='~/myShellEnv/functions/terminal/promptConfig.sh'
+
+  setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
+  setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
 }
