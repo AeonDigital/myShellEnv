@@ -48,6 +48,7 @@ PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 
 
 
+
 #
 # Mostra os prompts que estão aptos a serem usados pelo usuário
 #
@@ -73,17 +74,6 @@ showPromptColors() {
   showTextColors
 }
 
-#
-# Mostra as configurações atualmente selecionadas para a
-# amostragem do prompt.
-#
-showPromptConfiguration() {
-  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
-  printf "          ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
-  printf "        ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
-  printf "       ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
-  printf "      ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
-}
 
 
 
@@ -197,10 +187,29 @@ selectPromptColors() {
 }
 
 #
-# Baseado nas seleções feitas e que estão armazenadas nas variáveis
-# de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
+# Mostra as configurações atualmente selecionadas para a
+# amostragem do prompt.
 #
-previewPrompt() {
+showPromptSelection() {
+  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
+  printf "          ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
+  printf "        ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
+  printf "       ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
+  printf "      ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
+}
+
+
+
+
+
+#
+# Efetua o processamento da seleção feitas para a configuração do prompt
+# e retorna o seu string devidamente configurado.
+#
+#   @exemple
+#     PS1=$(retrievePromptSelectionCode)
+#
+retrievePromptSelectionCode() {
   msePSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
   msePSQUEMA="$(echo $msePSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
@@ -242,15 +251,33 @@ previewPrompt() {
   mseREG='s/\\w/'"$mseDIRECTORY"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
+  echo $msePSQUEMA
 
-  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
-  printf "\n${SILVER}...${NONE} \n"
-  printf "${msePSQUEMA}"
-  printf "\n${SILVER}...${NONE} \n\n"
 
   unset msePSQUEMA
   unset mseNEW
   unset mseREG
   unset mseHOSTNAME
   unset mseDIRECTORY
+}
+
+#
+# Baseado nas seleções feitas e que estão armazenadas nas variáveis
+# de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
+#
+previewPromptSelection() {
+  msePSQUEMA=$(retrievePromptSelectionCode)
+
+  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
+  printf "\n${SILVER}...${NONE} \n"
+  printf "${msePSQUEMA}"
+  printf "\n${SILVER}...${NONE} \n\n"
+}
+
+#
+# Efetivamente altera a configuração do prompt baseado nas configurações
+# encontradas nas variáveis que armazenam as seleções feitas.
+#
+setPromptSelection() {
+  PS1=$(retrievePromptSelectionCode)
 }
