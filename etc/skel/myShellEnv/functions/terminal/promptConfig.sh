@@ -295,7 +295,7 @@ previewPromptSelection() {
 #
 setPromptSelection() {
   PS1=$(retrievePromptSelectionCode 1)
-  $mseCfgFile='~/myShellEnv/functions/terminal/promptConfig.sh'
+  mseCfgFile='~/myShellEnv/functions/terminal/promptConfig.sh'
 
   setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
   setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
