@@ -100,7 +100,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     mseDirScripts=(
       "functions/*" "functions/string/*"
       "functions/terminal/*" "functions/thirdPart/*"
-      "functions/mseManager/*"
+      "functions/mseManager/*" "functions/tools/*"
     )
 
     for mseTgtDir in "${mseDirScripts[@]}"; do

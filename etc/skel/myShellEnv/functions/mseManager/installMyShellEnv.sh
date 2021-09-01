@@ -100,6 +100,15 @@ installMyShellEnv() {
     fi
 
 
+    # Funções :: tools
+    if [ $ISOK == 1 ]; then
+      mseDir="${mseTargetDir}functions/tools/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/tools/"
+      MSE_GB_TARGET_FILES=("setConfiguration.sh")
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
+    fi
+
+
     unset mseIsSkel
     unset mseTargetDir
     unset mseDir
