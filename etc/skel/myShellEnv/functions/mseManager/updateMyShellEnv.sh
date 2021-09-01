@@ -26,14 +26,17 @@ updateMyShellEnv() {
   else
     printf "    > Carregando script: ${TMP} \n"
 
-    TMPOLD='installMyShellEnv()'
-    TMPNEW='installMyShellEnvTmp()'
-    sed -i "s/$TMPOLD/$TMPNEW/g" $TMP
+    mseOLD='installMyShellEnv()'
+    mseNEW='installMyShellEnvTmp()'
+    sed -i "s/$mseOLD/$mseNEW/g" $TMP
 
     chmod u+x $TMP
     source $TMP
     installMyShellEnvTmp 0
     rm "${HOME}/installMyShellEnvTmp.sh"
+
+    unset mseOLD
+    unset mseNEW
   fi
 
   unset mseURL
