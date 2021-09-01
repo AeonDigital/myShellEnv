@@ -83,8 +83,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
         setIMessage "${SILVER}Deseja iniciar o myShellEnv?${NONE}" 1
 
         promptUser
-        MSE_GB_START=${PROMPT_RESULT}
-        PROMPT_RESULT=""
+        MSE_GB_START=${MSE_GB_PROMPT_RESULT}
+        MSE_GB_PROMPT_RESULT=""
       fi
     fi
   fi
