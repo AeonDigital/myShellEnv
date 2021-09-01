@@ -48,9 +48,9 @@ PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 
 
 
-*
-* Mostra os prompts que estão aptos a serem usados pelo usuário
-*
+#
+# Mostra os prompts que estão aptos a serem usados pelo usuário
+#
 showPromptStyles() {
   printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
   l=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
