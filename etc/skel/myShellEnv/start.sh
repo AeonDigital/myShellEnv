@@ -111,7 +111,7 @@ if [ "$MYSHELLENV_START" == 1 ] && [ "$0" == "-bash" ]; then
   DISC=`df -h | grep $DETECTDISK | awk '{print $5 }'`
 
   UP=`uptime -p`
-  PACMAN=`checkupdates | wc -l 2>/dev/null`
+  PACMAN=`checkupdates | wc -l`
   HOSTNAME=`uname -n`
 
 
