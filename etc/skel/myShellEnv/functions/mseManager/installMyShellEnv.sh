@@ -9,9 +9,9 @@ set +e
 
 #
 # @variables
-URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-URL_ETC="${URL_BASE}etc/"
-URL_INSTALL="${URL_BASE}etc/skel/myShellEnv/"
+MSE_GB_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
+MSE_GB_URL_ETC="${MSE_GB_URL_BASE}etc/"
+MSE_GB_URL_INSTALL="${MSE_GB_URL_BASE}etc/skel/myShellEnv/"
 
 
 
@@ -28,84 +28,91 @@ installMyShellEnv() {
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
 
-    IS_SKEL=0
+    mseIsSkel=0
     if [ $1 == 1 ] || [ $1 == 0 ]; then
-      IS_SKEL=$1
+      mseIsSkel=$1
     fi
 
-    TARGET_DIR="${HOME}/myShellEnv/"
-    if [ $IS_SKEL == 1 ]; then
-      TARGET_DIR="/etc/skel/myShellEnv/"
+    mseTargetDir="${HOME}/myShellEnv/"
+    if [ $mseIsSkel == 1 ]; then
+      mseTargetDir="/etc/skel/myShellEnv/"
     fi
 
 
     # Básico
     if [ $ISOK == 1 ]; then
-      TARGET_FILES=("start.sh" "config.sh")
-      downloadMyShellEnvFiles "$URL_INSTALL" "$TARGET_DIR"
+      MSE_GB_TARGET_FILES=("start.sh" "config.sh")
+      downloadMyShellEnvFiles "$MSE_GB_URL_INSTALL" "$mseTargetDir"
     fi
 
 
     # Funções
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}functions/mseManager/"
-      FN_URL="${URL_INSTALL}functions/mseManager/"
-      TARGET_FILES=(
+      mseDir="${mseTargetDir}functions/mseManager/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/mseManager/"
+      MSE_GB_TARGET_FILES=(
         "installMyShellEnv.sh" "downloadMyShellEnvFiles.sh"
         "updateMyShellEnv.sh" "uninstallMyShellEnv.sh"
       )
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
 
     # Funções :: interface
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}functions/interface/"
-      FN_URL="${URL_INSTALL}functions/interface/"
-      TARGET_FILES=(
+      mseDir="${mseTargetDir}functions/interface/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/interface/"
+      MSE_GB_TARGET_FILES=(
         "alertUser.sh" "aliases.sh" "errorAlert.sh" "promptUser.sh"
         "setIMessage.sh" "textColors.sh" "waitUser.sh"
       )
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
 
     # Funções :: string
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}functions/string/"
-      FN_URL="${URL_INSTALL}functions/string/"
-      TARGET_FILES=(
+      mseDir="${mseTargetDir}functions/string/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/string/"
+      MSE_GB_TARGET_FILES=(
         "toLowerCase.sh" "toUpperCase.sh"
         "trim.sh" "trimD.sh" "trimDL.sh" "trimDR.sh" "trimL.sh" "trimR.sh"
       )
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
 
     # Funções :: terminal
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}functions/terminal/"
-      FN_URL="${URL_INSTALL}functions/terminal/"
-      TARGET_FILES=("setUTF8.sh" "showPromptOptions.sh" "showTextColors.sh")
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      mseDir="${mseTargetDir}functions/terminal/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
+      MSE_GB_TARGET_FILES=("setUTF8.sh" "showPromptOptions.sh" "showTextColors.sh")
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
 
     # Funções :: thirdPart
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}functions/thirdPart/"
-      FN_URL="${URL_INSTALL}functions/thirdPart/"
-      TARGET_FILES=("print256colours.sh")
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      mseDir="${mseTargetDir}functions/thirdPart/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/thirdPart/"
+      MSE_GB_TARGET_FILES=("print256colours.sh")
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
 
     # prompts
     if [ $ISOK == 1 ]; then
-      FN_DIR="${TARGET_DIR}prompts/"
-      FN_URL="${URL_INSTALL}prompts/"
-      TARGET_FILES=("prompt.sh" "definePrompt.sh")
-      downloadMyShellEnvFiles "$FN_URL" "$FN_DIR"
+      mseDir="${mseTargetDir}prompts/"
+      mseURL="${MSE_GB_URL_INSTALL}prompts/"
+      MSE_GB_TARGET_FILES=("prompt.sh" "definePrompt.sh")
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
+
+
+    unset mseIsSkel
+    unset mseTargetDir
+    unset mseDir
+    unset mseURL
+
   fi
 }

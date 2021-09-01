@@ -23,7 +23,9 @@ set +e
 #
 trimD() {
   # sed 's/\s*:\s*/:/g' <<< "Keep  calm   :   and   ... :   think"
-  REG='s/\s*'"$1"'\s*/'"$1"'/g'
-  TMP="$(echo $2 | sed ${REG})"
+  mseREG='s/\s*'"$1"'\s*/'"$1"'/g'
+  TMP="$(echo $2 | sed ${mseREG})"
   echo $TMP
+
+  unset mseREG
 }

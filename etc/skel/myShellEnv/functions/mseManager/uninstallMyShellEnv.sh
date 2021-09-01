@@ -24,7 +24,7 @@ set +e
 #
 uninstallMyShellEnv() {
   ISOK=1
-  UNINSTALL_LOGIN_MESSAGE=0
+  mseUninstallLoginMessage=0
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -34,7 +34,7 @@ uninstallMyShellEnv() {
       ISOK=0
       errorAlert "${FUNCNAME[0]}" "Invalid argument 1; expected 'user' or 'system'"
     else
-      if [ $1 == "skel" ] && [ "$EUID" != 0 ]; then
+      if [ $1 == "skel" ] && [ $EUID != 0 ]; then
         ISOK=0
         errorAlert "${FUNCNAME[0]}" "need elevate privileges to perform this action."
       fi
@@ -46,7 +46,7 @@ uninstallMyShellEnv() {
         ISOK=0
         errorAlert "${FUNCNAME[0]}" "Invalid argument 2; expected '0' or '1'"
       else
-        UNINSTALL_LOGIN_MESSAGE=$2
+        mseUninstallLoginMessage=$2
       fi
     fi
 
@@ -59,7 +59,7 @@ uninstallMyShellEnv() {
       setIMessage "Deseja mesmo prosseguir?"
 
       promptUser
-      if [ $PROMPT_RESULT == 0 ]; then
+      if [ $MSE_GB_PROMPT_RESULT == 0 ]; then
         setIMessage "" 1
         setIMessage "${SILVER}Ação abortada pelo usuário!${NONE}"
         alertUser
@@ -67,7 +67,7 @@ uninstallMyShellEnv() {
         setIMessage "... " 1
         SOURCE_BASHRC='source ~\/myShellEnv\/start.sh || true'
 
-        if [ $UNINSTALL_LOGIN_MESSAGE == 1 ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
+        if [ $mseUninstallLoginMessage == 1 ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
           setIMessage "... Redefinindo a mensagem original de login."
           cp /etc/issue_beforeMyShellEnv /etc/issue
           rm /etc/issue_beforeMyShellEnv
@@ -89,7 +89,10 @@ uninstallMyShellEnv() {
         alertUser
       fi
 
-      PROMPT_RESULT=""
+      MSE_GB_PROMPT_RESULT=""
+
+      unset mseUninstallLoginMessage
+
     fi
   fi
 }

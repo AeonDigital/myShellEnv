@@ -13,16 +13,16 @@ set +e
 #
 updateMyShellEnv() {
   TMP="${HOME}/installMyShellEnvTmp.sh"
-  URL="${URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
-  SCODE=$(curl -s -w "%{http_code}" -o "${TMP}" "${URL}" || true)
+  mseURL="${MSE_GB_URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
+  mseSCode=$(curl -s -w "%{http_code}" -o "${TMP}" "${mseURL}" || true)
 
-  if [ ! -f "$TMP" ] || [ $SCODE != 200 ]; then
+  if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
     ISOK=0
 
     printf "    Não foi possível fazer o download do arquivo de atualizações \n"
     printf "    A instalação foi encerrada.\n"
     printf "    TGT: ${TMP} \n"
-    printf "    URL: ${URL} \n\n"
+    printf "    URL: ${mseURL} \n\n"
   else
     printf "    > Carregando script: ${TMP} \n"
 
@@ -35,4 +35,7 @@ updateMyShellEnv() {
     installMyShellEnvTmp 0
     rm "${HOME}/installMyShellEnvTmp.sh"
   fi
+
+  unset mseURL
+  unset mseSCode
 }

@@ -32,9 +32,9 @@ downloadInstallScripts() {
     printf "ERROR in ${FUNCNAME[0]}: expected 2 arguments"
   else
     TMP="${HOME}/tmpInstaller/$1"
-    SCODE=$(curl -s -w "%{http_code}" -o "${TMP}" "$2" || true)
+    mseSCode=$(curl -s -w "%{http_code}" -o "${TMP}" "$2" || true)
 
-    if [ ! -f "$TMP" ] || [ $SCODE != 200 ]; then
+    if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
       ISOK=0
 
       printf "    Não foi possível fazer o download do arquivo de instalação '$1'\n"
@@ -45,6 +45,9 @@ downloadInstallScripts() {
       printf "    > Carregando script: ${TMP} \n"
       source "${TMP}"
     fi
+
+    unset TMP
+    unset mseSCode
   fi
 }
 
@@ -69,16 +72,18 @@ createTmpInstallerEnv() {
     printf "    A instalação foi encerrada.\n"
   else
     if [ $ISOK == 1 ]; then
-      INSTALL_FILES=(
+      TMP_INSTALL_FILES=(
         "textColors.sh" "alertUser.sh" "errorAlert.sh"
         "waitUser.sh" "promptUser.sh" "setIMessage.sh"
       )
 
-      for fileName in "${INSTALL_FILES[@]}"; do
+      for fileName in "${TMP_INSTALL_FILES[@]}"; do
         if [ $ISOK == 1 ]; then
-          downloadInstallScripts "${fileName}" "${URL_INSTALL}functions/interface/${fileName}"
+          downloadInstallScripts "${fileName}" "${TMP_URL_INSTALL}functions/interface/${fileName}"
         fi
       done
+
+      unset TMP_INSTALL_FILES
     fi
   fi
 }
@@ -90,19 +95,20 @@ createTmpInstallerEnv() {
 #
 # Efetua o download de todos os scripts necessários para a instalação
 
-URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-URL_ETC="${URL_BASE}etc/"
-URL_INSTALL="${URL_BASE}etc/skel/myShellEnv/"
-
 ISOK=1
+
+TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
+TMP_URL_ETC="${TMP_URL_BASE}etc/"
+TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
+
 
 createTmpInstallerEnv
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "installMyShellEnv.sh" "${URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
+  downloadInstallScripts "installMyShellEnv.sh" "${TMP_URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
 fi
 
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${URL_INSTALL}functions/mseManager/downloadMyShellEnvFiles.sh"
+  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${TMP_URL_INSTALL}functions/mseManager/downloadMyShellEnvFiles.sh"
 fi
 
 
@@ -113,20 +119,19 @@ if [ $ISOK == 1 ]; then
 
   clear
   setIMessage "" 1
-  setIMessage "${SILVER}myShellEnv v 0.9.14 [2021-08-30]${NONE}"
+  setIMessage "${SILVER}myShellEnv v 0.9.15 [2021-08-31]${NONE}"
   setIMessage "Iniciando o processo de instalação."
   alertUser
 
 
-  INSTALL_IN_SKEL=0
-  INSTALL_LOGIN_MESSAGE=0
-  INSTALL_IN_MY_USER=0
-
+  TMP_INSTALL_IN_SKEL=0
+  TMP_INSTALL_LOGIN_MESSAGE=0
+  TMP_INSTALL_IN_MY_USER=0
 
 
   #
   # sendo um root
-  if [ $ISOK == 1 ] && [ "$EUID" == 0 ]; then
+  if [ $ISOK == 1 ] && [ $EUID == 0 ]; then
     setIMessage "" 1
     setIMessage "Você foi identificado como um usuário com privilégios ${LBLUE}root${NONE}"
     setIMessage "Isto significa que você tem permissão para instalar o ${LBLUE}myShellEnv${NONE}"
@@ -138,7 +143,7 @@ if [ $ISOK == 1 ]; then
     setIMessage "[ ${DGREY}Ela será vista por todos os usuários!${NONE} ]"
 
     promptUser
-    INSTALL_LOGIN_MESSAGE=$PROMPT_RESULT
+    TMP_INSTALL_LOGIN_MESSAGE=$PROMPT_RESULT
     PROMPT_RESULT=""
 
 
@@ -147,7 +152,7 @@ if [ $ISOK == 1 ]; then
     setIMessage "[ ${DGREY}Usuários existentes não serão alterados!${NONE} ]"
 
     promptUser
-    INSTALL_IN_SKEL=$PROMPT_RESULT
+    TMP_INSTALL_IN_SKEL=$PROMPT_RESULT
     PROMPT_RESULT=""
   fi
 
@@ -161,7 +166,7 @@ if [ $ISOK == 1 ]; then
   setIMessage "Prosseguir instalação para o seu próprio usuário?"
 
   promptUser
-  INSTALL_IN_MY_USER=$PROMPT_RESULT
+  TMP_INSTALL_IN_MY_USER=$PROMPT_RESULT
   PROMPT_RESULT=""
 
 
@@ -170,13 +175,13 @@ if [ $ISOK == 1 ]; then
 
   #
   # Sendo para instalar a mensagem de login...
-  if [ $ISOK == 1 ] && [ "$INSTALL_LOGIN_MESSAGE" == "1" ]; then
+  if [ $ISOK == 1 ] && [ $TMP_INSTALL_LOGIN_MESSAGE == 1 ]; then
     if [ -f "/etc/issue" ]; then
       cp /etc/issue /etc/issue_beforeMyShellEnv
     fi
-    SCODE=$(curl -s -w "%{http_code}" -o /etc/issue "${URL_ETC}loginMessage" || true)
+    mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
 
-    if [ ! -f "/etc/issue" ] || [ $SCODE != 200 ]; then
+    if [ ! -f "/etc/issue" ] || [ $mseSCode != 200 ]; then
       ISOK=0
 
       setIMessage "" 1
@@ -187,6 +192,8 @@ if [ $ISOK == 1 ]; then
       setIMessage "${SILVER}Instalação da mensagem de login concluída${NONE}"
       alertUser
     fi
+
+    unset mseSCode
   fi
 
 
@@ -195,7 +202,7 @@ if [ $ISOK == 1 ]; then
 
   #
   # Sendo para instalar no skel...
-  if [ $ISOK == 1 ] && [ "$INSTALL_IN_SKEL" == "1" ]; then
+  if [ $ISOK == 1 ] && [ $TMP_INSTALL_IN_SKEL == 1 ]; then
     mkdir -p "/etc/skel/myShellEnv"
     if [ ! -d "/etc/skel/myShellEnv" ]; then
       ISOK=0
@@ -221,7 +228,7 @@ if [ $ISOK == 1 ]; then
 
   #
   # Sendo para instalar no no usuário atual...
-  if [ $ISOK == 1 ] && [ "$INSTALL_IN_MY_USER" == "1" ]; then
+  if [ $ISOK == 1 ] && [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
     mkdir -p "${HOME}/myShellEnv"
     if [ ! -d "${HOME}/myShellEnv" ]; then
       ISOK=0
@@ -252,16 +259,16 @@ if [ $ISOK == 1 ]; then
     setIMessage "${LRED}Processo de instalação encerrado com falhas${NONE}"
 
 
-    if [ "$INSTALL_LOGIN_MESSAGE" == "1" ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
+    if [ $TMP_INSTALL_LOGIN_MESSAGE == 1 ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
       cp /etc/issue_beforeMyShellEnv /etc/issue
       rm /etc/issue_beforeMyShellEnv
     fi
 
-    if [ "$INSTALL_IN_SKEL" == "1" ] && [ -d "/etc/skel/myShellEnv" ]; then
+    if [ $TMP_INSTALL_IN_SKEL == 1 ] && [ -d "/etc/skel/myShellEnv" ]; then
       rm -r "/etc/skel/myShellEnv"
     fi
 
-    if [ "$INSTALL_IN_MY_USER" == "1" ] && [ -d "${HOME}/myShellEnv" ]; then
+    if [ $TMP_INSTALL_IN_MY_USER == 1 ] && [ -d "${HOME}/myShellEnv" ]; then
       rm -r "${HOME}/myShellEnv"
     fi
   else
@@ -271,11 +278,11 @@ if [ $ISOK == 1 ]; then
 
     SOURCE_BASHRC='source ~/myShellEnv/start.sh || true'
 
-    if [ "$INSTALL_IN_SKEL" == "1" ]; then
+    if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
       echo $SOURCE_BASHRC >> /etc/skel/.bashrc
     fi
 
-    if [ "$INSTALL_IN_MY_USER" == "1" ]; then
+    if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
       echo $SOURCE_BASHRC >> ${HOME}/.bashrc
     fi
   fi
@@ -284,5 +291,18 @@ if [ $ISOK == 1 ]; then
 
   rm -R "${HOME}/tmpInstaller"
   rm install.sh
+
+  unset TMP_INSTALL_IN_SKEL
+  unset TMP_INSTALL_LOGIN_MESSAGE
+  unset TMP_INSTALL_IN_MY_USER
+
   waitUser
 fi
+
+
+
+
+unset TMP_URL_BASE
+unset TMP_URL_ETC
+unset TMP_URL_INSTALL
+unset TMP_ISOK

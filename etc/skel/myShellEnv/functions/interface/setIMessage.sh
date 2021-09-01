@@ -9,13 +9,13 @@ set +e
 
 #
 # @variables
-INTERFACE_MSG=()
+MSE_GB_INTERFACE_MSG=()
 
 
 
 #
 # Adiciona uma nova linha de informação no array de mensagem
-# de interface ${INTERFACE_MSG}
+# de interface ${MSE_GB_INTERFACE_MSG}
 #
 #   @param string $1
 #   Nova linha da mensagem
@@ -33,10 +33,10 @@ setIMessage() {
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
     if [ $# == 2 ] && [ $2 == 1 ]; then
-      INTERFACE_MSG=()
+      MSE_GB_INTERFACE_MSG=()
     fi
 
-    l=${#INTERFACE_MSG[@]}
-    INTERFACE_MSG[l]=$1
+    l=${#MSE_GB_INTERFACE_MSG[@]}
+    MSE_GB_INTERFACE_MSG[l]=$1
   fi
 }

@@ -9,7 +9,7 @@ set +e
 
 #
 # @variables
-TARGET_FILES=()
+MSE_GB_TARGET_FILES=()
 ISOK=1
 
 
@@ -17,7 +17,7 @@ ISOK=1
 #
 # Efetua o download e a instalação dos scripts alvos conforme as
 # informações passadas pelos parametros.
-# Os scripts alvo desta ação devem estar definidos no array ${TARGET_FILES}.
+# Os scripts alvo desta ação devem estar definidos no array ${MSE_GB_TARGET_FILES}.
 #
 #   @param string $1
 #   URL do local (diretório) onde estão os scripts a serem baixados.
@@ -26,7 +26,7 @@ ISOK=1
 #   Endereço completo até o diretório onde os scripts serão salvos.
 #
 #   @example
-#     TARGET_FILES=("script01.sh" "script02.sh" "script03.sh")
+#     MSE_GB_TARGET_FILES=("script01.sh" "script02.sh" "script03.sh")
 #     downloadMyShellEnvFiles "https://myrepo/dir" "${HOME}/myShellEnv/"
 #
 #   @result
@@ -39,9 +39,9 @@ downloadMyShellEnvFiles() {
     ISOK=0
     errorAlert "${FUNCNAME[0]}" "expected 2 arguments"
   else
-    if [ ${#TARGET_FILES[@]} == 0 ]; then
+    if [ ${#MSE_GB_TARGET_FILES[@]} == 0 ]; then
       ISOK=0
-      errorAlert "${FUNCNAME[0]}" "empty array ${LGREEN}TARGET_FILES${NONE}"
+      errorAlert "${FUNCNAME[0]}" "empty array ${LGREEN}MSE_GB_TARGET_FILES${NONE}"
     else
       mkdir -p "$2"
 
@@ -51,16 +51,16 @@ downloadMyShellEnvFiles() {
       else
         ISOK=1
 
-        printf "\n${ALERT_INDENT}Baixando arquivos para o diretório: \n"
-        printf "\n${ALERT_INDENT}${LBLUE}$2${NONE} ...\n"
+        printf "\n${MSE_GB_ALERT_INDENT}Baixando arquivos para o diretório: \n"
+        printf "\n${MSE_GB_ALERT_INDENT}${LBLUE}$2${NONE} ...\n"
 
-        for script in "${TARGET_FILES[@]}"; do
+        for mseScript in "${MSE_GB_TARGET_FILES[@]}"; do
           if [ $ISOK == 1 ]; then
-            printf "${ALERT_INDENT} ... ${LBLUE}${script}${NONE} "
-            TMP="${2}${script}"
-            SCODE=$(curl -s -w "%{http_code}" -o "$TMP" "${1}${script}" || true)
+            printf "${MSE_GB_ALERT_INDENT} ... ${LBLUE}${mseScript}${NONE} "
+            TMP="${2}${mseScript}"
+            mseSCode=$(curl -s -w "%{http_code}" -o "$TMP" "${1}${mseScript}" || true)
 
-            if [ ! -f "$TMP" ] || [ $SCODE != 200 ]; then
+            if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
               ISOK=0
               printf " ${LRED}[x]${NONE}\n"
             else
@@ -70,10 +70,14 @@ downloadMyShellEnvFiles() {
         done
 
         if [ $ISOK == 1 ]; then
-          printf "${ALERT_INDENT}Finalizado com sucesso.\n"
+          printf "${MSE_GB_ALERT_INDENT}Finalizado com sucesso.\n"
         else
-          printf "${ALERT_INDENT}Processo abortado.\n"
+          printf "${MSE_GB_ALERT_INDENT}Processo abortado.\n"
         fi
+
+
+        unset mseScript
+        unset mseSCode
 
       fi
     fi

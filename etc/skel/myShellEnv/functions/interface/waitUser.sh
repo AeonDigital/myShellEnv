@@ -9,37 +9,39 @@ set +e
 
 #
 # @variables
-ALERT_WAIT_PROMPT="Precione qualquer tecla para prosseguir."
+MSE_GB_ALERT_WAIT_PROMPT="Precione qualquer tecla para prosseguir."
 
 
 
 #
 # Mostra uma mensagem de alerta para o usuário e aguarda ele digitar qualquer tecla.
 #
-# A mensagem mostrada deve ser preparada no array ${ALERT_MSG}
+# A mensagem mostrada deve ser preparada no array ${MSE_GB_ALERT_MSG}
 # onde, cada item do array será definido em uma linha do terminal
 #
 #   @example
-#     ALERT_MSG=()
-#     ALERT_MSG[0]=$(printf "${SILVER}Sucesso!${NONE}")
-#     ALERT_MSG[1]=$(printf "Todos os scripts foram atualizados")
+#     MSE_GB_ALERT_MSG=()
+#     MSE_GB_ALERT_MSG[0]=$(printf "${SILVER}Sucesso!${NONE}")
+#     MSE_GB_ALERT_MSG[1]=$(printf "Todos os scripts foram atualizados")
 #
 #     waitUser
 #
 waitUser() {
-  if [ ${#ALERT_MSG[@]} == 0 ] && [ ${#INTERFACE_MSG[@]} == 0 ]; then
-    errorAlert "${FUNCNAME[0]}" "empty array ${LGREEN}ALERT_MSG${NONE}"
+  if [ ${#MSE_GB_ALERT_MSG[@]} == 0 ] && [ ${#MSE_GB_INTERFACE_MSG[@]} == 0 ]; then
+    errorAlert "${FUNCNAME[0]}" "empty array ${LGREEN}MSE_GB_ALERT_MSG${NONE}"
   else
-    if [ ${#ALERT_MSG[@]} == 0 ]; then
-      ALERT_MSG=("${INTERFACE_MSG[@]}")
+    if [ ${#MSE_GB_ALERT_MSG[@]} == 0 ]; then
+      MSE_GB_ALERT_MSG=("${MSE_GB_INTERFACE_MSG[@]}")
     fi
 
-    for msg in "${ALERT_MSG[@]}"; do
-      printf "${ALERT_INDENT}$msg \n"
+    for mseMsg in "${MSE_GB_ALERT_MSG[@]}"; do
+      printf "${MSE_GB_ALERT_INDENT}$mseMsg \n"
     done
-    read -n 1 -s -r -p "${ALERT_INDENT}[ ${ALERT_WAIT_PROMPT} ] `echo $'\n '`"
+    read -n 1 -s -r -p "${MSE_GB_ALERT_INDENT}[ ${MSE_GB_ALERT_WAIT_PROMPT} ] `echo $'\n '`"
 
-    ALERT_MSG=()
-    INTERFACE_MSG=()
+    MSE_GB_ALERT_MSG=()
+    MSE_GB_INTERFACE_MSG=()
+
+    unset mseMsg
   fi
 }

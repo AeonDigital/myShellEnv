@@ -17,7 +17,7 @@ set +e
 #
 showTextColors() {
 
-  COLOR_TEXT=$(printf "
+  mseColorText=$(printf "
     Normal:         NONE:     \\\\e[00m:    ${NONE}myShellEnv \n
     Preto:          BLACK:    \\\\e[00;30m: ${BLACK}myShellEnv${NONE} \n
     Cinza escuro:   DGREY:    \\\\e[01;30m: ${DGREY}myShellEnv${NONE} \n
@@ -39,11 +39,13 @@ showTextColors() {
   ")
 
   printf "\n\n${SILVER}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
-  COLOR_TEXT=$(sed 's/^\s*//g' <<< "${COLOR_TEXT}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')
-  column -s ":" -o " | " -t -N "Cor,Raw,Variavel,Aparencia" <<< "${COLOR_TEXT}"
+  mseColorText=$(sed 's/^\s*//g' <<< "${mseColorText}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')
+  column -s ":" -o " | " -t -N "Cor,Raw,Variavel,Aparencia" <<< "${mseColorText}"
 
   printf "\nDica:"
   printf "Use o 'grep' caso precise filtrar os resultados: \n"
   printf "  Ex: showTextColors | grep -in 'azul' \n"
   printf "\n"
+
+  unset mseColorText
 }

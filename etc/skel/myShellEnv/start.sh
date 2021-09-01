@@ -19,7 +19,7 @@ PS1="\[\e[40;00;37m\]\$ \[\e[40;01;30m\]\u\[\e[40;00;37m\]@\[\e[40;01;30m\]\h :\
 # está em uma sessão que iniciou por um login,
 # apresenta a mensagem de entrada.
 #
-if [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; then
+if [ $MSE_GB_ENABLE == 1 ] && [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; then
 
   #
   # Coleta informações do sistema
