@@ -53,7 +53,6 @@ downloadInstallScripts() {
 
 
 
-
 #
 # Efetua o download dos scripts mínimos necessários para efetuar a
 # instalação de um pacote 'standAlone'.
@@ -72,18 +71,19 @@ createTmpInstallerEnv() {
     printf "    A instalação foi encerrada.\n"
   else
     if [ $ISOK == 1 ]; then
-      TMP_INSTALL_FILES=(
+      mseInstallFiles=(
         "textColors.sh" "alertUser.sh" "errorAlert.sh"
         "waitUser.sh" "promptUser.sh" "setIMessage.sh"
       )
 
-      for fileName in "${TMP_INSTALL_FILES[@]}"; do
+      for mseFileName in "${mseInstallFiles[@]}"; do
         if [ $ISOK == 1 ]; then
-          downloadInstallScripts "${fileName}" "${TMP_URL_INSTALL}functions/interface/${fileName}"
+          downloadInstallScripts "${mseFileName}" "${TMP_URL_INSTALL}functions/interface/${mseFileName}"
         fi
       done
 
-      unset TMP_INSTALL_FILES
+      unset mseInstallFiles
+      unset mseFileName
     fi
   fi
 }
@@ -143,8 +143,8 @@ if [ $ISOK == 1 ]; then
     setIMessage "[ ${DGREY}Ela será vista por todos os usuários!${NONE} ]"
 
     promptUser
-    TMP_INSTALL_LOGIN_MESSAGE=$PROMPT_RESULT
-    PROMPT_RESULT=""
+    TMP_INSTALL_LOGIN_MESSAGE=$MSE_GB_PROMPT_RESULT
+    MSE_GB_PROMPT_RESULT=""
 
 
     setIMessage "\n" 1
@@ -152,8 +152,8 @@ if [ $ISOK == 1 ]; then
     setIMessage "[ ${DGREY}Usuários existentes não serão alterados!${NONE} ]"
 
     promptUser
-    TMP_INSTALL_IN_SKEL=$PROMPT_RESULT
-    PROMPT_RESULT=""
+    TMP_INSTALL_IN_SKEL=$MSE_GB_PROMPT_RESULT
+    MSE_GB_PROMPT_RESULT=""
   fi
 
 
@@ -166,8 +166,8 @@ if [ $ISOK == 1 ]; then
   setIMessage "Prosseguir instalação para o seu próprio usuário?"
 
   promptUser
-  TMP_INSTALL_IN_MY_USER=$PROMPT_RESULT
-  PROMPT_RESULT=""
+  TMP_INSTALL_IN_MY_USER=$MSE_GB_PROMPT_RESULT
+  MSE_GB_PROMPT_RESULT=""
 
 
 
@@ -306,3 +306,6 @@ unset TMP_URL_BASE
 unset TMP_URL_ETC
 unset TMP_URL_INSTALL
 unset TMP_ISOK
+
+unset downloadInstallScripts
+unset createTmpInstallerEnv
