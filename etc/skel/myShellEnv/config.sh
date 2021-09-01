@@ -113,6 +113,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       done
     done
 
+    setPromptSelection
+
 
     unset mseBaseDir
     unset mseDirScripts

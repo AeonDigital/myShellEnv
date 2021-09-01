@@ -2,15 +2,16 @@
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
 set +e
-source ~/myShellEnv/config.sh || true
-
 
 
 
 #
-# Prompt padrão
-PS1="\[\e[40;00;37m\]\$ \[\e[40;01;30m\]\u\[\e[40;00;37m\]@\[\e[40;01;30m\]\h :\[\e[40;00;37m\] "
+# Prompt padrão caso os scripts não sejam carregados
+PS1="\[\e[40;00;37m\]\$ \[\e[40;01;30m\]\u\[\e[40;00;37m\]@\[\e[40;01;30m\]\h \[\e[40;00;37m\]:\[\e[40;00;37m\]\040"
 
+
+
+source ~/myShellEnv/config.sh || true
 
 
 
