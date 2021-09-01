@@ -41,7 +41,7 @@ installMyShellEnv() {
 
     # Básico
     if [ $ISOK == 1 ]; then
-      TARGET_FILES=("start.sh")
+      TARGET_FILES=("start.sh" "config.sh")
       downloadMyShellEnvFiles "$URL_INSTALL" "$TARGET_DIR"
     fi
 
