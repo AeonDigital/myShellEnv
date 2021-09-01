@@ -249,30 +249,31 @@ retrievePromptSelectionCode() {
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
-  mseREG='s/\\\$/\$/g'
-  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
-
-  mseREG='s/\\u/'"$USER"'/g'
-  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
-
-  mseHOSTNAME=`uname -n`
-  mseREG='s/\\h/'"$mseHOSTNAME"'/g'
-  msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
-
   if [ $# == 0 ] || [ $1 != 1 ]; then
+    mseREG='s/\\\$/\$/g'
+    msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+
+    mseREG='s/\\u/'"$USER"'/g'
+    msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+
+    mseHOSTNAME=`uname -n`
+    mseREG='s/\\h/'"$mseHOSTNAME"'/g'
+    msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+
+
     mseDIRECTORY="\/etc\/skel\/myShellEnv"
     mseREG='s/\\w/'"$mseDIRECTORY"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+
+    unset mseHOSTNAME
+    unset mseDIRECTORY
   fi
 
   echo $msePSQUEMA
 
-
   unset msePSQUEMA
   unset mseNEW
   unset mseREG
-  unset mseHOSTNAME
-  unset mseDIRECTORY
 }
 
 #
