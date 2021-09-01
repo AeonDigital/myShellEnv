@@ -10,8 +10,8 @@ set +e
 #
 # @variables
 #
-PROMPT_STYLE='NEWLINE03'
-PROMPT_STYLEI=0
+PROMPT_STYLE='NEWLINE02'
+PROMPT_STYLEI=2
 PROMPT_COLOR_SYMBOLS='WHITE'
 PROMPT_COLOR_USERNAME='DGREY'
 PROMPT_COLOR_DIRECTORY='DGREY'
@@ -39,7 +39,7 @@ PROMPT_AVAILABLE_SQUEMA[1]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[
 #
 # Estilo 'Nova linha 02'
 # ┌── $ rianna@archlinux in ~/DirName/SubDir
-# └─╼ _
+# └─> _
 PROMPT_AVAILABLE_STYLE_NAME[2]="NEWLINE02"
 PROMPT_AVAILABLE_STYLE_FORMAT[2]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
 PROMPT_AVAILABLE_SQUEMA[2]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\224\200 \[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] in \[\e[40;[[DIRECTORY]]\]\w \n\[\e[40;[[DIRECTORY]]\]\342\224\224\342\224\200\076\[\e[40;[[NONE]]\]\040'
@@ -47,7 +47,7 @@ PROMPT_AVAILABLE_SQUEMA[2]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 #
 # Estilo 'Nova linha 03'
 # ┌── $ rianna@archlinux in ~/DirName/SubDir
-# └─> _
+# └─╼ _
 PROMPT_AVAILABLE_STYLE_NAME[3]="NEWLINE03"
 PROMPT_AVAILABLE_STYLE_FORMAT[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\076 _"
 PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\224\200 \[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] in \[\e[40;[[DIRECTORY]]\]\w \n\[\e[40;[[DIRECTORY]]\]\342\224\224\342\225\274\[\e[40;[[NONE]]\]\040'
