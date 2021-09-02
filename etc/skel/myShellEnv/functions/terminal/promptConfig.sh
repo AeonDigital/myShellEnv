@@ -288,12 +288,12 @@ previewPromptSelection() {
 # encontradas nas variáveis que armazenam as seleções feitas.
 #
 setPromptSelection() {
-  #PS1=$(retrievePromptSelectionCode 1)
-  #local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+  PS1=$(retrievePromptSelectionCode 1)
+  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
-  #setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
-  #setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
-  #setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
-  #setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
-  #setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
+  setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
+  setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
 }
