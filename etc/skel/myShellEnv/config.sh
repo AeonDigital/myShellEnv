@@ -78,7 +78,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       #
       # Sendo para questioná-lo sobre o início da sessão...
       if [ $MSE_GB_ROOT_PROMPTSTART == 1 ]; then
-        setIMessage "${SILVER}Deseja iniciar o myShellEnv?${NONE}" 1
+        setIMessage "\n${SILVER}Deseja iniciar o myShellEnv?${NONE}" 1
 
         promptUser
         MSE_GB_START=${MSE_GB_PROMPT_RESULT}

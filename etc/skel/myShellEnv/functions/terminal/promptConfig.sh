@@ -138,7 +138,7 @@ restorePromptConfig() {
 # Mostra os prompts que estão aptos a serem usados pelo usuário.
 #
 #   @param mixed $1
-#   Se "" ou, se omitido, apresentará todas as opções de prompt.
+#   Se omitido apresentará todas as opções de prompt.
 #   Se "list", apresentará apenas a lista contendo o indice e respectivo nome.
 #   Se "index" (0, 1, 2...) apresentará apenas o respectivo prompt de índice indicado.
 #
@@ -169,10 +169,10 @@ showPromptStyles() {
         printf "\n${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: ${NONE} \n"
         printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n"
       else
-        printf "\n [$i] ${LBLUE} ${PROMPT_AVAILABLE_STYLE_NAME[$i]} ${NONE} \n"
+        printf "\n [$i] ${LBLUE} ${PROMPT_AVAILABLE_STYLE_NAME[$i]} ${NONE} "
       fi
     done
-    printf "${SILVER}...${NONE} \n\n"
+    printf "\n${SILVER}...${NONE} \n\n"
 
   else
     local mseREG='^[0-9]+$'
