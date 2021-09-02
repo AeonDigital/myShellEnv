@@ -48,7 +48,7 @@ PROMPT_AVAILABLE_SQUEMA[1]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]
 # ┌── $ rianna@archlinux in ~/DirName/SubDir
 # └─> _
 PROMPT_AVAILABLE_STYLE_NAME[2]="NEWLINE02"
-PROMPT_AVAILABLE_STYLE_FORMAT[2]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
+PROMPT_AVAILABLE_STYLE_FORMAT[2]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\076 _"
 PROMPT_AVAILABLE_SQUEMA[2]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\342\224\224\342\224\200\076\[\e[40;[[NONE]]\]\040'
 
 #
@@ -56,7 +56,7 @@ PROMPT_AVAILABLE_SQUEMA[2]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[
 # ┌── $ rianna@archlinux in ~/DirName/SubDir
 # └─╼ _
 PROMPT_AVAILABLE_STYLE_NAME[3]="NEWLINE03"
-PROMPT_AVAILABLE_STYLE_FORMAT[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\076 _"
+PROMPT_AVAILABLE_STYLE_FORMAT[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
 PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\342\224\224\342\225\274\[\e[40;[[NONE]]\]\040'
 
 
@@ -68,7 +68,7 @@ PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[
 # amostragem do prompt.
 #
 showPromptConfig() {
-  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
+  printf "\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
   printf "${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n\n"
 
 
@@ -182,9 +182,9 @@ showPromptStyles() {
       if [ $1 -lt 0 ] || [ $1 -ge $mseLength ]; then
         errorAlert "${FUNCNAME[0]}" "argument 1 is out of range"
       else
-        printf "${SILVER}   ${PROMPT_AVAILABLE_STYLE_NAME[$1]} :${NONE}\n"
-        printf "${SILVER}...${NONE}\n"
-        printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$1]} \n"
+        printf "\n"
+        printf "${SILVER}... ${PROMPT_AVAILABLE_STYLE_NAME[$1]} ${NONE}\n\n"
+        printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$1]} \n\n"
         printf "${SILVER}...${NONE} \n\n"
       fi
     fi
