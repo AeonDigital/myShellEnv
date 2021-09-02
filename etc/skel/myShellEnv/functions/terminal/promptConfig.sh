@@ -125,6 +125,8 @@ restorePromptConfig() {
   PROMPT_COLOR_SYMBOLS=${PROMPT_OPTIONS_CONFIG[2]}
   PROMPT_COLOR_USERNAME=${PROMPT_OPTIONS_CONFIG[3]}
   PROMPT_COLOR_DIRECTORY=${PROMPT_OPTIONS_CONFIG[4]}
+
+  PS1=$(retrievePromptSelectionCode 1)
 }
 
 
@@ -214,7 +216,7 @@ selectPromptStyle() {
     done
 
     if [ $mseIsValid == 0 ]; then
-      errorAlert "${FUNCNAME[0]}" "invalid argument; see valid options with ${LGREEN}showPromptStyles${NONE} command"
+      errorAlert "${FUNCNAME[0]}" "invalid argument; see options in ${LGREEN}showPromptStyles${NONE}"
     else
       PS1=$(retrievePromptSelectionCode 1)
     fi
@@ -280,7 +282,7 @@ selectPromptPlaceHolderColor() {
     done
 
     if [ $mseIsValid == 0 ]; then
-      errorAlert "${FUNCNAME[0]}" "invalid argument 1; see valid options with ${LGREEN}showPromptPlaceHolders${NONE} command"
+      errorAlert "${FUNCNAME[0]}" "invalid argument 1; see options in ${LGREEN}showPromptPlaceHolders${NONE}"
     else
       mseIsValid=0
 
@@ -291,7 +293,7 @@ selectPromptPlaceHolderColor() {
       done
 
       if [ $mseIsValid == 0 ]; then
-        errorAlert "${FUNCNAME[0]}" "invalid argument 2; see valid options with ${LGREEN}showPromptColors${NONE} command"
+        errorAlert "${FUNCNAME[0]}" "invalid argument 2; see options in ${LGREEN}showPromptColors${NONE}"
       else
         local msePHArray='PROMPT_COLOR_'$mseUPlaceHolder
         eval "$msePHArray"="$mseUColorRaw"
