@@ -10,8 +10,8 @@ set +e
 #
 # @variables
 #
-PROMPT_STYLE=NEWLINE02
-PROMPT_STYLEI=2
+PROMPT_STYLE=SIMPLE
+PROMPT_STYLEI=0
 PROMPT_COLOR_SYMBOLS=WHITE
 PROMPT_COLOR_USERNAME=DGREY
 PROMPT_COLOR_DIRECTORY=DGREY
@@ -222,30 +222,29 @@ retrievePromptSelectionCode() {
   local mseNEW
   local mseREG
   local mseTMP
+  local mseHOSTNAME=`uname -n`
+  local mseDIRECTORY="\/etc\/skel\/myShellEnv"
 
   msePSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
   msePSQUEMA="$(echo $msePSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
 
 
-  mseNEW="${RNONE}"
+  mseNEW='\['$NONE'\]'
   mseREG='s/\[\[NONE\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
 
-  mseTMP="R${PROMPT_COLOR_SYMBOLS}"
-  mseNEW="${!mseTMP}"
+  mseNEW='\['$PROMPT_COLOR_SYMBOLS'\]'
   mseREG='s/\[\[SYMBOL\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  mseTMP="R${PROMPT_COLOR_USERNAME}"
-  mseNEW="${!mseTMP}"
+  mseNEW='\['$PROMPT_COLOR_USERNAME'\]'
   mseREG='s/\[\[USERNAME\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  mseTMP="R${PROMPT_COLOR_DIRECTORY}"
-  mseNEW="${!mseTMP}"
+  mseNEW='\['$PROMPT_COLOR_DIRECTORY'\]'
   mseREG='s/\[\[DIRECTORY\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
@@ -257,12 +256,9 @@ retrievePromptSelectionCode() {
     mseREG='s/\\u/'"$USER"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-    local mseHOSTNAME=`uname -n`
     mseREG='s/\\h/'"$mseHOSTNAME"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-
-    local mseDIRECTORY="\/etc\/skel\/myShellEnv"
     mseREG='s/\\w/'"$mseDIRECTORY"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
   fi
