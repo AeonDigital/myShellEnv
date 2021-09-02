@@ -32,7 +32,7 @@ uninstallMyShellEnv() {
 
     if [ $1 != "user" ] && [ $1 != "skel" ]; then
       ISOK=0
-      errorAlert "${FUNCNAME[0]}" "Invalid argument 1; expected 'user' or 'system'"
+      errorAlert "${FUNCNAME[0]}" "Invalid argument 1" "expected 'user' or 'system'"
     else
       if [ $1 == "skel" ] && [ $EUID != 0 ]; then
         ISOK=0
@@ -44,7 +44,7 @@ uninstallMyShellEnv() {
     if [ $ISOK == 1 ] && [ $# == 2 ]; then
       if [ $2 != 0 ] && [ $2 != 1 ]; then
         ISOK=0
-        errorAlert "${FUNCNAME[0]}" "Invalid argument 2; expected '0' or '1'"
+        errorAlert "${FUNCNAME[0]}" "Invalid argument 2" "expected '0' or '1'"
       else
         mseUninstallLoginMessage=$2
       fi

@@ -148,10 +148,14 @@ showPromptStyles() {
   local mseType="complete"
 
   if [ $# == 1 ]; then
-    if [ $1 == "list" ]; then
-      mseType="list"
+    if [ $1 == "" ]; then
+      mseType="complete"
     else
-      mseType="index"
+      if [ $1 == "list" ]; then
+        mseType="list"
+      else
+        mseType="index"
+      fi
     fi
   fi
 
@@ -178,8 +182,8 @@ showPromptStyles() {
       if [ $1 -lt 0 ] || [ $1 -ge $mseLength ]; then
         errorAlert "${FUNCNAME[0]}" "argument 1 is out of range"
       else
-        printf "${SILVER} ${PROMPT_AVAILABLE_STYLE_NAME[$1]} :${NONE}\n"
-        printf "${SILVER}...${NONE}"
+        printf "${SILVER}   ${PROMPT_AVAILABLE_STYLE_NAME[$1]} :${NONE}\n"
+        printf "${SILVER}...${NONE}\n"
         printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$1]} \n"
         printf "${SILVER}...${NONE} \n\n"
       fi
@@ -191,8 +195,8 @@ showPromptStyles() {
 # Define o tipo do prompt que será usado.
 # Não efetua alterações até que o comando 'redefinePrompt' seja executado.
 #
-#   @param string $1
-#   Estilo do prompt a ser usado.
+#   @param string|int $1
+#   Estilo do prompt a ser usado (pelo nome ou pelo indice).
 #
 #   @example
 #     selectPromptStyle SIMPLE
@@ -207,7 +211,7 @@ selectPromptStyle() {
     local mseStyle
 
     for mseStyle in "${PROMPT_AVAILABLE_STYLE_NAME[@]}"; do
-      if [ $mseUStyle == $mseStyle ]; then
+      if [ $mseUStyle == $mseStyle ] || [ $mseUStyle == $mseCounter ]; then
         mseIsValid=1
         PROMPT_STYLE=$mseStyle
         PROMPT_STYLEI=$mseCounter
@@ -216,7 +220,7 @@ selectPromptStyle() {
     done
 
     if [ $mseIsValid == 0 ]; then
-      errorAlert "${FUNCNAME[0]}" "invalid argument; see options in ${LGREEN}showPromptStyles${NONE}"
+      errorAlert "${FUNCNAME[0]}" "invalid argument" "see options in ${LGREEN}showPromptStyles${NONE}"
     else
       PS1=$(retrievePromptSelectionCode 1)
     fi
@@ -243,7 +247,7 @@ showPromptPlaceHolders() {
   local i
   local mseLength=${#PROMPT_PLACEHOLDERS[@]}
 
-  printf "\n\n${SILVER}Os seguintes placeholders podem ter cores definidas:${NONE}\n"
+  printf "\n${SILVER}Os seguintes placeholders podem ter suas cores definidas:${NONE}\n"
   printf "${DGREY}[ A efetividade de item varia conforme a aplicação do mesmo no estilo de prompt escolhido ]${NONE}\n\n"
 
   printf "${SILVER}...${NONE}\n"
@@ -282,7 +286,7 @@ selectPromptPlaceHolderColor() {
     done
 
     if [ $mseIsValid == 0 ]; then
-      errorAlert "${FUNCNAME[0]}" "invalid argument 1; see options in ${LGREEN}showPromptPlaceHolders${NONE}"
+      errorAlert "${FUNCNAME[0]}" "invalid argument 1" "see options in ${LGREEN}showPromptPlaceHolders${NONE}"
     else
       mseIsValid=0
 
@@ -293,7 +297,7 @@ selectPromptPlaceHolderColor() {
       done
 
       if [ $mseIsValid == 0 ]; then
-        errorAlert "${FUNCNAME[0]}" "invalid argument 2; see options in ${LGREEN}showPromptColors${NONE}"
+        errorAlert "${FUNCNAME[0]}" "invalid argument 2" "see options in ${LGREEN}showPromptColors${NONE}"
       else
         local msePHArray='PROMPT_COLOR_'$mseUPlaceHolder
         eval "$msePHArray"="$mseUColorRaw"

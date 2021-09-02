@@ -18,13 +18,16 @@ set +e
 #   @param string $2
 #   Mensagem de erro.
 #
+#   @param string $3
+#   Informação extra [opcional].
+#
 #   @example
 #     errorAlert "" "expected 2 arguments"
 #     errorAlert ${FUNCNAME[0]} "expected 2 arguments"
 #
 errorAlert() {
-  if [ $# != 2 ]; then
-    errorAlert "${FUNCNAME[0]}" "expected 2 arguments"
+  if [ $# != 2 ] && [ $# != 3 ]; then
+    errorAlert "${FUNCNAME[0]}" "expected 2 or 3 arguments"
   else
     local mseLocal=$1
     if [ $1 == "" ]; then
@@ -32,6 +35,9 @@ errorAlert() {
     fi
 
     setIMessage "${MSE_GB_ALERT_INDENT}${SILVER}ERROR (in ${mseLocal}) :${NONE} $2" 1
+    if [ $# == 3 ]; then
+      setIMessage "${MSE_GB_ALERT_INDENT}$3"
+    fi
     alertUser
   fi
 }
