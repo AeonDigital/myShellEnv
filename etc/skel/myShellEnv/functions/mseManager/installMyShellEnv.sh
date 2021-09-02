@@ -97,7 +97,7 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}functions/thirdPart/"
       mseURL="${MSE_GB_URL_INSTALL}functions/thirdPart/"
-      MSE_GB_TARGET_FILES=("print256colours.sh")
+      MSE_GB_TARGET_FILES=("print256colours.sh" "printASCIIEChars.sh")
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
