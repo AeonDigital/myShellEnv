@@ -112,7 +112,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       done
     done
 
-    setPromptSelection
+    PS1=$(retrievePromptSelectionCode 1)
 
     unset mseBaseDir
     unset mseDirScripts

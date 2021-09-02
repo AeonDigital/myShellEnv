@@ -377,16 +377,3 @@ retrievePromptSelectionCode() {
 
   echo $msePSQUEMA
 }
-
-#
-# Baseado nas seleções feitas e que estão armazenadas nas variáveis
-# de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
-#
-previewPromptSelection() {
-  #local msePSQUEMA=$(retrievePromptSelectionCode 0)
-
-  #printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
-  #printf "\n${SILVER}...${NONE} \n"
-  #printf "${msePSQUEMA}"
-  #printf "\n${SILVER}...${NONE} \n\n"
-}
