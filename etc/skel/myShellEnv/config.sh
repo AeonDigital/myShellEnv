@@ -94,20 +94,20 @@ if [ $MSE_GB_ENABLE == 1 ]; then
   # carrega todos os arquivos de scripts do projeto
   if [ $MSE_GB_START == 1 ]; then
 
-    local mseBaseDir="${HOME}/myShellEnv/"
-    local mseDirScripts=(
+    mseBaseDir="${HOME}/myShellEnv/"
+    mseDirScripts=(
       "functions/*" "functions/string/*"
       "functions/terminal/*" "functions/thirdPart/*"
       "functions/mseManager/*" "functions/tools/*"
     )
 
 
-    local mseTgtDir
-    local mseTMP
+    mseTgtDir
+    mseTMP
     for mseTgtDir in "${mseDirScripts[@]}"; do
       mseTMP="${mseBaseDir}${mseTgtDir}"
 
-      local mseTgtFile
+      mseTgtFile
       for mseTgtFile in $mseTMP; do
         if [ -f $mseTgtFile ]; then
           source "$mseTgtFile" || true
@@ -116,6 +116,12 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     done
 
     setPromptSelection
+
+    unset mseBaseDir
+    unset mseDirScripts
+    unset mseTgtDir
+    unset mseTMP
+    unset mseTgtFile
   fi
 
 

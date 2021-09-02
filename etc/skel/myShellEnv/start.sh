@@ -36,7 +36,7 @@ if [ $MSE_GB_ENABLE == 1 ] && [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; the
   mseDISC=`df -h | grep $mseDETECTDISK | awk '{print $5 }'`
 
   mseUP=`uptime -p`
-  msePACMAN=`checkupdates | wc -l`
+  #msePACMAN=`checkupdates | wc -l`   Pacman: \e[1;34m$msePACMAN packages can be updated\e[00m\e[1;30m
   mseHOSTNAME=`uname -n`
 
   mseNOW=$(date +"%Y-%m-%d %T")
@@ -51,7 +51,7 @@ if [ $MSE_GB_ENABLE == 1 ] && [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; the
                                Memory: \e[1;34m$mseMEMORY1 / $mseMEMORY2 - $mseMEMPERCENT\e[00m\e[1;30m
    #####   #####\e[00m             Use Disk: \e[1;34m$mseDISC (used)\e[00m\e[1;30m
   ####### #######\e[00m              Uptime: \e[1;34m$mseUP\e[00m\e[1;30m
-   #####   #####\e[00m               Pacman: \e[1;34m$msePACMAN packages can be updated\e[00m\e[1;30m
+   #####   #####\e[00m
 
    #####           #####\e[00m         User: \e[1;34m$USER\e[00m\e[1;30m
   #######         #######\e[00m        Host: \e[1;34m$mseHOSTNAME\e[00m\e[1;30m
