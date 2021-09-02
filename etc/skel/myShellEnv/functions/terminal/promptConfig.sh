@@ -26,7 +26,7 @@ PROMPT_AVAILABLE_SQUEMA=()
 # > $ rianna@archlinux : _
 PROMPT_AVAILABLE_STYLE_NAME[0]="SIMPLE"
 PROMPT_AVAILABLE_STYLE_FORMAT[0]="${NONE}$ username@host : _"
-PROMPT_AVAILABLE_SQUEMA[0]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] :[[NONE]] '
+PROMPT_AVAILABLE_SQUEMA[0]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] :[[NONE]]\040'
 
 #
 # Estilo 'Nova linha 01'
@@ -64,20 +64,20 @@ showPromptStyles() {
 
   local i
   local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
+  printf "${SILVER}...${NONE} \n"
   for (( i=0; i<mseLength; i++)); do
-    printf "${LBLUE}${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
+    printf "${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
     printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n\n"
   done
-
-  printf "\n"
+  printf "${SILVER}...${NONE} \n\n"
 }
 
 #
-# Mostra as cores disponíveis para estilização do prompt.
+# Mostra os códigos de cores disponíveis para estilização do prompt.
 # Tratam-se das mesmas cores usadas para a estilização de textos.
 #
 showPromptColors() {
-  showTextColors
+  showTextColors 2
 }
 
 
@@ -142,12 +142,6 @@ selectPromptColors() {
   local mseUSERNAME='WHITE'
   local mseDIRECTORY='WHITE'
 
-  local mseACOLORS=(
-    "BLACK" "DGREY" "WHITE" "SILVER" "RED" "LRED"
-    "GREEN" "LGREEN" "BROWN" "YELLOW" "BLUE" "LBLUE"
-    "PURPLE" "LPURPLE" "CYAN" "LCYAN"
-  )
-
   local mseUColor
   local mseColor
 
@@ -155,7 +149,7 @@ selectPromptColors() {
   if [ $# -ge 1 ]; then
     mseUColor=$(toUpperCase $1)
 
-    for mseColor in "${mseACOLORS[@]}"; do
+    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
       if [ $mseUColor == $mseColor ]; then
         mseSYMBOLS=$mseColor
       fi
@@ -165,7 +159,7 @@ selectPromptColors() {
   if [ $# -ge 2 ]; then
     mseUColor=$(toUpperCase $2)
 
-    for mseColor in "${mseACOLORS[@]}"; do
+    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
       if [ $mseUColor == $mseColor ]; then
         mseUSERNAME=$mseColor
       fi
@@ -175,7 +169,7 @@ selectPromptColors() {
   if [ $# -ge 3 ]; then
     mseUColor=$(toUpperCase $3)
 
-    for mseColor in "${mseACOLORS[@]}"; do
+    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
       if [ $mseUColor == $mseColor ]; then
         mseDIRECTORY=$mseColor
       fi

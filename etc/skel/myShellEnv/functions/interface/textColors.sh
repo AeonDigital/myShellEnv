@@ -40,6 +40,24 @@ LPURPLE='\e[40;01;35m'
 CYAN='\e[40;00;36m'
 LCYAN='\e[40;01;36m'
 
+
+
+MSE_GB_AVAILABLE_COLORS_RAW=(
+  "NONE"
+  "BLACK" "DGREY" "WHITE" "SILVER" "RED" "LRED"
+  "GREEN" "LGREEN" "BROWN" "YELLOW" "BLUE" "LBLUE"
+  "PURPLE" "LPURPLE" "CYAN" "LCYAN"
+)
+
+
+MSE_GB_AVAILABLE_COLOR_NAMES=(
+  "Normal"
+  "Preto" "Cinza escuro" "Branco" "Prata" "Vermelho" "Vermelho claro"
+  "Verde" "Verde claro" "Marrom" "Amarelo" "Azul" "Azul claro"
+  "Purpura" "Purpura claro" "Ciano" "Ciano claro"
+)
+
+
 # Atributo de fonte
 BOLD='\e[01m'
 UNDERLINE='\e[03m'
