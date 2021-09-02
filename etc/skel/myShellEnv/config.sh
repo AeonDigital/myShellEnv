@@ -102,12 +102,9 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     )
 
 
-    mseTgtDir
-    mseTMP
     for mseTgtDir in "${mseDirScripts[@]}"; do
       mseTMP="${mseBaseDir}${mseTgtDir}"
 
-      mseTgtFile
       for mseTgtFile in $mseTMP; do
         if [ -f $mseTgtFile ]; then
           source "$mseTgtFile" || true
