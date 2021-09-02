@@ -20,7 +20,7 @@ PROMPT_OPTIONS_CONFIG=(
   $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
 )
 PROMPT_PLACEHOLDERS=(
-  "SYMBOLS", "USERNAME", "DIRECTORY"
+  "SYMBOLS" "USERNAME" "DIRECTORY"
 )
 
 PROMPT_AVAILABLE_STYLE_NAME=()
@@ -69,7 +69,7 @@ PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[
 #
 showPromptConfig() {
   printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
-  printf "${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
+  printf "${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n\n"
 
 
   local i
@@ -83,7 +83,7 @@ showPromptConfig() {
     msePHName='PROMPT_COLOR_'${PROMPT_PLACEHOLDERS[$i]}
     msePHValue="${!msePHName}"
 
-    mseLine="${LBLUE}${PROMPT_PLACEHOLDERS[$i]}${NONE}: ${msePHValue} \n"
+    mseLine=" ${LBLUE}${PROMPT_PLACEHOLDERS[$i]}${NONE}:${msePHValue} \n"
     mseRawTable+="${mseLine}"
   done
 
@@ -143,9 +143,17 @@ restorePromptConfig() {
 showPromptStyles() {
   local i
   local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
+  local mseType="list"
 
-  if [ $# == 0 ] || [ $1 == "" ] || [ $1 == "list" ]; then
-    printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
+  if [ $# -gt 0 ]; then
+    if [ $1 == "list" ] || [ $1 == "" ]; then
+      mseType="list"
+    fi
+  fi
+
+
+  if [ $mseType == "list" ]; then
+    printf "\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
 
     printf "${SILVER}...${NONE}"
     for (( i=0; i<mseLength; i++)); do

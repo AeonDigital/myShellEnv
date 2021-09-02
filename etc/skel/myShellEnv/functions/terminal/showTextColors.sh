@@ -34,7 +34,7 @@ showTextColors() {
   local mseColorCod=""
 
 
-  if [ $# == 0 ] || [ $1 == 3 ]; then
+  if [ $# == 1 ] && [ $1 == 3 ]; then
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
       mseColorRaw=${MSE_GB_AVAILABLE_COLORS_RAW[$i]}
@@ -45,7 +45,7 @@ showTextColors() {
     done
 
     printf "\n\n${SILVER}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
-    printf "${mseRawTable}"
+    printf "${mseRawTable}\n\n"
 
   else
 
