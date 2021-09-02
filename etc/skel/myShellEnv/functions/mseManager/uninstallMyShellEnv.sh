@@ -24,7 +24,7 @@ set +e
 #
 uninstallMyShellEnv() {
   ISOK=1
-  mseUninstallLoginMessage=0
+  local mseUninstallLoginMessage=0
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -65,7 +65,7 @@ uninstallMyShellEnv() {
         alertUser
       else
         setIMessage "... " 1
-        SOURCE_BASHRC='source ~\/myShellEnv\/start.sh || true'
+        local mseSourceBashRC='source ~\/myShellEnv\/start.sh || true'
 
         if [ $mseUninstallLoginMessage == 1 ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
           setIMessage "... Redefinindo a mensagem original de login."
@@ -76,13 +76,13 @@ uninstallMyShellEnv() {
         if [ $1 == "skel" ]; then
           setIMessage "... Removendo o ${SILVER}myShellEnv${NONE} do ${LBLUE}skel${NONE}."
           rm -r /etc/skel/myShellEnv
-          sed -i "s/${SOURCE_BASHRC}//g" /etc/skel/.bashrc
+          sed -i "s/${mseSourceBashRC}//g" /etc/skel/.bashrc
         fi
 
         if [ $1 == "user" ]; then
           setIMessage "... Removendo o ${SILVER}myShellEnv${NONE} do seu usuário."
           rm -r "${HOME}/myShellEnv"
-          sed -i "s/${SOURCE_BASHRC}//g" "${HOME}/.bashrc"
+          sed -i "s/${mseSourceBashRC}//g" "${HOME}/.bashrc"
         fi
 
         setIMessage "Processo finalizado"
@@ -90,8 +90,6 @@ uninstallMyShellEnv() {
       fi
 
       MSE_GB_PROMPT_RESULT=""
-
-      unset mseUninstallLoginMessage
 
     fi
   fi

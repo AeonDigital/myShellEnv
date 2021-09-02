@@ -53,11 +53,10 @@ promptUser() {
         printf "${MSE_GB_PROMPT_INDENT}Esperado apenas [ ${MSE_GB_PROMPT_OPTIONS} ]: \"$MSE_GB_PROMPT_RESULT\" \n"
       fi
 
+      local mseMsg
       for mseMsg in "${MSE_GB_PROMPT_MSG[@]}"; do
         printf "${MSE_GB_PROMPT_INDENT}$mseMsg \n"
       done
-
-      unset mseMsg
 
       read -p "${MSE_GB_PROMPT_INDENT}[ ${MSE_GB_PROMPT_OPTIONS} ] : " MSE_GB_PROMPT_RESULT
       MSE_GB_PROMPT_RESULT=$(echo "$MSE_GB_PROMPT_RESULT" | awk '{print tolower($0)}')

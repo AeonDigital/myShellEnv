@@ -26,14 +26,12 @@ errorAlert() {
   if [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 2 arguments"
   else
-    mseLocal=$1
+    local mseLocal=$1
     if [ $1 == "" ]; then
       mseLocal="script"
     fi
 
     setIMessage "${MSE_GB_ALERT_INDENT}${SILVER}ERROR (in ${mseLocal}) :${NONE} $2" 1
     alertUser
-
-    unset mseLocal
   fi
 }

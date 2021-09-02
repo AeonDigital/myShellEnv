@@ -17,7 +17,7 @@ set +e
 #
 showTextColors() {
 
-  mseColorText=$(printf "
+  local mseColorText=$(printf "
     Normal:         NONE:     \\\\e[00m:    ${NONE}myShellEnv \n
     Preto:          BLACK:    \\\\e[00;30m: ${BLACK}myShellEnv${NONE} \n
     Cinza escuro:   DGREY:    \\\\e[01;30m: ${DGREY}myShellEnv${NONE} \n

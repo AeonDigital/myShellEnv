@@ -17,8 +17,6 @@ set +e
 # Variáveis de escopo fechado (como condicionais Ifs e loops For)
 # usarão o prefixo 'mse'.
 #
-# Além disso, toda variável global e temporária terá o prefixo 'TMP'
-#
 
 
 
@@ -96,17 +94,21 @@ if [ $MSE_GB_ENABLE == 1 ]; then
   # carrega todos os arquivos de scripts do projeto
   if [ $MSE_GB_START == 1 ]; then
 
-    mseBaseDir="${HOME}/myShellEnv/"
-    mseDirScripts=(
+    local mseBaseDir="${HOME}/myShellEnv/"
+    local mseDirScripts=(
       "functions/*" "functions/string/*"
       "functions/terminal/*" "functions/thirdPart/*"
       "functions/mseManager/*" "functions/tools/*"
     )
 
-    for mseTgtDir in "${mseDirScripts[@]}"; do
-      TMP="${mseBaseDir}${mseTgtDir}"
 
-      for mseTgtFile in $TMP; do
+    local mseTgtDir
+    local mseTMP
+    for mseTgtDir in "${mseDirScripts[@]}"; do
+      mseTMP="${mseBaseDir}${mseTgtDir}"
+
+      local mseTgtFile
+      for mseTgtFile in $mseTMP; do
         if [ -f $mseTgtFile ]; then
           source "$mseTgtFile" || true
         fi
@@ -114,12 +116,6 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     done
 
     setPromptSelection
-
-
-    unset mseBaseDir
-    unset mseDirScripts
-    unset mseTgtDir
-    unset mseTgtFile
   fi
 
 

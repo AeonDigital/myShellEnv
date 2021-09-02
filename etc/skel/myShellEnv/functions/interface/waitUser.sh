@@ -34,6 +34,7 @@ waitUser() {
       MSE_GB_ALERT_MSG=("${MSE_GB_INTERFACE_MSG[@]}")
     fi
 
+    local mseMsg
     for mseMsg in "${MSE_GB_ALERT_MSG[@]}"; do
       printf "${MSE_GB_ALERT_INDENT}$mseMsg \n"
     done
@@ -41,7 +42,5 @@ waitUser() {
 
     MSE_GB_ALERT_MSG=()
     MSE_GB_INTERFACE_MSG=()
-
-    unset mseMsg
   fi
 }

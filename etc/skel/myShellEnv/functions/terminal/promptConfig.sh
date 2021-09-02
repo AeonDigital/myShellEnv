@@ -61,14 +61,13 @@ PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 #
 showPromptStyles() {
   printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
-  mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
 
+  local i
+  local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
   for (( i=0; i<mseLength; i++)); do
     printf "${LBLUE}${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
     printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n\n"
   done
-
-  unset mseLength
 
   printf "\n"
 }
@@ -98,9 +97,10 @@ selectPromptStyle() {
   if [ $# != 1 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
-    mseIsValid=0
-    mseCounter=0
-    mseUStyle=$(toUpperCase $1)
+    local mseIsValid=0
+    local mseCounter=0
+    local mseUStyle=$(toUpperCase $1)
+    local mseStyle
 
     for mseStyle in "${PROMPT_AVAILABLE_STYLE_NAME[@]}"; do
       if [ $mseUStyle == $mseStyle ]; then
@@ -114,10 +114,6 @@ selectPromptStyle() {
     if [ $mseIsValid == 0 ]; then
       errorAlert "${FUNCNAME[0]}" "invalid argument"
     fi
-
-    unset mseStyle
-    unset mseCounter
-    unset mseIsValid
   fi
 }
 
@@ -142,15 +138,19 @@ selectPromptStyle() {
 #     selectPromptColors "LPURPLE" "DGRAY"
 #
 selectPromptColors() {
-  mseSYMBOLS='WHITE'
-  mseUSERNAME='WHITE'
-  mseDIRECTORY='WHITE'
+  local mseSYMBOLS='WHITE'
+  local mseUSERNAME='WHITE'
+  local mseDIRECTORY='WHITE'
 
-  mseACOLORS=(
+  local mseACOLORS=(
     "BLACK" "DGREY" "WHITE" "SILVER" "RED" "LRED"
     "GREEN" "LGREEN" "BROWN" "YELLOW" "BLUE" "LBLUE"
     "PURPLE" "LPURPLE" "CYAN" "LCYAN"
   )
+
+  local mseUColor
+  local mseColor
+
 
   if [ $# -ge 1 ]; then
     mseUColor=$(toUpperCase $1)
@@ -186,11 +186,6 @@ selectPromptColors() {
   PROMPT_COLOR_SYMBOLS=$mseSYMBOLS
   PROMPT_COLOR_USERNAME=$mseUSERNAME
   PROMPT_COLOR_DIRECTORY=$mseDIRECTORY
-
-  unset mseSYMBOLS
-  unset mseUSERNAME
-  unset mseDIRECTORY
-  unset mseACOLORS
 }
 
 #
@@ -222,6 +217,11 @@ showPromptSelection() {
 #     PS1=$(retrievePromptSelectionCode 0)
 #
 retrievePromptSelectionCode() {
+  local msePSQUEMA
+  local mseNEW
+  local mseREG
+  local mseTMP
+
   msePSQUEMA=${PROMPT_AVAILABLE_SQUEMA[$PROMPT_STYLEI]}
   msePSQUEMA="$(echo $msePSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
@@ -233,18 +233,18 @@ retrievePromptSelectionCode() {
 
 
 
-  TMP="R${PROMPT_COLOR_SYMBOLS}"
-  mseNEW="${!TMP}"
+  mseTMP="R${PROMPT_COLOR_SYMBOLS}"
+  mseNEW="${!mseTMP}"
   mseREG='s/\[\[SYMBOL\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  TMP="R${PROMPT_COLOR_USERNAME}"
-  mseNEW="${!TMP}"
+  mseTMP="R${PROMPT_COLOR_USERNAME}"
+  mseNEW="${!mseTMP}"
   mseREG='s/\[\[USERNAME\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  TMP="R${PROMPT_COLOR_DIRECTORY}"
-  mseNEW="${!TMP}"
+  mseTMP="R${PROMPT_COLOR_DIRECTORY}"
+  mseNEW="${!mseTMP}"
   mseREG='s/\[\[DIRECTORY\]\]/'"$mseNEW"'/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
@@ -256,24 +256,17 @@ retrievePromptSelectionCode() {
     mseREG='s/\\u/'"$USER"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-    mseHOSTNAME=`uname -n`
+    local mseHOSTNAME=`uname -n`
     mseREG='s/\\h/'"$mseHOSTNAME"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
-    mseDIRECTORY="\/etc\/skel\/myShellEnv"
+    local mseDIRECTORY="\/etc\/skel\/myShellEnv"
     mseREG='s/\\w/'"$mseDIRECTORY"'/g'
     msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
-
-    unset mseHOSTNAME
-    unset mseDIRECTORY
   fi
 
   echo $msePSQUEMA
-
-  unset msePSQUEMA
-  unset mseNEW
-  unset mseREG
 }
 
 #
@@ -281,7 +274,7 @@ retrievePromptSelectionCode() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPromptSelection() {
-  msePSQUEMA=$(retrievePromptSelectionCode 0)
+  local msePSQUEMA=$(retrievePromptSelectionCode 0)
 
   printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
   printf "\n${SILVER}...${NONE} \n"
@@ -295,7 +288,7 @@ previewPromptSelection() {
 #
 setPromptSelection() {
   PS1=$(retrievePromptSelectionCode 1)
-  mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
   setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
   setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile

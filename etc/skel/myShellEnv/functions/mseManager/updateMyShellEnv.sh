@@ -12,33 +12,27 @@ set +e
 # logado neste momento
 #
 updateMyShellEnv() {
-  TMP="${HOME}/installMyShellEnvTmp.sh"
-  mseURL="${MSE_GB_URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
-  mseSCode=$(curl -s -w "%{http_code}" -o "${TMP}" "${mseURL}" || true)
+  local mseTMP="${HOME}/installMyShellEnvTmp.sh"
+  local mseURL="${MSE_GB_URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
+  local mseSCode=$(curl -s -w "%{http_code}" -o "${mseTMP}" "${mseURL}" || true)
 
-  if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
+  if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
     ISOK=0
 
     printf "    Não foi possível fazer o download do arquivo de atualizações \n"
     printf "    A instalação foi encerrada.\n"
-    printf "    TGT: ${TMP} \n"
+    printf "    TGT: ${mseTMP} \n"
     printf "    URL: ${mseURL} \n\n"
   else
-    printf "    > Carregando script: ${TMP} \n"
+    printf "    > Carregando script: ${mseTMP} \n"
 
-    mseOLD='installMyShellEnv()'
-    mseNEW='installMyShellEnvTmp()'
-    sed -i "s/$mseOLD/$mseNEW/g" $TMP
+    local mseOLD='installMyShellEnv()'
+    local mseNEW='installMyShellEnvTmp()'
+    sed -i "s/$mseOLD/$mseNEW/g" $mseTMP
 
-    chmod u+x $TMP
-    source $TMP
+    chmod u+x $mseTMP
+    source $mseTMP
     installMyShellEnvTmp 0
     rm "${HOME}/installMyShellEnvTmp.sh"
-
-    unset mseOLD
-    unset mseNEW
   fi
-
-  unset mseURL
-  unset mseSCode
 }

@@ -36,7 +36,7 @@ setIMessage() {
       MSE_GB_INTERFACE_MSG=()
     fi
 
-    l=${#MSE_GB_INTERFACE_MSG[@]}
-    MSE_GB_INTERFACE_MSG[l]=$1
+    local mseLength=${#MSE_GB_INTERFACE_MSG[@]}
+    MSE_GB_INTERFACE_MSG[mseLength]=$1
   fi
 }

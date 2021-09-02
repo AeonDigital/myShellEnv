@@ -28,12 +28,12 @@ installMyShellEnv() {
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
 
-    mseIsSkel=0
+    local mseIsSkel=0
     if [ $1 == 1 ] || [ $1 == 0 ]; then
       mseIsSkel=$1
     fi
 
-    mseTargetDir="${HOME}/myShellEnv/"
+    local mseTargetDir="${HOME}/myShellEnv/"
     if [ $mseIsSkel == 1 ]; then
       mseTargetDir="/etc/skel/myShellEnv/"
     fi
@@ -45,6 +45,8 @@ installMyShellEnv() {
       downloadMyShellEnvFiles "$MSE_GB_URL_INSTALL" "$mseTargetDir"
     fi
 
+    local mseDir
+    local mseURL
 
     # Funções
     if [ $ISOK == 1 ]; then
@@ -107,12 +109,6 @@ installMyShellEnv() {
       MSE_GB_TARGET_FILES=("setConfiguration.sh")
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
-
-
-    unset mseIsSkel
-    unset mseTargetDir
-    unset mseDir
-    unset mseURL
 
   fi
 }

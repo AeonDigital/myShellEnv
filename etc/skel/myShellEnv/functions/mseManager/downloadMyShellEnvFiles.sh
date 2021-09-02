@@ -54,13 +54,15 @@ downloadMyShellEnvFiles() {
         printf "\n${MSE_GB_ALERT_INDENT}Baixando arquivos para o diretório: \n"
         printf "\n${MSE_GB_ALERT_INDENT}${LBLUE}$2${NONE} ...\n"
 
+        local mseScript
+        local mseTMP
         for mseScript in "${MSE_GB_TARGET_FILES[@]}"; do
           if [ $ISOK == 1 ]; then
             printf "${MSE_GB_ALERT_INDENT} ... ${LBLUE}${mseScript}${NONE} "
-            TMP="${2}${mseScript}"
-            mseSCode=$(curl -s -w "%{http_code}" -o "$TMP" "${1}${mseScript}" || true)
+            mseTMP="${2}${mseScript}"
+            local mseSCode=$(curl -s -w "%{http_code}" -o "$mseTMP" "${1}${mseScript}" || true)
 
-            if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
+            if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
               ISOK=0
               printf " ${LRED}[x]${NONE}\n"
             else
@@ -74,11 +76,6 @@ downloadMyShellEnvFiles() {
         else
           printf "${MSE_GB_ALERT_INDENT}Processo abortado.\n"
         fi
-
-
-        unset mseScript
-        unset mseSCode
-
       fi
     fi
   fi

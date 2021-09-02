@@ -31,23 +31,20 @@ downloadInstallScripts() {
   if [ $# != 2 ]; then
     printf "ERROR in ${FUNCNAME[0]}: expected 2 arguments"
   else
-    TMP="${HOME}/tmpInstaller/$1"
-    mseSCode=$(curl -s -w "%{http_code}" -o "${TMP}" "$2" || true)
+    local mseTMP="${HOME}/tmpInstaller/$1"
+    local mseSCode=$(curl -s -w "%{http_code}" -o "${mseTMP}" "$2" || true)
 
-    if [ ! -f "$TMP" ] || [ $mseSCode != 200 ]; then
+    if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
       ISOK=0
 
       printf "    Não foi possível fazer o download do arquivo de instalação '$1'\n"
       printf "    A instalação foi encerrada.\n"
-      printf "    TGT: ${TMP} \n"
+      printf "    TGT: ${mseTMP} \n"
       printf "    URL: $2 \n\n"
     else
-      printf "    > Carregando script: ${TMP} \n"
-      source "${TMP}"
+      printf "    > Carregando script: ${mseTMP} \n"
+      source "${mseTMP}"
     fi
-
-    unset TMP
-    unset mseSCode
   fi
 }
 
@@ -71,19 +68,17 @@ createTmpInstallerEnv() {
     printf "    A instalação foi encerrada.\n"
   else
     if [ $ISOK == 1 ]; then
-      mseInstallFiles=(
+      local mseInstallFiles=(
         "textColors.sh" "alertUser.sh" "errorAlert.sh"
         "waitUser.sh" "promptUser.sh" "setIMessage.sh"
       )
 
+      local mseFileName
       for mseFileName in "${mseInstallFiles[@]}"; do
         if [ $ISOK == 1 ]; then
           downloadInstallScripts "${mseFileName}" "${TMP_URL_INSTALL}functions/interface/${mseFileName}"
         fi
       done
-
-      unset mseInstallFiles
-      unset mseFileName
     fi
   fi
 }
@@ -97,9 +92,9 @@ createTmpInstallerEnv() {
 
 ISOK=1
 
-TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-TMP_URL_ETC="${TMP_URL_BASE}etc/"
-TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
+local TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
+local TMP_URL_ETC="${TMP_URL_BASE}etc/"
+local TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
 
 
 createTmpInstallerEnv
@@ -124,9 +119,9 @@ if [ $ISOK == 1 ]; then
   alertUser
 
 
-  TMP_INSTALL_IN_SKEL=0
-  TMP_INSTALL_LOGIN_MESSAGE=0
-  TMP_INSTALL_IN_MY_USER=0
+  local TMP_INSTALL_IN_SKEL=0
+  local TMP_INSTALL_LOGIN_MESSAGE=0
+  local TMP_INSTALL_IN_MY_USER=0
 
 
   #
@@ -179,7 +174,7 @@ if [ $ISOK == 1 ]; then
     if [ -f "/etc/issue" ]; then
       cp /etc/issue /etc/issue_beforeMyShellEnv
     fi
-    mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
+    local mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
 
     if [ ! -f "/etc/issue" ] || [ $mseSCode != 200 ]; then
       ISOK=0
@@ -192,8 +187,6 @@ if [ $ISOK == 1 ]; then
       setIMessage "${SILVER}Instalação da mensagem de login concluída${NONE}"
       alertUser
     fi
-
-    unset mseSCode
   fi
 
 
@@ -276,14 +269,14 @@ if [ $ISOK == 1 ]; then
     setIMessage "As atualizações serão carregadas no próximo login."
     setIMessage ""
 
-    SOURCE_BASHRC='source ~/myShellEnv/start.sh || true'
+    local mseSourceBashRC='source ~/myShellEnv/start.sh || true'
 
     if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
-      echo $SOURCE_BASHRC >> /etc/skel/.bashrc
+      echo $mseSourceBashRC >> /etc/skel/.bashrc
     fi
 
     if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
-      echo $SOURCE_BASHRC >> ${HOME}/.bashrc
+      echo $mseSourceBashRC >> ${HOME}/.bashrc
     fi
   fi
 
@@ -291,21 +284,11 @@ if [ $ISOK == 1 ]; then
 
   rm -R "${HOME}/tmpInstaller"
   rm install.sh
-
-  unset TMP_INSTALL_IN_SKEL
-  unset TMP_INSTALL_LOGIN_MESSAGE
-  unset TMP_INSTALL_IN_MY_USER
-
   waitUser
 fi
 
 
 
-
-unset TMP_URL_BASE
-unset TMP_URL_ETC
-unset TMP_URL_INSTALL
-unset TMP_ISOK
 
 unset downloadInstallScripts
 unset createTmpInstallerEnv
