@@ -26,7 +26,6 @@ PROMPT_AVAILABLE_SQUEMA=()
 # > $ rianna@archlinux : _
 PROMPT_AVAILABLE_STYLE_NAME[0]="SIMPLE"
 PROMPT_AVAILABLE_STYLE_FORMAT[0]="${NONE}$ username@host : _"
-#PROMPT_AVAILABLE_SQUEMA[0]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] :\[\e[40;[[NONE]]\]\040'
 PROMPT_AVAILABLE_SQUEMA[0]='[[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h[[SYMBOL]] :[[NONE]] '
 
 #
@@ -35,7 +34,7 @@ PROMPT_AVAILABLE_SQUEMA[0]='[[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h
 # > _
 PROMPT_AVAILABLE_STYLE_NAME[1]="NEWLINE01"
 PROMPT_AVAILABLE_STYLE_FORMAT[1]="${NONE}\$ username@host in ~/atual/directory/path \n> _"
-PROMPT_AVAILABLE_SQUEMA[1]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] in \[\e[40;[[DIRECTORY]]\]\w \n\076\[\e[40;[[NONE]]\]\040'
+PROMPT_AVAILABLE_SQUEMA[1]='[[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h[[SYMBOL]] in [[DIRECTORY]]\w \n\076\[\e[40;[[NONE]]\]\040'
 
 #
 # Estilo 'Nova linha 02'
@@ -43,7 +42,7 @@ PROMPT_AVAILABLE_SQUEMA[1]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[
 # └─> _
 PROMPT_AVAILABLE_STYLE_NAME[2]="NEWLINE02"
 PROMPT_AVAILABLE_STYLE_FORMAT[2]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
-PROMPT_AVAILABLE_SQUEMA[2]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\224\200 \[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] in \[\e[40;[[DIRECTORY]]\]\w \n\[\e[40;[[DIRECTORY]]\]\342\224\224\342\224\200\076\[\e[40;[[NONE]]\]\040'
+PROMPT_AVAILABLE_SQUEMA[2]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h[[SYMBOL]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\342\224\224\342\224\200\076\[\e[40;[[NONE]]\]\040'
 
 #
 # Estilo 'Nova linha 03'
@@ -51,7 +50,7 @@ PROMPT_AVAILABLE_SQUEMA[2]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\
 # └─╼ _
 PROMPT_AVAILABLE_STYLE_NAME[3]="NEWLINE03"
 PROMPT_AVAILABLE_STYLE_FORMAT[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\076 _"
-PROMPT_AVAILABLE_SQUEMA[3]='\[\e[40;[[DIRECTORY]]\]\342\224\214\342\224\200\342\224\200 \[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] in \[\e[40;[[DIRECTORY]]\]\w \n\[\e[40;[[DIRECTORY]]\]\342\224\224\342\225\274\[\e[40;[[NONE]]\]\040'
+PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h[[SYMBOL]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\342\224\224\342\225\274\[\e[40;[[NONE]]\]\040'
 
 
 
@@ -229,24 +228,29 @@ retrievePromptSelectionCode() {
   msePSQUEMA="$(echo $msePSQUEMA | sed -e 's/\\\[\\e\[40;/\\e\[/g' | sed -e 's/\]\]\\\]/\]\]/g')"
 
 
-
-  mseNEW='\['$NONE'\]'
-  mseREG='s/\[\[NONE\]\]/'"$mseNEW"'/g'
+  msePOS='NONE'
+  mseCOD="${!msePOS}"
+  mseREG='s/\[\['$msePOS'\]\]/\\[\\'$mseCOD'\\]/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-
-
-  mseNEW='\['$PROMPT_COLOR_SYMBOLS'\]'
-  mseREG='s/\[\[SYMBOL\]\]/'"$mseNEW"'/g'
+  msePOS='SYMBOLS'
+  mseNAM="PROMPT_COLOR_${msePOS}"
+  mseCOD="${!mseNAM}"
+  mseREG='s/\[\['$msePOS'\]\]/\\[\\'$mseCOD'\\]/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  mseNEW='\['$PROMPT_COLOR_USERNAME'\]'
-  mseREG='s/\[\[USERNAME\]\]/'"$mseNEW"'/g'
+  msePOS='USERNAME'
+  mseNAM="PROMPT_COLOR_${msePOS}"
+  mseCOD="${!mseNAM}"
+  mseREG='s/\[\['$msePOS'\]\]/\\[\\'$mseCOD'\\]/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
-  mseNEW='\['$PROMPT_COLOR_DIRECTORY'\]'
-  mseREG='s/\[\[DIRECTORY\]\]/'"$mseNEW"'/g'
+  msePOS='DIRECTORY'
+  mseNAM="PROMPT_COLOR_${msePOS}"
+  mseCOD="${!mseNAM}"
+  mseREG='s/\[\['$msePOS'\]\]/\\[\\'$mseCOD'\\]/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+
 
 
   if [ $# == 0 ] || [ $1 != 1 ]; then
