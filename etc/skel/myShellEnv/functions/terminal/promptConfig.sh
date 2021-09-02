@@ -143,21 +143,23 @@ restorePromptConfig() {
 showPromptStyles() {
   local i
   local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
-  local mseType="list"
+  local mseType="complete"
 
-  if [ $# -gt 0 ]; then
-    if [ $1 == "list" ] || [ $1 == "" ]; then
+  if [ $# == 1 ]; then
+    if [ $1 == "list" ]; then
       mseType="list"
+    else
+      mseType="index"
     fi
   fi
 
 
-  if [ $mseType == "list" ]; then
+  if [ $mseType == "complete" ] || [ $mseType == "list" ]; then
     printf "\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
 
     printf "${SILVER}...${NONE}"
     for (( i=0; i<mseLength; i++)); do
-      if [ $# == 0 ] || [ $1 == "" ]; then
+      if [ $mseType == "complete" ]; then
         printf "\n${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: ${NONE} \n"
         printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n"
       else
