@@ -15,6 +15,13 @@ PROMPT_STYLEI=0
 PROMPT_COLOR_SYMBOLS=WHITE
 PROMPT_COLOR_USERNAME=DGREY
 PROMPT_COLOR_DIRECTORY=DGREY
+PROMPT_OPTIONS_CONFIG=(
+  $PROMPT_STYLE $PROMPT_STYLEI
+  $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
+)
+PROMPT_PLACEHOLDERS=(
+  "SYMBOLS", "USERNAME", "DIRECTORY"
+)
 
 PROMPT_AVAILABLE_STYLE_NAME=()
 PROMPT_AVAILABLE_STYLE_FORMAT=()
@@ -57,31 +64,116 @@ PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\342\224\214\342\224\200\342\224\200 [[
 
 
 #
-# Mostra os prompts que estão aptos a serem usados pelo usuário
+# Mostra as configurações atualmente selecionadas para a
+# amostragem do prompt.
 #
-showPromptStyles() {
-  printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
+showPromptConfig() {
+  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
+  printf "${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
+
 
   local i
-  local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
-  printf "${SILVER}...${NONE} \n"
+  local mseLength=${#PROMPT_PLACEHOLDERS[@]}
+  local mseLine
+  local mseRawTable
+  local msePHName
+  local msePHValue
+
   for (( i=0; i<mseLength; i++)); do
-    printf "${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: \n"
-    printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n\n"
+    msePHName='PROMPT_COLOR_'${PROMPT_PLACEHOLDERS[$i]}
+    msePHValue="${!msePHName}"
+
+    mseLine="${LBLUE}${PROMPT_PLACEHOLDERS[$i]}${NONE}: ${msePHValue} \n"
+    mseRawTable+="${mseLine}"
   done
-  printf "${SILVER}...${NONE} \n\n"
-}
 
-#
-# Mostra os códigos de cores disponíveis para estilização do prompt.
-# Tratam-se das mesmas cores usadas para a estilização de textos.
-#
-showPromptColors() {
-  showTextColors 2
+  mseRawTable=$(printf "${mseRawTable}")
+  column -e -t -s ":" -o " | " -N "PlaceHolder,Cor" <<< "${mseRawTable}"
+  printf "\n"
 }
 
 
 
+#
+# Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
+#
+savePromptConfig() {
+  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+
+  setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
+  setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
+
+  setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
+  setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
+
+  PROMPT_OPTIONS_CONFIG=(
+    $PROMPT_STYLE $PROMPT_STYLEI
+    $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
+  )
+}
+
+
+
+#
+# Restaura as configurações do último prompt salvo.
+#
+restorePromptConfig() {
+  PROMPT_STYLE=${PROMPT_OPTIONS_CONFIG[0]}
+  PROMPT_STYLEI=${PROMPT_OPTIONS_CONFIG[1]}
+
+  PROMPT_COLOR_SYMBOLS=${PROMPT_OPTIONS_CONFIG[2]}
+  PROMPT_COLOR_USERNAME=${PROMPT_OPTIONS_CONFIG[3]}
+  PROMPT_COLOR_DIRECTORY=${PROMPT_OPTIONS_CONFIG[4]}
+}
+
+
+
+
+
+
+#
+# Mostra os prompts que estão aptos a serem usados pelo usuário.
+#
+#   @param mixed $1
+#   Se "" ou, se omitido, apresentará todas as opções de prompt.
+#   Se "list", apresentará apenas a lista contendo o indice e respectivo nome.
+#   Se "index" (0, 1, 2...) apresentará apenas o respectivo prompt de índice indicado.
+#
+showPromptStyles() {
+  local i
+  local mseLength=${#PROMPT_AVAILABLE_STYLE_NAME[@]}
+
+  if [ $# == 0 ] || [ $1 == "" ] || [ $1 == "list" ]; then
+    printf "\n\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
+
+    printf "${SILVER}...${NONE}"
+    for (( i=0; i<mseLength; i++)); do
+      if [ $# == 0 ] || [ $1 == "" ]; then
+        printf "\n${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: ${NONE} \n"
+        printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$i]} \n"
+      else
+        printf "\n [$i] ${LBLUE} ${PROMPT_AVAILABLE_STYLE_NAME[$i]} ${NONE} \n"
+      fi
+    done
+    printf "${SILVER}...${NONE} \n\n"
+
+  else
+    local mseREG='^[0-9]+$'
+    if ! [[ $1 =~ $mseREG ]]; then
+      errorAlert "${FUNCNAME[0]}" "argument 1 is not a integer"
+    else
+      if [ $1 -lt 0 ] || [ $1 -ge $mseLength ]; then
+        errorAlert "${FUNCNAME[0]}" "argument 1 is out of range"
+      else
+        printf "${SILVER} ${PROMPT_AVAILABLE_STYLE_NAME[$1]} :${NONE}\n"
+        printf "${SILVER}...${NONE}"
+        printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$1]} \n"
+        printf "${SILVER}...${NONE} \n\n"
+      fi
+    fi
+  fi
+}
 
 #
 # Define o tipo do prompt que será usado.
@@ -112,87 +204,98 @@ selectPromptStyle() {
     done
 
     if [ $mseIsValid == 0 ]; then
-      errorAlert "${FUNCNAME[0]}" "invalid argument"
+      errorAlert "${FUNCNAME[0]}" "invalid argument; see valid options with ${LGREEN}showPromptStyles${NONE} command"
+    else
+      PS1=$(retrievePromptSelectionCode 1)
     fi
   fi
 }
 
+
+
+
+
 #
-# Define as cores a serem usadas no prompt.
-# Todos os parametros são opcionais e todo aquele que for omitido ou inválido
-# terá seu valor definido como 'WHITE'.
+# Mostra os códigos de cores disponíveis para estilização do prompt.
+# Tratam-se das mesmas cores usadas para a estilização de textos.
 #
-#   @param string $1
-#   Cor para os simbolos '$', '@', ':' e a particula 'in'
-#   que precede o local em que o usuário está no momento.
+showPromptColors() {
+  showTextColors 3
+}
+
+#
+# Mostra para o usuário todas as opções de 'placeholder' que podem
+# ser estilizadas no seu prompt.
+#
+showPromptPlaceHolders() {
+  local i
+  local mseLength=${#PROMPT_PLACEHOLDERS[@]}
+
+  printf "\n\n${SILVER}Os seguintes placeholders podem ter cores definidas:${NONE}\n"
+  printf "${DGREY}[ A efetividade de item varia conforme a aplicação do mesmo no estilo de prompt escolhido ]${NONE}\n\n"
+
+  printf "${SILVER}...${NONE}\n"
+  for (( i=0; i<mseLength; i++)); do
+    printf " [$i] ${LBLUE} ${PROMPT_PLACEHOLDERS[$i]} ${NONE} \n"
+  done
+  printf "${SILVER}...${NONE}\n\n"
+}
+
+#
+# Define a cor para um 'placeholder' do prompt.
+#
+#   $param string $1
+#   Nome do placeholder a ser definido.
 #
 #   @param string $2
-#   Cor para as informações 'user' e 'host'.
-#
-#   @param string $3
-#   Cor para o diretório em que o usuário está no momento.
-#   Também será usada para as 'ligações' especiais quando o estilo
-#   for multilinhas.
+#   Nome do código da cor a ser usado para este placeholder
 #
 #   @example
-#     selectPromptColors "LPURPLE" "DGRAY"
+#     selectPromptPlaceHolderColor "SYMBOLS" "DGREY"
 #
-selectPromptColors() {
-  local mseSYMBOLS='WHITE'
-  local mseUSERNAME='WHITE'
-  local mseDIRECTORY='WHITE'
+selectPromptPlaceHolderColor() {
+  if [ $# != 2 ]; then
+    errorAlert "${FUNCNAME[0]}" "expected 2 arguments"
+  else
+    local msePlaceHolder
+    local mseUPlaceHolder=$(toUpperCase $1)
+    local mseColorRaw
+    local mseUColorRaw=$(toUpperCase $2)
+    local mseIsValid=0
 
-  local mseUColor
-  local mseColor
-
-
-  if [ $# -ge 1 ]; then
-    mseUColor=$(toUpperCase $1)
-
-    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
-      if [ $mseUColor == $mseColor ]; then
-        mseSYMBOLS=$mseColor
+    for msePlaceHolder in "${PROMPT_PLACEHOLDERS[@]}"; do
+      if [ $mseUPlaceHolder == $msePlaceHolder ]; then
+        mseIsValid=1
       fi
     done
-  fi
 
-  if [ $# -ge 2 ]; then
-    mseUColor=$(toUpperCase $2)
+    if [ $mseIsValid == 0 ]; then
+      errorAlert "${FUNCNAME[0]}" "invalid argument 1; see valid options with ${LGREEN}showPromptPlaceHolders${NONE} command"
+    else
+      mseIsValid=0
 
-    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
-      if [ $mseUColor == $mseColor ]; then
-        mseUSERNAME=$mseColor
+      for mseColorRaw in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
+        if [ $mseUColorRaw == $mseColorRaw ]; then
+          mseIsValid=1
+        fi
+      done
+
+      if [ $mseIsValid == 0 ]; then
+        errorAlert "${FUNCNAME[0]}" "invalid argument 2; see valid options with ${LGREEN}showPromptColors${NONE} command"
+      else
+        local msePHArray='PROMPT_COLOR_'$mseUPlaceHolder
+        eval "$msePHArray"="$mseUColorRaw"
+
+        PS1=$(retrievePromptSelectionCode 1)
       fi
-    done
+    fi
   fi
-
-  if [ $# -ge 3 ]; then
-    mseUColor=$(toUpperCase $3)
-
-    for mseColor in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
-      if [ $mseUColor == $mseColor ]; then
-        mseDIRECTORY=$mseColor
-      fi
-    done
-  fi
-
-
-  PROMPT_COLOR_SYMBOLS=$mseSYMBOLS
-  PROMPT_COLOR_USERNAME=$mseUSERNAME
-  PROMPT_COLOR_DIRECTORY=$mseDIRECTORY
 }
 
-#
-# Mostra as configurações atualmente selecionadas para a
-# amostragem do prompt.
-#
-showPromptSelection() {
-  printf "\n\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
-  printf "          ${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n"
-  printf "        ${LBLUE}SYMBOLS${NONE}: ${PROMPT_COLOR_SYMBOLS}\n"
-  printf "       ${LBLUE}USERNAME${NONE}: ${PROMPT_COLOR_USERNAME}\n"
-  printf "      ${LBLUE}DIRECTORY${NONE}: ${PROMPT_COLOR_DIRECTORY}\n\n"
-}
+
+
+
+
 
 
 
@@ -272,25 +375,10 @@ retrievePromptSelectionCode() {
 # de controle, monta o prompt conforme ele deve aparecer e mostra para o usuário.
 #
 previewPromptSelection() {
-  local msePSQUEMA=$(retrievePromptSelectionCode 0)
+  #local msePSQUEMA=$(retrievePromptSelectionCode 0)
 
-  printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
-  printf "\n${SILVER}...${NONE} \n"
-  printf "${msePSQUEMA}"
-  printf "\n${SILVER}...${NONE} \n\n"
-}
-
-#
-# Efetivamente altera a configuração do prompt baseado nas configurações
-# encontradas nas variáveis que armazenam as seleções feitas.
-#
-setPromptSelection() {
-  PS1=$(retrievePromptSelectionCode 1)
-  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
-
-  setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
-  setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
+  #printf "\n\n${SILVER}Resultado da configuração do prompt: ${NONE}"
+  #printf "\n${SILVER}...${NONE} \n"
+  #printf "${msePSQUEMA}"
+  #printf "\n${SILVER}...${NONE} \n\n"
 }
