@@ -26,7 +26,8 @@ PROMPT_AVAILABLE_SQUEMA=()
 # > $ rianna@archlinux : _
 PROMPT_AVAILABLE_STYLE_NAME[0]="SIMPLE"
 PROMPT_AVAILABLE_STYLE_FORMAT[0]="${NONE}$ username@host : _"
-PROMPT_AVAILABLE_SQUEMA[0]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] :\[\e[40;[[NONE]]\]\040'
+#PROMPT_AVAILABLE_SQUEMA[0]='\[\e[40;[[SYMBOL]]\]\$ \[\e[40;[[USERNAME]]\]\u\[\e[40;[[SYMBOL]]\]@\[\e[40;[[USERNAME]]\]\h\[\e[40;[[SYMBOL]]\] :\[\e[40;[[NONE]]\]\040'
+PROMPT_AVAILABLE_SQUEMA[0]='[[SYMBOL]]\$ [[USERNAME]]\u[[SYMBOL]]@[[USERNAME]]\h[[SYMBOL]] :[[NONE]] '
 
 #
 # Estilo 'Nova linha 01'
@@ -287,12 +288,12 @@ previewPromptSelection() {
 # encontradas nas variáveis que armazenam as seleções feitas.
 #
 setPromptSelection() {
-  PS1=$(retrievePromptSelectionCode 1)
-  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+  #PS1=$(retrievePromptSelectionCode 1)
+  #local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
-  setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
-  setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
-  setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
+  #setKeyValueConfiguration PROMPT_STYLE $PROMPT_STYLE $mseCfgFile
+  #setKeyValueConfiguration PROMPT_STYLEI $PROMPT_STYLEI $mseCfgFile
+  #setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
+  #setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
+  #setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
 }
