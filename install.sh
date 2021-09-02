@@ -92,9 +92,13 @@ createTmpInstallerEnv() {
 
 ISOK=1
 
-local TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-local TMP_URL_ETC="${TMP_URL_BASE}etc/"
-local TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
+TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
+TMP_URL_ETC="${TMP_URL_BASE}etc/"
+TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
+
+TMP_INSTALL_IN_SKEL=0
+TMP_INSTALL_LOGIN_MESSAGE=0
+TMP_INSTALL_IN_MY_USER=0
 
 
 createTmpInstallerEnv
@@ -118,10 +122,6 @@ if [ $ISOK == 1 ]; then
   setIMessage "Iniciando o processo de instalação."
   alertUser
 
-
-  local TMP_INSTALL_IN_SKEL=0
-  local TMP_INSTALL_LOGIN_MESSAGE=0
-  local TMP_INSTALL_IN_MY_USER=0
 
 
   #
@@ -174,7 +174,7 @@ if [ $ISOK == 1 ]; then
     if [ -f "/etc/issue" ]; then
       cp /etc/issue /etc/issue_beforeMyShellEnv
     fi
-    local mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
+    mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
 
     if [ ! -f "/etc/issue" ] || [ $mseSCode != 200 ]; then
       ISOK=0
@@ -187,6 +187,8 @@ if [ $ISOK == 1 ]; then
       setIMessage "${SILVER}Instalação da mensagem de login concluída${NONE}"
       alertUser
     fi
+
+    unset mseSCode
   fi
 
 
@@ -269,7 +271,7 @@ if [ $ISOK == 1 ]; then
     setIMessage "As atualizações serão carregadas no próximo login."
     setIMessage ""
 
-    local mseSourceBashRC='source ~/myShellEnv/start.sh || true'
+    mseSourceBashRC='source ~/myShellEnv/start.sh || true'
 
     if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
       echo $mseSourceBashRC >> /etc/skel/.bashrc
@@ -278,6 +280,8 @@ if [ $ISOK == 1 ]; then
     if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
       echo $mseSourceBashRC >> ${HOME}/.bashrc
     fi
+
+    unset mseSourceBashRC
   fi
 
 
@@ -288,6 +292,14 @@ if [ $ISOK == 1 ]; then
 fi
 
 
+
+
+unset TMP_URL_BASE
+unset TMP_URL_ETC
+unset TMP_URL_INSTALL
+unset TMP_INSTALL_IN_SKEL
+unset TMP_INSTALL_LOGIN_MESSAGE
+unset TMP_INSTALL_IN_MY_USER
 
 
 unset downloadInstallScripts
