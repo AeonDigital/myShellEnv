@@ -258,8 +258,12 @@ showPromptPlaceHolders() {
 #   @param string $2
 #   Nome do código da cor a ser usado nos caracteres deste placeholder
 #
+#   @param string $3
+#   Nome do código da cor a ser usado como fundo para este placeholder.
+#   Se não for indicado será usado o valor padrão que é '40; Preto'.
+#
 #   @example
-#     selectPromptPlaceHolderColor "SYMBOLS" "DGREY"
+#     selectPromptPlaceHolderColor "SYMBOLS" "DGREY" "LBLUE"
 #
 selectPromptPlaceHolderColor() {
   if [ $# != 2 ]; then
@@ -282,7 +286,7 @@ selectPromptPlaceHolderColor() {
     else
       mseIsValid=0
 
-      for mseColorRaw in "${MSE_GB_AVAILABLE_COLORS_RAW[@]}"; do
+      for mseColorRaw in "${MSE_GB_AVAILABLE_COLOR_NAMES[@]}"; do
         if [ $mseUColorRaw == $mseColorRaw ]; then
           mseIsValid=1
         fi
