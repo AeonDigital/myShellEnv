@@ -28,7 +28,7 @@ MSE_GB_PROMPT_RESULT=""
 #
 #   @example
 #     MSE_GB_PROMPT_MSG=()
-#     MSE_GB_PROMPT_MSG[0]=$(printf "${SILVER}ATENÇÃO!${NONE}")
+#     MSE_GB_PROMPT_MSG[0]=$(printf "${WHITE}ATENÇÃO!${NONE}")
 #     MSE_GB_PROMPT_MSG[1]=$(printf "Deseja prosseguir?")
 #
 #     promptUser

@@ -44,7 +44,7 @@ showTextColors() {
       mseRawTable+="${mseLine}"
     done
 
-    printf "\n${SILVER}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
+    printf "\n${WHITE}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
     printf "${mseRawTable}\n\n"
 
   else
@@ -58,7 +58,7 @@ showTextColors() {
       mseRawTable+="${mseLine}"
     done
 
-    printf "\n\n${SILVER}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
+    printf "\n\n${WHITE}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
 
     mseRawTable=$(printf "${mseRawTable}")
     mseRawTable=$(sed 's/^\s*//g' <<< "${mseRawTable}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')

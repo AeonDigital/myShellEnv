@@ -78,7 +78,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       #
       # Sendo para questioná-lo sobre o início da sessão...
       if [ $MSE_GB_ROOT_PROMPTSTART == 1 ]; then
-        setIMessage "\n${SILVER}Deseja iniciar o myShellEnv?${NONE}" 1
+        setIMessage "\n${WHITE}Deseja iniciar o myShellEnv?${NONE}" 1
 
         promptUser
         MSE_GB_START=${MSE_GB_PROMPT_RESULT}
@@ -128,9 +128,9 @@ if [ $MSE_GB_ENABLE == 1 ]; then
   #
   # Prompt padrão caso nenhum outro seja definido
   MSE_GB_PROMPT_STYLE='SIMPLE'
-  MSE_GB_PROMPT_COLOR_SYMBOLS='WHITE'
+  MSE_GB_PROMPT_COLOR_SYMBOLS='LGREY'
   MSE_GB_PROMPT_COLOR_USERNAME='DGREY'
-  MSE_GB_PROMPT_COLOR_DIRECTORY='WHITE'
+  MSE_GB_PROMPT_COLOR_DIRECTORY='LGREY'
 
 
 

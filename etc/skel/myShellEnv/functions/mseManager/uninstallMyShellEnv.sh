@@ -54,14 +54,14 @@ uninstallMyShellEnv() {
     if [ $ISOK == 1 ]; then
 
       setIMessage "" 1
-      setIMessage "${SILVER}Iniciando a desinstalação!${NONE}"
+      setIMessage "${WHITE}Iniciando a desinstalação!${NONE}"
       setIMessage "[ ${DGREY}Esta ação é irreversível.${NONE} ]"
       setIMessage "Deseja mesmo prosseguir?"
 
       promptUser
       if [ $MSE_GB_PROMPT_RESULT == 0 ]; then
         setIMessage "" 1
-        setIMessage "${SILVER}Ação abortada pelo usuário!${NONE}"
+        setIMessage "${WHITE}Ação abortada pelo usuário!${NONE}"
         alertUser
       else
         setIMessage "... " 1
@@ -74,13 +74,13 @@ uninstallMyShellEnv() {
         fi
 
         if [ $1 == "skel" ]; then
-          setIMessage "... Removendo o ${SILVER}myShellEnv${NONE} do ${LBLUE}skel${NONE}."
+          setIMessage "... Removendo o ${WHITE}myShellEnv${NONE} do ${LBLUE}skel${NONE}."
           rm -r /etc/skel/myShellEnv
           sed -i "s/${mseSourceBashRC}//g" /etc/skel/.bashrc
         fi
 
         if [ $1 == "user" ]; then
-          setIMessage "... Removendo o ${SILVER}myShellEnv${NONE} do seu usuário."
+          setIMessage "... Removendo o ${WHITE}myShellEnv${NONE} do seu usuário."
           rm -r "${HOME}/myShellEnv"
           sed -i "s/${mseSourceBashRC}//g" "${HOME}/.bashrc"
         fi

@@ -118,7 +118,7 @@ if [ $ISOK == 1 ]; then
 
   clear
   setIMessage "" 1
-  setIMessage "${SILVER}myShellEnv v 1.0 [2021-09-01]${NONE}"
+  setIMessage "${WHITE}myShellEnv v 1.0 [2021-09-01]${NONE}"
   setIMessage "Iniciando o processo de instalação."
   alertUser
 
@@ -130,7 +130,7 @@ if [ $ISOK == 1 ]; then
     setIMessage "" 1
     setIMessage "Você foi identificado como um usuário com privilégios ${LBLUE}root${NONE}"
     setIMessage "Isto significa que você tem permissão para instalar o ${LBLUE}myShellEnv${NONE}"
-    setIMessage "para ${SILVER}todo novo usuário${NONE} criado nesta máquina."
+    setIMessage "para ${WHITE}todo novo usuário${NONE} criado nesta máquina."
     alertUser
 
     setIMessage "\n" 1
@@ -184,7 +184,7 @@ if [ $ISOK == 1 ]; then
       setIMessage "Processo abortado."
     else
       setIMessage "" 1
-      setIMessage "${SILVER}Instalação da mensagem de login concluída${NONE}"
+      setIMessage "${WHITE}Instalação da mensagem de login concluída${NONE}"
       alertUser
     fi
 
@@ -211,7 +211,7 @@ if [ $ISOK == 1 ]; then
 
       if [ $ISOK == 1 ]; then
         setIMessage "" 1
-        setIMessage "${SILVER}Instalação no skel concluída${NONE}"
+        setIMessage "${WHITE}Instalação no skel concluída${NONE}"
         alertUser
       fi
     fi
@@ -237,7 +237,7 @@ if [ $ISOK == 1 ]; then
 
       if [ $ISOK == 1 ]; then
         setIMessage "" 1
-        setIMessage "${SILVER}Instalação para o seu usuário concluída${NONE}"
+        setIMessage "${WHITE}Instalação para o seu usuário concluída${NONE}"
         alertUser
       fi
     fi

@@ -22,7 +22,7 @@ MSE_GB_ALERT_INDENT="    "
 #
 #   @example
 #     MSE_GB_ALERT_MSG=()
-#     MSE_GB_ALERT_MSG[0]=$(printf "${SILVER}Sucesso!${NONE}")
+#     MSE_GB_ALERT_MSG[0]=$(printf "${WHITE}Sucesso!${NONE}")
 #     MSE_GB_ALERT_MSG[1]=$(printf "Todos os scripts foram atualizados")
 #
 #     alertUser

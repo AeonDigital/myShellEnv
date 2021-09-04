@@ -34,7 +34,7 @@ errorAlert() {
       mseLocal="script"
     fi
 
-    setIMessage "${MSE_GB_ALERT_INDENT}${SILVER}ERROR (in ${mseLocal}) :${NONE} $2" 1
+    setIMessage "${MSE_GB_ALERT_INDENT}${WHITE}ERROR (in ${mseLocal}) :${NONE} $2" 1
     if [ $# == 3 ]; then
       setIMessage "${MSE_GB_ALERT_INDENT}$3"
     fi
