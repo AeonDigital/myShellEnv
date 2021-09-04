@@ -88,7 +88,7 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}functions/terminal/"
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
-      MSE_GB_TARGET_FILES=("setUTF8.sh" "promptConfig.sh" "showTextColors.sh")
+      MSE_GB_TARGET_FILES=("setUTF8.sh" "promptConfig.sh")
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 

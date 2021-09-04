@@ -12,7 +12,7 @@ set +e
 #
 PROMPT_STYLE=SIMPLE
 PROMPT_STYLEI=0
-PROMPT_COLOR_SYMBOLS=WHITE
+PROMPT_COLOR_SYMBOLS=LGREY
 PROMPT_COLOR_USERNAME=DGREY
 PROMPT_COLOR_DIRECTORY=DGREY
 PROMPT_OPTIONS_CONFIG=(
@@ -68,7 +68,7 @@ PROMPT_AVAILABLE_SQUEMA[3]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\
 # amostragem do prompt.
 #
 showPromptConfig() {
-  printf "\n${SILVER}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
+  printf "\n${WHITE}As seguintes configurações estão definidas para o prompt${NONE}\n\n"
   printf "${LBLUE}STYLE${NONE}: ${PROMPT_STYLE}\n\n"
 
 
@@ -161,9 +161,9 @@ showPromptStyles() {
 
 
   if [ $mseType == "complete" ] || [ $mseType == "list" ]; then
-    printf "\n${SILVER}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
+    printf "\n${WHITE}Os seguintes estilos de prompts podem ser usados:${NONE}\n\n"
 
-    printf "${SILVER}...${NONE}"
+    printf "${WHITE}...${NONE}"
     for (( i=0; i<mseLength; i++)); do
       if [ $mseType == "complete" ]; then
         printf "\n${LBLUE}  ${PROMPT_AVAILABLE_STYLE_NAME[$i]}: ${NONE} \n"
@@ -172,7 +172,7 @@ showPromptStyles() {
         printf "\n [$i] ${LBLUE} ${PROMPT_AVAILABLE_STYLE_NAME[$i]} ${NONE} "
       fi
     done
-    printf "\n${SILVER}...${NONE} \n\n"
+    printf "\n${WHITE}...${NONE} \n\n"
 
   else
     local mseREG='^[0-9]+$'
@@ -183,9 +183,9 @@ showPromptStyles() {
         errorAlert "${FUNCNAME[0]}" "argument 1 is out of range"
       else
         printf "\n"
-        printf "${SILVER}... ${PROMPT_AVAILABLE_STYLE_NAME[$1]} ${NONE}\n\n"
+        printf "${WHITE}... ${PROMPT_AVAILABLE_STYLE_NAME[$1]} ${NONE}\n\n"
         printf "${PROMPT_AVAILABLE_STYLE_FORMAT[$1]} \n\n"
-        printf "${SILVER}...${NONE} \n\n"
+        printf "${WHITE}...${NONE} \n\n"
       fi
     fi
   fi
@@ -232,14 +232,6 @@ selectPromptStyle() {
 
 
 #
-# Mostra os códigos de cores disponíveis para estilização do prompt.
-# Tratam-se das mesmas cores usadas para a estilização de textos.
-#
-showPromptColors() {
-  showTextColors 3
-}
-
-#
 # Mostra para o usuário todas as opções de 'placeholder' que podem
 # ser estilizadas no seu prompt.
 #
@@ -247,14 +239,14 @@ showPromptPlaceHolders() {
   local i
   local mseLength=${#PROMPT_PLACEHOLDERS[@]}
 
-  printf "\n${SILVER}Os seguintes placeholders podem ter suas cores definidas:${NONE}\n"
+  printf "\n${WHITE}Os seguintes placeholders podem ter suas cores definidas:${NONE}\n"
   printf "${DGREY}[ A efetividade de item varia conforme a aplicação do mesmo no estilo de prompt escolhido ]${NONE}\n\n"
 
-  printf "${SILVER}...${NONE}\n"
+  printf "${WHITE}...${NONE}\n"
   for (( i=0; i<mseLength; i++)); do
     printf " [$i] ${LBLUE} ${PROMPT_PLACEHOLDERS[$i]} ${NONE} \n"
   done
-  printf "${SILVER}...${NONE}\n\n"
+  printf "${WHITE}...${NONE}\n\n"
 }
 
 #
@@ -264,7 +256,7 @@ showPromptPlaceHolders() {
 #   Nome do placeholder a ser definido.
 #
 #   @param string $2
-#   Nome do código da cor a ser usado para este placeholder
+#   Nome do código da cor a ser usado nos caracteres deste placeholder
 #
 #   @example
 #     selectPromptPlaceHolderColor "SYMBOLS" "DGREY"
@@ -297,7 +289,7 @@ selectPromptPlaceHolderColor() {
       done
 
       if [ $mseIsValid == 0 ]; then
-        errorAlert "${FUNCNAME[0]}" "invalid argument 2" "see options in ${LGREEN}showPromptColors${NONE}"
+        errorAlert "${FUNCNAME[0]}" "invalid argument 2" "see options in ${LGREEN}showFontColors${NONE}"
       else
         local msePHArray='PROMPT_COLOR_'$mseUPlaceHolder
         eval "$msePHArray"="$mseUColorRaw"
