@@ -118,30 +118,30 @@ set +e
 # 'L' indica 'Light'
 #
 
-NONE='\e[0;00;37m'
+NONE='\e[0;37;40m'
 
-BLACK='\e[0;00;30m'
-DGREY='\e[0;00;90m'
-LGREY='\e[0;00;37m'
-WHITE='\e[0;00;97m'
+BLACK='\e[0;30;40m'
+DGREY='\e[0;90;40m'
+LGREY='\e[0;37;40m'
+WHITE='\e[0;97;40m'
 
-RED='\e[0;00;31m'
-LRED='\e[0;00;91m'
+RED='\e[0;31;40m'
+LRED='\e[0;91;40m'
 
-GREEN='\e[0;00;32m'
-LGREEN='\e[0;00;92m'
+GREEN='\e[0;32;40m'
+LGREEN='\e[0;92;40m'
 
-YELLOW='\e[0;00;33m'
-LYELLOW='\e[0;00;93m'
+YELLOW='\e[0;33;40m'
+LYELLOW='\e[0;93;40m'
 
-BLUE='\e[0;00;34m'
-LBLUE='\e[0;00;94m'
+BLUE='\e[0;34;40m'
+LBLUE='\e[0;94;40m'
 
-PURPLE='\e[0;00;35m'
-LPURPLE='\e[0;00;95m'
+PURPLE='\e[0;35;40m'
+LPURPLE='\e[0;95;40m'
 
-CYAN='\e[0;00;36m'
-LCYAN='\e[0;00;96m'
+CYAN='\e[0;36;40m'
+LCYAN='\e[0;96;40m'
 
 
 
@@ -224,6 +224,7 @@ showTextColors() {
   local mseRawTable
   local mseColorName
   local mseColorRaw
+  local mseSampleColor
   local mseColorCod
 
 
@@ -245,7 +246,12 @@ showTextColors() {
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
       mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
+      mseSampleColor=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
       mseColorCod="\\${!mseColorRaw}"
+
+      if [ $mseColorName == "BLACK" ]; then
+        mseSampleColor="\e["
+      fi
 
       mseLine="${mseColorName}:${mseColorRaw}:${mseColorCod}:${!mseColorRaw}myShellEnv${NONE} \n"
       mseRawTable+="${mseLine}"
