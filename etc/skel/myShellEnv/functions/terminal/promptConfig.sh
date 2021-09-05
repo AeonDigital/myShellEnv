@@ -44,7 +44,15 @@ MSE_PROMPT_STYLE_PLACEHOLDERS=(
 )
 
 
-
+#
+# Triangular terminator
+#
+# Char          : 
+# Hex code      : E0B0
+# Decimal code  : 57520
+# Hex UTF-8     : EE 82 B0
+# Octal UTF-8   : 356 202 260
+#
 
 
 #
