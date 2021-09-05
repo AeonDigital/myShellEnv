@@ -326,10 +326,10 @@ showFontAttributes() {
 #   Atributo a ser usado (opcional).
 #
 #   @example
-#     result=$(setFontStyle 'DGREY' 'LBLUE')
+#     result=$(createFontStyle 'DGREY' 'LBLUE')
 #     echo "${result}Formatado conforme eu queria${NONE}"
 #
-setFontStyle() {
+createFontStyle() {
   if [ $# != 2 ] && [ $# != 3 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 2 or 3 arguments"
   else
@@ -406,7 +406,7 @@ setFontStyle() {
         if [ mseIsValid == 0 ]; then
           errorAlert "${FUNCNAME[0]}" "invalid argument 3" "see options in ${LGREEN}showFontAttributes${NONE}"
         else
-          echo "\e[${mseAttribute};${mseFont};${mseBackGround}m"
+          echo '\e[${mseAttribute};${mseFont};${mseBackGround}m'
         fi
       fi
     fi
