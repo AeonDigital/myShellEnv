@@ -98,7 +98,7 @@ MSE_PROMPT_SELECTED_STYLE_INDEX=0
 #     [PLACEHOLDER]="FONTE FUNDO ATRIBUTO"
 #     [SYMBOLS]="LGREY BLACK DEFAULT"
 #
-declare -A MSE_PROMPT_SELECTED_COLORS(
+declare -A MSE_PROMPT_SELECTED_COLORS=(
   [SYMBOLS]="LGREY BLACK DEFAULT"
   [USERNAME]="DGREY BLACK DEFAULT"
   [DIRECTORY]="DGREY BLACK DEFAULT"
@@ -202,7 +202,7 @@ showPromptConfig() {
 #
 # Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
 # !!!!!!!!!!!!!!!!!!!!!!
-savePromptConfig() {
+#savePromptConfig() {
   #local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
   #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
@@ -216,7 +216,7 @@ savePromptConfig() {
   #  $MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE_INDEX
   #  $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
   #)
-}
+#}
 
 
 
@@ -233,7 +233,7 @@ restorePromptConfig() {
       MSE_PROMPT_SELECTED_STYLE=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
     elif [ $key == "STYLE_INDEX" ]; then
       MSE_PROMPT_SELECTED_STYLE_INDEX=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
-    elif
+    else
       MSE_PROMPT_SELECTED_COLORS[${key}]=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
     fi
   done
@@ -496,17 +496,6 @@ selectPromptPlaceHolderStyle() {
           fi
 
         fi
-
-
-
-
-
-        #
-        # Estando tudo ok com a seleção feita
-        if [ mseIsValid == 1 ]; then
-
-        fi
-
       fi
     fi
 
@@ -582,18 +571,18 @@ retrievePromptSelectionCode() {
   # aplica o estilo nas posições correspondentes
   for msePHName in "${!MSE_PROMPT_CURRENT_CONFIG[@]}"; do
     if [ $msePHName != "STYLE" ] && [ $msePHName != "STYLE_INDEX" ]; then
-        msePHRawConfig=${MSE_PROMPT_CURRENT_CONFIG[$msePHName]
-        msePHConfig=(${msePHConfig// / })
+      msePHRawConfig=${MSE_PROMPT_CURRENT_CONFIG[$msePHName]}
+      msePHConfig=(${msePHRawConfig// / })
 
-        if [ ${#msePHConfig[@]} != 3 ]; then
-          errorAlert "${FUNCNAME[0]}" "invalid ${WHITE}${msePHName}${NONE} placeholder configuration" "Found: ${msePHRawConfig}"
-          mseIsOk=0
-        else
-          msePGStyle=$(createFontStyle "${msePHConfig[0]}" "${msePHConfig[1]}" "${msePHConfig[2]}")
+      if [ ${#msePHConfig[@]} != 3 ]; then
+        errorAlert "${FUNCNAME[0]}" "invalid ${WHITE}${msePHName}${NONE} placeholder configuration" "Found: ${msePHRawConfig}"
+        mseIsOk=0
+      else
+        msePGStyle=$(createFontStyle "${msePHConfig[0]}" "${msePHConfig[1]}" "${msePHConfig[2]}")
 
-          mseREG='s/\[\['$msePHName'\]\]/\\[\\'$msePGStyle'\\]/g'
-          msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
-        fi
+        mseREG='s/\[\['$msePHName'\]\]/\\[\\'$msePGStyle'\\]/g'
+        msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
+      fi
     fi
   done
 
