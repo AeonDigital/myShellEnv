@@ -52,7 +52,7 @@ MSE_PROMPT_STYLE_PLACEHOLDERS=(
 # > $ rianna@archlinux : _
 MSE_PROMPT_STYLE_NAME[0]="SIMPLE"
 MSE_PROMPT_STYLE_SAMPLE[0]="${NONE}$ username@host : _"
-MSE_PROMPT_STYLE_SQUEMA[0]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] :[[NONE]] '
+MSE_PROMPT_STYLE_SQUEMA[0]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] :[[NONE]]\040'
 
 #
 # Estilo 'Nova linha 01'
@@ -60,7 +60,7 @@ MSE_PROMPT_STYLE_SQUEMA[0]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]
 # > _
 MSE_PROMPT_STYLE_NAME[1]="NEWLINE01"
 MSE_PROMPT_STYLE_SAMPLE[1]="${NONE}\$ username@host in ~/atual/directory/path \n> _"
-MSE_PROMPT_STYLE_SQUEMA[1]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n\076[[NONE]] '
+MSE_PROMPT_STYLE_SQUEMA[1]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n\076[[NONE]]\040'
 
 #
 # Estilo 'Nova linha 02'
@@ -68,7 +68,7 @@ MSE_PROMPT_STYLE_SQUEMA[1]='[[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]
 # └─> _
 MSE_PROMPT_STYLE_NAME[2]="NEWLINE02"
 MSE_PROMPT_STYLE_SAMPLE[2]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\076 _"
-MSE_PROMPT_STYLE_SQUEMA[2]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\224\]\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\[\342\224\]\224\[\342\224\]\200\076[[NONE]] '
+MSE_PROMPT_STYLE_SQUEMA[2]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\224\]\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\[\342\224\]\224\[\342\224\]\200\076[[NONE]]\040'
 
 #
 # Estilo 'Nova linha 03'
@@ -76,7 +76,7 @@ MSE_PROMPT_STYLE_SQUEMA[2]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\
 # └─╼ _
 MSE_PROMPT_STYLE_NAME[3]="NEWLINE03"
 MSE_PROMPT_STYLE_SAMPLE[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
-MSE_PROMPT_STYLE_SQUEMA[3]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\224\]\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\[\342\224\]\224\[\342\225\]\274[[NONE]] '
+MSE_PROMPT_STYLE_SQUEMA[3]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\224\]\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\[\342\224\]\224\[\342\225\]\274[[NONE]]\040'
 
 
 
@@ -426,7 +426,7 @@ redefinePromptPlaceHolderStyleTo() {
 
     #
     # Apenas se o placeholder selecionado é válido...
-    if [ mseIsValid == 0 ]; then
+    if [ $mseIsValid == 0 ]; then
       errorAlert "${FUNCNAME[0]}" "invalid argument 1" "see options in ${LGREEN}showPromptPlaceHolders${NONE}"
     else
 
@@ -446,7 +446,7 @@ redefinePromptPlaceHolderStyleTo() {
 
       #
       # Apenas se a cor da fonte é válida...
-      if [ mseIsValid == 0 ]; then
+      if [ $mseIsValid == 0 ]; then
         errorAlert "${FUNCNAME[0]}" "invalid argument 2" "see options in ${LGREEN}showFontColors${NONE}"
       else
 
@@ -469,7 +469,7 @@ redefinePromptPlaceHolderStyleTo() {
 
         #
         # Apenas se a cor de fundo é válida...
-        if [ mseIsValid == 0 ]; then
+        if [ $mseIsValid == 0 ]; then
           errorAlert "${FUNCNAME[0]}" "invalid argument 3" "see options in ${LGREEN}showFontColors${NONE}"
         else
 
@@ -492,7 +492,7 @@ redefinePromptPlaceHolderStyleTo() {
 
           #
           # Se o atributo definido não for válido...
-          if [ mseIsValid == 0 ]; then
+          if [ $mseIsValid == 0 ]; then
             errorAlert "${FUNCNAME[0]}" "invalid argument 3" "see options in ${LGREEN}showFontAttributes${NONE}"
           fi
 
@@ -504,8 +504,8 @@ redefinePromptPlaceHolderStyleTo() {
 
     #
     # Se a seleção das propriedades é válida
-    if [ mseIsValid == 0 ]; then
-        MSE_PROMPT_SELECTED_COLORS[$msePlaceHolder]="${msePHFont} ${msePHBG} ${msePHAttr}"
+    if [ $mseIsValid == 1 ]; then
+        MSE_PROMPT_CURRENT_CONFIG[$msePlaceHolder]="${msePHFont} ${msePHBG} ${msePHAttr}"
         PS1=$(retrievePromptSelectionCode 1)
     fi
   fi
@@ -561,8 +561,8 @@ retrievePromptSelectionCode() {
   # Adiciona todos os marcadores de 'término de estilos'
   # nas respectivas posições [[NONE]] encontradas no squema do estilo selecionado
   mseOLD='NONE'
-  mseNEW="${!msePOS}"
-  mseREG='s/\[\['$msePOS'\]\]/\\[\\'$mseCOD'\\]/g'
+  mseNEW="${!mseOLD}"
+  mseREG='s/\[\['$mseOLD'\]\]/\\[\\'$mseNEW'\\]/g'
   msePSQUEMA="$(echo $msePSQUEMA | sed -e ${mseREG})"
 
 
