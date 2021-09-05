@@ -96,7 +96,7 @@ set +e
 # 45:   Púrpura
 # 46:   Ciano
 # 47:   Cinza claro   (não use com fonte branca)
-# 100:  Cinza escuro  (não use com fonte preta)
+# 100:  Cinza escuro  (não use com fonte preta; Aparenta não funcionar)
 # 101:  Vermelho claro
 # 102:  Verde claro   (não use com fonte branca)
 # 103:  Amarelo claro (não use com fonte branca)
@@ -330,7 +330,7 @@ showFontAttributes() {
   done
 
   printf "\n${WHITE}As seguintes opções de atributos estão disponíveis:${NONE} \n\n"
-  printf "DEFAULT\n"
+  printf "${LBLUE}DEFAULT${NONE}\n"
 
   mseRawTable=$(printf "${mseRawTable}")
   column -e -t -s ":" -o " | " <<< "${mseRawTable}"
