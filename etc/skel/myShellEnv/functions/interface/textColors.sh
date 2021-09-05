@@ -159,6 +159,13 @@ MSE_GB_AVAILABLE_COLOR_CODES=(
   '35' '95' '36' '96'
 )
 
+MSE_GB_AVAILABLE_BGCOLOR_CODES=(
+  '40'
+  '40' '100' '47' '107' '41' '101'
+  '42' '102' '43' '103' '44' '104'
+  '45' '105' '46' '106'
+)
+
 MSE_GB_AVAILABLE_COLOR_LABELS=(
   'Normal'
   'Preto' 'Cinza escuro' 'Cinza claro' 'Branco' 'Vermelho' 'Vermelho claro'
@@ -365,7 +372,7 @@ setFontStyle() {
 
       for (( i=0; i<mseLength; i++)); do
         if [ $mseUParam == ${MSE_GB_AVAILABLE_COLOR_NAMES[$i]} ]; then
-          mseBackGround=${MSE_GB_AVAILABLE_COLOR_CODES[$i]}
+          mseBackGround=${MSE_GB_AVAILABLE_BGCOLOR_CODES[$i]}
           mseIsValid=1
         fi
       done
