@@ -362,7 +362,7 @@ showPromptPlaceHolders() {
   local mseLength=${#MSE_PROMPT_STYLE_PLACEHOLDERS[@]}
 
   printf "\n${WHITE}Os seguintes placeholders podem ter suas cores definidas:${NONE}\n"
-  printf "${DGREY} | A efetividade de cada configuração varia conforme a aplicação do respectivo | ${NONE}\n
+  printf "${DGREY} | A efetividade de cada configuração varia conforme a aplicação do respectivo | ${NONE}\n"
   printf "${DGREY} | placeholder no estilo de prompt escolhido                                   | ${NONE}\n"
 
   printf "${WHITE}...${NONE}\n"
