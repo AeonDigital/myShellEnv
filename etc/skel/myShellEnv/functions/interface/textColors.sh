@@ -120,7 +120,7 @@ set +e
 
 NONE='\e[0;37;40m'
 
-BLACK='\e[0;30;40m'
+BLACK='\e[0;30;47m'
 DGREY='\e[0;90;40m'
 LGREY='\e[0;37;40m'
 WHITE='\e[0;97;40m'
@@ -224,7 +224,6 @@ showTextColors() {
   local mseRawTable
   local mseColorName
   local mseColorRaw
-  local mseSampleColor
   local mseColorCod
 
 
@@ -246,12 +245,7 @@ showTextColors() {
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
       mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
-      mseSampleColor=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
       mseColorCod="\\${!mseColorRaw}"
-
-      if [ $mseColorName == "BLACK" ]; then
-        mseSampleColor="\e["
-      fi
 
       mseLine="${mseColorName}:${mseColorRaw}:${mseColorCod}:${!mseColorRaw}myShellEnv${NONE} \n"
       mseRawTable+="${mseLine}"
