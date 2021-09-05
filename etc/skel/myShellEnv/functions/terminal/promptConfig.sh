@@ -110,16 +110,16 @@ declare -A MSE_PROMPT_SELECTED_COLORS=(
 # que a mesma seja recuperada após alterações.
 # Quando o usuário salvar uma nova configuração não será mais possível recuperar pois
 # estes valores serão sobrescritos
-declare -A MSE_PROMPT_CURRENT_CONFIG=(
+declare -A MSE_PROMPT_LAST_SAVE_CONFIG=(
   [STYLE]=$MSE_PROMPT_SELECTED_STYLE
   [STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
 )
 
 
 #
-# Preenche automaticamente o array ${MSE_PROMPT_CURRENT_CONFIG}
+# Preenche automaticamente o array ${MSE_PROMPT_LAST_SAVE_CONFIG}
 for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
-  MSE_PROMPT_CURRENT_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
+  MSE_PROMPT_LAST_SAVE_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
 done
 unset key
 
@@ -212,7 +212,7 @@ showPromptConfig() {
   #setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
   #setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
 
-  #MSE_PROMPT_CURRENT_CONFIG=(
+  #MSE_PROMPT_LAST_SAVE_CONFIG=(
   #  $MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE_INDEX
   #  $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
   #)
@@ -228,13 +228,13 @@ restorePromptConfig() {
   local key
   MSE_PROMPT_SELECTED_COLORS=()
 
-  for key in "${!MSE_PROMPT_CURRENT_CONFIG[@]}"; do
+  for key in "${!MSE_PROMPT_LAST_SAVE_CONFIG[@]}"; do
     if [ $key == "STYLE" ]; then
-      MSE_PROMPT_SELECTED_STYLE=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
+      MSE_PROMPT_SELECTED_STYLE=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     elif [ $key == "STYLE_INDEX" ]; then
-      MSE_PROMPT_SELECTED_STYLE_INDEX=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
+      MSE_PROMPT_SELECTED_STYLE_INDEX=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     else
-      MSE_PROMPT_SELECTED_COLORS[${key}]=${MSE_PROMPT_CURRENT_CONFIG[${key}]}
+      MSE_PROMPT_SELECTED_COLORS[${key}]=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     fi
   done
 
@@ -505,7 +505,7 @@ redefinePromptPlaceHolderStyleTo() {
     #
     # Se a seleção das propriedades é válida
     if [ $mseIsValid == 1 ]; then
-        MSE_PROMPT_CURRENT_CONFIG[$msePlaceHolder]="${msePHFont} ${msePHBG} ${msePHAttr}"
+        MSE_PROMPT_SELECTED_COLORS[$msePlaceHolder]="${msePHFont} ${msePHBG} ${msePHAttr}"
         PS1=$(retrievePromptSelectionCode 1)
     fi
   fi
@@ -570,9 +570,9 @@ retrievePromptSelectionCode() {
   #
   # Para cada placeholder configurado
   # aplica o estilo nas posições correspondentes
-  for msePHName in "${!MSE_PROMPT_CURRENT_CONFIG[@]}"; do
+  for msePHName in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
     if [ $msePHName != "STYLE" ] && [ $msePHName != "STYLE_INDEX" ]; then
-      msePHRawConfig=${MSE_PROMPT_CURRENT_CONFIG[$msePHName]}
+      msePHRawConfig=${MSE_PROMPT_SELECTED_COLORS[$msePHName]}
       msePHConfig=(${msePHRawConfig// / })
 
       if [ ${#msePHConfig[@]} != 3 ]; then
