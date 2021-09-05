@@ -426,7 +426,7 @@ createFontStyle() {
         if [ mseIsValid == 0 ]; then
           errorAlert "${FUNCNAME[0]}" "invalid argument 3" "see options in ${LGREEN}showFontAttributes${NONE}"
         else
-          echo '\e["${mseAttribute}"';'"${mseFont}"';'"${mseBackGround}"'m'
+          echo '\e['"${mseAttribute}"';'"${mseFont}"';'"${mseBackGround}"'m'
         fi
       fi
     fi
