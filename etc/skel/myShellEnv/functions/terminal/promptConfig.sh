@@ -158,7 +158,7 @@ showPromptConfig() {
   for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
     msePHFont='Error'
     msePHBG='Error'
-    msePHAttr'Error'
+    msePHAttr='Error'
 
     msePHColor=''
     msePHSample='myShellEnv'
@@ -188,12 +188,12 @@ showPromptConfig() {
     fi
 
 
-    mseLine="${key} : ${msePHFont} : ${msePHBG} : ${msePHAttr} : ${msePHSample}\n"
+    mseLine="${key}:${msePHFont}:${msePHBG}:${msePHAttr}:${msePHSample}\n"
     mseRawTable+="${mseLine}"
   done
 
   mseRawTable=$(printf "${mseRawTable}")
-  column -e -t -s ":" -o " | " -N "PlaceHolder,Font,BackGround,Attribute,Sample" <<< "${mseRawTable}"
+  column -e -t -s ":" -o " | " -N "PlaceHolder,FontColor,BGColor,Attribute,Sample" <<< "${mseRawTable}"
   printf "\n"
 }
 
@@ -283,7 +283,7 @@ showPromptStyles() {
         printf "\n [$i] ${LBLUE} ${MSE_PROMPT_STYLE_NAME[$i]} ${NONE} "
       fi
     done
-    printf "\n${WHITE}...${NONE} \n\n"
+    printf "${WHITE}...${NONE} \n\n"
 
   else
     local mseREG='^[0-9]+$'
@@ -314,9 +314,9 @@ showPromptStyles() {
 #   Estilo do prompt a ser usado (pelo nome ou pelo índice).
 #
 #   @example
-#     selectPromptStyle SIMPLE
+#     redefinePromptStyleTo SIMPLE
 #
-selectPromptStyle() {
+redefinePromptStyleTo() {
   if [ $# != 1 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
@@ -362,7 +362,8 @@ showPromptPlaceHolders() {
   local mseLength=${#MSE_PROMPT_STYLE_PLACEHOLDERS[@]}
 
   printf "\n${WHITE}Os seguintes placeholders podem ter suas cores definidas:${NONE}\n"
-  printf "${DGREY}[ A efetividade da configuração varia conforme a aplicação do placeholder no estilo de prompt escolhido ]${NONE}\n\n"
+  printf "${DGREY} | A efetividade de cada configuração varia conforme a aplicação do respectivo | ${NONE}\n
+  printf "${DGREY} | placeholder no estilo de prompt escolhido                                   | ${NONE}\n"
 
   printf "${WHITE}...${NONE}\n"
   for (( i=0; i<mseLength; i++)); do
@@ -390,9 +391,9 @@ showPromptPlaceHolders() {
 #   Se não for definida usará o padrão que é 'nenhum'.
 #
 #   @example
-#     selectPromptPlaceHolderStyle "SYMBOLS" "DGREY" "LBLUE"
+#     redefinePromptPlaceHolderStyleTo "SYMBOLS" "DGREY" "LBLUE"
 #
-selectPromptPlaceHolderStyle() {
+redefinePromptPlaceHolderStyleTo() {
   if [ $# -lt 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 2, 3 or 4 arguments"
   else
