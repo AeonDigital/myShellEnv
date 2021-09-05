@@ -232,13 +232,13 @@ showTextColors() {
 
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
+      mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
 
-      if [ $mseColorName != 'NONE' ]; then
-        mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
+      if [ "${mseColorRaw}" != "NONE" ]; then
         mseColorCod="\\${!mseColorRaw}"
 
         mseLine="${!mseColorRaw}${mseColorRaw}${NONE}"
-        if [ $(expr $i % 8) != "0" ]; then
+        if (( i % 4 != 0 )); then
           mseLine+=" | "
         else
           mseLine+="\n"
@@ -249,7 +249,7 @@ showTextColors() {
     done
 
     printf "\n${WHITE}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
-    printf "${mseRawTable}\n"
+    column -e -t -s ":" -o " | " <<< "${mseRawTable}"
 
   else
 
@@ -314,9 +314,9 @@ showFontAttributes() {
   for (( i=0; i<mseLength; i++)); do
     mseAttrName=${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_NAMES[$i]}
 
-    if [ $mseColorName != 'DEFAULT' ]; then
+    if [ "${mseColorName}" != "DEFAULT" ]; then
       mseLine="${LBLUE}${mseAttrName}${NONE}"
-      if [ $(expr $i % 6) != "0" ]; then
+      if (( i % 6 != 0 )); then
         mseLine+=" | "
       else
         mseLine+="\n"
@@ -371,7 +371,7 @@ createFontStyle() {
     mseIsValid=0
 
     for (( i=0; i<mseLength; i++)); do
-      if [ $mseUParam == ${MSE_GB_AVAILABLE_COLOR_NAMES[$i]} ]; then
+      if [ "${mseUParam}" == "${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}" ]; then
         mseFont=${MSE_GB_AVAILABLE_COLOR_CODES[$i]}
         mseIsValid=1
       fi
@@ -391,7 +391,7 @@ createFontStyle() {
       mseIsValid=0
 
       for (( i=0; i<mseLength; i++)); do
-        if [ $mseUParam == ${MSE_GB_AVAILABLE_COLOR_NAMES[$i]} ]; then
+        if [ "${mseUParam}" == "${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}" ]; then
           mseBackGround=${MSE_GB_AVAILABLE_BGCOLOR_CODES[$i]}
           mseIsValid=1
         fi
@@ -413,7 +413,7 @@ createFontStyle() {
           mseIsValid=0
 
           for (( i=0; i<mseLength; i++)); do
-            if [ $mseUParam == ${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_NAMES[$i]} ]; then
+            if [ "${mseUParam}" == "${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_NAMES[$i]}" ]; then
               mseAttribute=${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_CODES[$i]}
               mseIsValid=1
             fi
