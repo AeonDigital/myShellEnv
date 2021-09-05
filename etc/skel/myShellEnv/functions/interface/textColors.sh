@@ -228,17 +228,28 @@ showTextColors() {
 
 
   if [ $# == 1 ] && [ $1 == 3 ]; then
+    mseRawTable+="NONE\n"
+
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
-      mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
-      mseColorCod="\\${!mseColorRaw}"
 
-      mseLine="${!mseColorRaw}${mseColorRaw}${NONE} | "
-      mseRawTable+="${mseLine}"
+      if [ $mseColorName != 'NONE' ]; then
+        mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
+        mseColorCod="\\${!mseColorRaw}"
+
+        mseLine="${!mseColorRaw}${mseColorRaw}${NONE}"
+        if [ $(expr $i % 8) != "0" ]; then
+          mseLine+=" | "
+        else
+          mseLine+="\n"
+        fi
+
+        mseRawTable+="${mseLine}"
+      fi
     done
 
     printf "\n${WHITE}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
-    printf "${mseRawTable}\n\n"
+    printf "${mseRawTable}\n"
 
   else
 
@@ -298,11 +309,20 @@ showFontAttributes() {
   local mseLine
   local mseRawTable
 
+  mseRawTable+="DEFAULT\n"
+
   for (( i=0; i<mseLength; i++)); do
     mseAttrName=${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_NAMES[$i]}
 
-    mseLine="${LBLUE}${mseAttrName}${NONE} | "
-    mseRawTable+="${mseLine}"
+    if [ $mseColorName != 'DEFAULT' ]; then
+      mseLine="${LBLUE}${mseAttrName}${NONE}"
+      if [ $(expr $i % 6) != "0" ]; then
+        mseLine+=" | "
+      else
+        mseLine+="\n"
+      fi
+      mseRawTable+="${mseLine}"
+    fi
   done
 
   printf "\n${WHITE}As seguintes opções de atributos estão disponíveis:${NONE} \n\n"
@@ -406,7 +426,7 @@ createFontStyle() {
         if [ mseIsValid == 0 ]; then
           errorAlert "${FUNCNAME[0]}" "invalid argument 3" "see options in ${LGREEN}showFontAttributes${NONE}"
         else
-          echo '\e[${mseAttribute};${mseFont};${mseBackGround}m'
+          echo '\e["${mseAttribute}"';'"${mseFont}"';'"${mseBackGround}"'m'
         fi
       fi
     fi
