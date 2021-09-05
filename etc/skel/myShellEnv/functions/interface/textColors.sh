@@ -228,7 +228,7 @@ showTextColors() {
 
 
   if [ $# == 1 ] && [ $1 == 3 ]; then
-    mseRawTable+="NONE\n"
+
 
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
@@ -239,7 +239,7 @@ showTextColors() {
 
         mseLine="${!mseColorRaw}${mseColorRaw}${NONE}"
         if (( i % 4 != 0 )); then
-          mseLine+=" | "
+          mseLine+=" : "
         else
           mseLine+="\n"
         fi
@@ -249,7 +249,11 @@ showTextColors() {
     done
 
     printf "\n${WHITE}As seguintes opções de cores estão disponíveis:${NONE} \n\n"
+    printf "NONE\n"
+
+    mseRawTable=$(printf "${mseRawTable}")
     column -e -t -s ":" -o " | " <<< "${mseRawTable}"
+    printf "\n"
 
   else
 
@@ -309,24 +313,28 @@ showFontAttributes() {
   local mseLine
   local mseRawTable
 
-  mseRawTable+="DEFAULT\n"
-
   for (( i=0; i<mseLength; i++)); do
     mseAttrName=${MSE_GB_AVAILABLE_FONT_ATTRIBUTE_NAMES[$i]}
 
-    if [ "${mseColorName}" != "DEFAULT" ]; then
+    if [ "${mseAttrName}" != "DEFAULT" ]; then
+
       mseLine="${LBLUE}${mseAttrName}${NONE}"
       if (( i % 6 != 0 )); then
-        mseLine+=" | "
+        mseLine+=" : "
       else
         mseLine+="\n"
       fi
+
       mseRawTable+="${mseLine}"
     fi
   done
 
   printf "\n${WHITE}As seguintes opções de atributos estão disponíveis:${NONE} \n\n"
-  printf "${mseRawTable}\n\n"
+  printf "DEFAULT\n"
+
+  mseRawTable=$(printf "${mseRawTable}")
+  column -e -t -s ":" -o " | " <<< "${mseRawTable}"
+  printf "\n"
 
 }
 
