@@ -59,7 +59,6 @@ installMyShellEnv() {
         "updateMyShellEnv.sh" "uninstallMyShellEnv.sh"
       )
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
@@ -73,7 +72,6 @@ installMyShellEnv() {
         "setIMessage.sh" "textColors.sh" "waitUser.sh"
       )
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
@@ -87,7 +85,6 @@ installMyShellEnv() {
         "trim.sh" "trimD.sh" "trimDL.sh" "trimDR.sh" "trimL.sh" "trimR.sh"
       )
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
@@ -98,7 +95,6 @@ installMyShellEnv() {
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
       MSE_GB_TARGET_FILES=("setUTF8.sh" "promptConfig.sh")
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
@@ -109,7 +105,6 @@ installMyShellEnv() {
       mseURL="${MSE_GB_URL_INSTALL}functions/thirdPart/"
       MSE_GB_TARGET_FILES=("print256colours.sh" "printASCIIEChars.sh")
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
@@ -120,7 +115,6 @@ installMyShellEnv() {
       mseURL="${MSE_GB_URL_INSTALL}functions/tools/"
       MSE_GB_TARGET_FILES=("setConfiguration.sh")
 
-      rm -r "$mseDir"
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
 
