@@ -4,6 +4,10 @@
 set +e
 
 
+# o dia que terminar os scripts daqui
+# será possível seguir com um método de edição de fonte de forma segura para os motivos
+# pretendidos
+# http://nafe.sourceforge.net/
 
 
 
