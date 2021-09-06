@@ -8,7 +8,7 @@ set +e
 
 
 #
-# Converte o valor Char informado para o respectivo Decimal.
+# Converte/decompõe o valor Char informado para o respectivo Decimal.
 #
 # Caracteres multibyte retornarão mais de um decimal, cada qual representando um
 # de seus bytes.
