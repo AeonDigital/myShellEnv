@@ -38,95 +38,6 @@ setTerminalUTF8() {
 
 
 #
-# Imprime na tela o caracter correspondente ao numero decimal indicado.
-# Importante salientar que os caracteres impressos dependem das configurações de
-# fonte do terminal além do fato de ele estar ou não preparado para UTF-8.
-#
-#   @param int $1
-#   Valor inteiro entre >= 33 que será convertido no caracter correspondente
-#
-#   @param bool $2
-#   Se omitido, ou se '0' irá retornar o valor convertido e adicionará uma linha
-#   em branco após a impressão.
-#   Se '1' retornará apenas o caracter.
-#
-#   @example
-#     convertDecimalToChar "33"
-#     char=$(convertDecimalToChar "33" 1)
-#
-#
-convertDecimalToChar() {
-  local mseREG='^[0-9]+$'
-  if ! [[ $1 =~ $mseREG ]]; then
-    errorAlert "${FUNCNAME[0]}" "argument 1 is not an integer"
-  else
-    if [ $1 -lt 33 ]; then
-      errorAlert "${FUNCNAME[0]}" "argument 1 must be greater than 32"
-    else
-      local mseIsValid=1
-
-      if [ $# == 2 ] && [ $2 != 0 ] && [ $2 != 1 ]; then
-        mseIsValid=0
-        errorAlert "${FUNCNAME[0]}" "argument 2 must be boolean [ 0 | 1 ]"
-      fi
-
-      if [ $mseIsValid == 1 ]; then
-        printf '%02x' $1 | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8' | sed 's/.*/&  /'
-
-        if [ $# == 1 ]; then
-          printf "\n"
-        else
-          if [ $# == 2 ] && [ $2 == 0 ]; then
-            printf "\n"
-          fi
-        fi
-      fi
-    fi
-  fi
-}
-
-
-
-#
-# Imprime na tela o número decimal correspondente ao caracter indicado.
-#
-#   @param char $1
-#   Caracter que será convertido para decimal.
-#
-#   @param bool $2
-#   Se omitido, ou se '0' irá retornar o valor convertido e adicionará uma linha
-#   em branco após a impressão.
-#   Se '1' retornará apenas o número.
-#
-#   @example
-#     convertCharToDecimal "!"
-#     dec=$(convertCharToDecimal "!" 1)
-#
-#
-convertCharToDecimal() {
-  local mseIsValid=1
-
-  if [ $# == 2 ] && [ $2 != 0 ] && [ $2 != 1 ]; then
-    mseIsValid=0
-    errorAlert "${FUNCNAME[0]}" "argument 2 must be boolean [ 0 | 1 ]"
-  fi
-
-  if [ $mseIsValid == 1 ]; then
-    printf '%d' "'$1"
-
-    if [ $# == 1 ]; then
-      printf "\n"
-    else
-      if [ $# == 2 ] && [ $2 == 0 ]; then
-        printf "\n"
-      fi
-    fi
-  fi
-}
-
-
-
-#
 # Imprime na tela o código hexadecimal UTF-8 correspondente ao caracter indicado.
 #
 #   @param char $1
@@ -140,17 +51,17 @@ convertCharToDecimal() {
 #   @example
 #     convertCharToHexUTF8 "ü"  # \bcc3
 #
-convertCharToHexUTF8() {
-  if [ $# == 0 ]; then
-    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
-  else
-    local i
-    local mseRawCode=$(echo $1 | hexdump | head -1)
-    local mseArrCode=(${mseRawCode// / })
+#convertCharToHexUTF8() {
+#  if [ $# == 0 ]; then
+#    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
+#  else
+#    local i
+#    local mseRawCode=$(echo $1 | hexdump | head -1)
+#    local mseArrCode=(${mseRawCode// / })
 
-    local mseLength="${#mseArrCode[@]}"
-    local mseMinParts=2
-    local mseDecCode='error'
+#    local mseLength="${#mseArrCode[@]}"
+#    local mseMinParts=2
+#    local mseDecCode='error'
 
 
 
@@ -161,32 +72,32 @@ convertCharToHexUTF8() {
     # Para caracteres acima da posição 127 são esperados ao menos 3 partes
     # onde, a última deve ser desprezada para fins de retorno.
     #
-    local mseDec=$(convertCharToDecimal $1 1)
-    if [ $mseDec -gt 127 ]; then
-      mseLength=$((mseLength - 1))
-    fi
+#    local mseDec=$(convertCharToDecimal $1 1)
+#    if [ $mseDec -gt 127 ]; then
+#      mseLength=$((mseLength - 1))
+#    fi
 
 
-    if [ $mseLength -ge $mseMinParts ]; then
-      mseIsValid=1
-      mseDecCode=''
+#    if [ $mseLength -ge $mseMinParts ]; then
+#      mseIsValid=1
+#      mseDecCode=''
 
-      for (( i=1; i<mseLength; i++)); do
-        mseDecCode+='\\'"${mseArrCode[$i]}"
-      done
-    fi
+#      for (( i=1; i<mseLength; i++)); do
+#        mseDecCode+='\\'"${mseArrCode[$i]}"
+#      done
+#    fi
 
 
-    printf "${mseDecCode}"
-    if [ $# == 1 ]; then
-      printf "\n"
-    else
-      if [ $# == 2 ] && [ $2 == 0 ]; then
-        printf "\n"
-      fi
-    fi
-  fi
-}
+#    printf "${mseDecCode}"
+#    if [ $# == 1 ]; then
+#      printf "\n"
+#    else
+#      if [ $# == 2 ] && [ $2 == 0 ]; then
+#        printf "\n"
+#      fi
+#    fi
+#  fi
+#}
 
 
 
@@ -204,39 +115,39 @@ convertCharToHexUTF8() {
 #   @example
 #     convertCharToOctalUTF8 "ü"  # \303\274
 #
-convertCharToOctalUTF8() {
-  if [ $# == 0 ]; then
-    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
-  else
-    local i
-    local mseRawCode=$(echo $1 | hexdump -b | head -1)
-    local mseArrCode=(${mseRawCode// / })
+#convertCharToOctalUTF8() {
+#  if [ $# == 0 ]; then
+#    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
+#  else
+#    local i
+#    local mseRawCode=$(echo $1 | hexdump -b | head -1)
+#    local mseArrCode=(${mseRawCode// / })
 
-    local mseLength="${#mseArrCode[@]}"
-    local mseMinParts=3
-    local mseDecCode='error'
-
-
-    if [ $mseLength -ge $mseMinParts ]; then
-      mseIsValid=1
-      mseDecCode=''
-
-      for (( i=1; i<(mseLength - 1); i++)); do
-        mseDecCode+='\\'"${mseArrCode[$i]}"
-      done
-    fi
+#    local mseLength="${#mseArrCode[@]}"
+#    local mseMinParts=3
+#    local mseDecCode='error'
 
 
-    printf "${mseDecCode}"
-    if [ $# == 1 ]; then
-      printf "\n"
-    else
-      if [ $# == 2 ] && [ $2 == 0 ]; then
-        printf "\n"
-      fi
-    fi
-  fi
-}
+#    if [ $mseLength -ge $mseMinParts ]; then
+#      mseIsValid=1
+#      mseDecCode=''
+
+#      for (( i=1; i<(mseLength - 1); i++)); do
+#        mseDecCode+='\\'"${mseArrCode[$i]}"
+#      done
+#    fi
+
+
+#    printf "${mseDecCode}"
+#    if [ $# == 1 ]; then
+#      printf "\n"
+#    else
+#      if [ $# == 2 ] && [ $2 == 0 ]; then
+#        printf "\n"
+#      fi
+#    fi
+#  fi
+#}
 
 
 
