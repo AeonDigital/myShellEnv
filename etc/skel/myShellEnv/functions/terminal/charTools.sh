@@ -402,19 +402,28 @@ printTerminalCharTable() {
       local mseCHexUTF8
       local mseCOctalUTF8
 
-      for (( i=mseIniCode; i<mseEndCode; i++)); do
+      for (( i=mseIniCode; i<=mseEndCode; i++)); do
         mseChar=$(convertDecimalToChar $i 1)
 
-        mseCDecimal=$i
-        mseCHexUTF8=$(convertCharToHexUTF8 $i 1)
-        mseCOctalUTF8=$(convertCharToOctalUTF8 $i 1)
+        if [ $i == 42 ]; then
+          mseRawTable+='* 42 \\0a2a \\052'"\n"
+        else
+          mseCDecimal=$i
+          mseCHexUTF8=$(convertCharToHexUTF8 $mseChar 1)
+          mseCOctalUTF8=$(convertCharToOctalUTF8 $mseChar 1)
 
-        mseLine="${mseChar}:${mseCDecimal}:${mseCHexUTF8}:${mseCOctalUTF8}"
-        mseRawTable+="${mseLine}"
+          if [ $mseChar == '%' ]; then
+            mseChar='%%'
+          fi
+
+          mseLine=$(printf '%s %s %s %s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
+          mseRawTable+=$mseLine"\n"
+        fi
       done
 
+      printf "\n"
       mseRawTable=$(printf "${mseRawTable}")
-      column -e -t -s ":" -o "  " -N "Char,Decimal,Hex UTF8,Octal UTF8" <<< "${mseRawTable}"
+      column -e -t -o "  " -N "Char,Decimal,Hex UTF8,Octal UTF8" <<< "${mseRawTable}"
       printf "\n"
 
     fi
