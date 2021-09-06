@@ -61,12 +61,12 @@ convertDecimalToChar() {
       # Converte cada um dos decimais apresentados
       # em seu correspondente octal
       for (( i=0; i<${#mseRawDec}; i++ )); do
-        mseRawOctal+='\\'
-        mseRawOctal+=$(convertDecimalToOctal ${mseRawDec[$i]})
-
         if [ "$i" != "0" ]; then
           mseRawOctal+=' '
         fi
+
+        mseRawOctal+='\\'
+        mseRawOctal+=$(convertDecimalToOctal ${mseRawDec[$i]})
       done
     fi
 

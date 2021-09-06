@@ -41,10 +41,11 @@ convertCharToDecimal() {
     for (( i=0; i<${#mseStr}; i++ )); do
       c="${mseStr:$i:1}"
 
-      printf '%i' "'$c"
       if [ "$i" != "0" ]; then
         printf ' '
       fi
+
+      printf '%i' "'$c"
     done
 
 
