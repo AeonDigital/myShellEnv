@@ -2,7 +2,7 @@
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
 set +e
-setfont -v
+setfont -v >> /dev/null 2>&1
 
 
 
