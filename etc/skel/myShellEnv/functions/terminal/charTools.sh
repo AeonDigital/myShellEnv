@@ -69,8 +69,12 @@ convertDecimalToChar() {
       if [ $mseIsValid == 1 ]; then
         printf '%02x' $1 | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8' | sed 's/.*/&  /'
 
-        if [ $# == 2 ] && [ $2 == 0 ]; then
+        if [ $# == 1 ]; then
           printf "\n"
+        else
+          if [ $# == 2 ] && [ $2 == 0 ]; then
+            printf "\n"
+          fi
         fi
       fi
     fi
@@ -115,8 +119,12 @@ convertCharToHexUTF8() {
 
 
     printf ${mseDecCode}
-    if [ $# == 2 ] && [ $2 == 0 ]; then
+    if [ $# == 1 ]; then
       printf "\n"
+    else
+      if [ $# == 2 ] && [ $2 == 0 ]; then
+        printf "\n"
+      fi
     fi
   fi
 }
@@ -159,8 +167,12 @@ convertCharToOctalUTF8() {
 
 
     printf ${mseDecCode}
-    if [ $# == 2 ] && [ $2 == 0 ]; then
+    if [ $# == 1 ]; then
       printf "\n"
+    else
+      if [ $# == 2 ] && [ $2 == 0 ]; then
+        printf "\n"
+      fi
     fi
   fi
 }
