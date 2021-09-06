@@ -113,7 +113,12 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}functions/tools/"
       mseURL="${MSE_GB_URL_INSTALL}functions/tools/"
-      MSE_GB_TARGET_FILES=("setConfiguration.sh")
+      MSE_GB_TARGET_FILES=(
+        "setConfiguration.sh"
+        "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
+        "convertHexToDecimal.sh" "convertHexToOctal.sh"
+        "convertOctalToDecimal.sh" "convertOctalToHex.sh"
+      )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
