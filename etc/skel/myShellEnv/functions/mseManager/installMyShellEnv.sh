@@ -115,9 +115,12 @@ installMyShellEnv() {
       mseURL="${MSE_GB_URL_INSTALL}functions/tools/"
       MSE_GB_TARGET_FILES=(
         "setConfiguration.sh"
-        "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
-        "convertHexToDecimal.sh" "convertHexToOctal.sh"
-        "convertOctalToDecimal.sh" "convertOctalToHex.sh"
+
+        "convertCharToDecimal.sh"
+
+        "convertDecimalToChar.sh" "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
+        "convertHexToChar.sh" "convertHexToDecimal.sh" "convertHexToOctal.sh"
+        "convertOctalToChar.sh" "convertOctalToDecimal.sh" "convertOctalToHex.sh"
       )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
