@@ -33,7 +33,6 @@ convertCharToDecimal() {
     local i
     local c
     local mseStr=$1
-    local mseVal
 
 
     #
@@ -42,16 +41,11 @@ convertCharToDecimal() {
     for (( i=0; i<${#mseStr}; i++ )); do
       c="${mseStr:$i:1}"
 
-      if [ $i != 0 ]; then
-        mseVal+=' '
+      printf '%i' "'$c"
+      if [ "$i" != "0" ]; then
+        printf ' '
       fi
-
-      mseVal+=$(printf '%i' $c)
     done
-
-    #
-    # imprime o valor encontrado
-    printf $mseVal
 
 
     #

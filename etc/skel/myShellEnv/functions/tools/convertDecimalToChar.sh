@@ -39,21 +39,21 @@ convertDecimalToChar() {
         errorAlert "${FUNCNAME[0]}" "argument 1 must be greater than 32"
       else
 
-      #
-      # Efetivamente converte o valor e imprime ele na tela.
-      printf '%02x' $1 | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8'
+        #
+        # Efetivamente converte o valor e imprime ele na tela.
+        printf '%02x' $1 | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8'
 
 
-      #
-      # Adiciona o caracter de 'nova linha' caso necessário
-      if [ $# == 1 ]; then
-        printf "\n"
-      else
-        if [ $# == 2 ] && [ $2 == 0 ]; then
+        #
+        # Adiciona o caracter de 'nova linha' caso necessário
+        if [ $# == 1 ]; then
           printf "\n"
+        else
+          if [ $# == 2 ] && [ $2 == 0 ]; then
+            printf "\n"
+          fi
         fi
       fi
-
     fi
   fi
 }
