@@ -36,7 +36,7 @@ setTerminalUTF8() {
 #
 # Imprime na tela o caracter correspondente ao numero decimal indicado.
 # Importante salientar que os caracteres impressos dependem das configurações de
-# fonte do terminal alem do fato de ele estar ou não preparado para UTF-8.
+# fonte do terminal além do fato de ele estar ou não preparado para UTF-8.
 #
 #   @param int $1
 #   Valor inteiro entre >= 33 que será convertido no caracter correspondente
@@ -84,10 +84,49 @@ convertDecimalToChar() {
 
 
 #
-# Imprime na tela o código hexadecimal UTF-8 correspondente à string indicada.
+# Imprime na tela o número decimal correspondente ao caracter indicado.
 #
-#   @param string $1
-#   Valor que terá seu código hexadecimal UTF-8 impresso.
+#   @param char $1
+#   Caracter que será convertido para decimal.
+#
+#   @param bool $2
+#   Se omitido, ou se '0' irá retornar o valor convertido e adicionará uma linha
+#   em branco após a impressão.
+#   Se '1' retornará apenas o número.
+#
+#   @example
+#     convertCharToDecimal "!"
+#     dec=$(convertCharToDecimal "!" 1)
+#
+#
+convertCharToDecimal() {
+  local mseIsValid=1
+
+  if [ $# == 2 ] && [ $2 != 0 ] && [ $2 != 1 ]; then
+    mseIsValid=0
+    errorAlert "${FUNCNAME[0]}" "argument 2 must be boolean [ 0 | 1 ]"
+  fi
+
+  if [ $mseIsValid == 1 ]; then
+    printf '%d' "'$1"
+
+    if [ $# == 1 ]; then
+      printf "\n"
+    else
+      if [ $# == 2 ] && [ $2 == 0 ]; then
+        printf "\n"
+      fi
+    fi
+  fi
+}
+
+
+
+#
+# Imprime na tela o código hexadecimal UTF-8 correspondente ao caracter indicado.
+#
+#   @param char $1
+#   Caracter que terá seu código hexadecimal UTF-8 impresso.
 #
 #   @param bool $2
 #   Se omitido, ou se '0' irá retornar o código em formato texto e adicionará uma linha
@@ -101,24 +140,41 @@ convertCharToHexUTF8() {
   if [ $# == 0 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
     local mseRawCode=$(echo $1 | hexdump | head -1)
     local mseArrCode=(${mseRawCode// / })
+
+    local mseLength="${#mseArrCode[@]}"
+    local mseMinParts=2
     local mseDecCode='error'
 
-    if [ ${#mseArrCode[@]} -ge 3 ]; then
+
+
+    #
+    # Para caracteres dentro da tabela ascii (entre 0 e 127) é esperado
+    # que as operações acima retornem 2 partes no array ${mseArrCode}.
+    #
+    # Para caracteres acima da posição 127 são esperados ao menos 3 partes
+    # onde, a última deve ser desprezada para fins de retorno.
+    #
+    local mseDec=$(convertCharToDecimal $1 1)
+    if [ $mseDec -gt 127 ]; then
+      mseMinParts=3
+      mseLength=(mseLength - 1)
+    fi
+
+
+    if [ $mseLength -ge $mseMinParts ]; then
       mseIsValid=1
       mseDecCode=''
 
-      local i
-      local mseLength=${#mseArrCode[@]}
-
-      for (( i=1; i<(mseLength - 1); i++)); do
-        mseDecCode+='\\'${mseArrCode[$i]}
+      for (( i=1; i<mseLength; i++)); do
+        mseDecCode+='\\'"${mseArrCode[$i]}"
       done
     fi
 
 
-    printf ${mseDecCode}
+    printf "${mseDecCode}"
     if [ $# == 1 ]; then
       printf "\n"
     else
@@ -132,10 +188,10 @@ convertCharToHexUTF8() {
 
 
 #
-# Imprime na tela o código octal UTF-8 correspondente à string indicada.
+# Imprime na tela o código octal UTF-8 correspondente ao caracter indicado.
 #
-#   @param string $1
-#   Valor que terá seu código octal UTF-8 impresso.
+#   @param char $1
+#   Caracter que terá seu código octal UTF-8 impresso.
 #
 #   @param bool $2
 #   Se omitido, ou se '0' irá retornar o código em formato texto e adicionará uma linha
@@ -149,24 +205,26 @@ convertCharToOctalUTF8() {
   if [ $# == 0 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
     local mseRawCode=$(echo $1 | hexdump -b | head -1)
     local mseArrCode=(${mseRawCode// / })
+
+    local mseLength="${#mseArrCode[@]}"
+    local mseMinParts=3
     local mseDecCode='error'
 
-    if [ ${#mseArrCode[@]} -ge 3 ]; then
+
+    if [ $mseLength -ge $mseMinParts ]; then
       mseIsValid=1
       mseDecCode=''
 
-      local i
-      local mseLength=${#mseArrCode[@]}
-
       for (( i=1; i<(mseLength - 1); i++)); do
-        mseDecCode+='\\'${mseArrCode[$i]}
+        mseDecCode+='\\'"${mseArrCode[$i]}"
       done
     fi
 
 
-    printf ${mseDecCode}
+    printf "${mseDecCode}"
     if [ $# == 1 ]; then
       printf "\n"
     else
@@ -176,6 +234,11 @@ convertCharToOctalUTF8() {
     fi
   fi
 }
+
+
+
+
+
 
 
 
