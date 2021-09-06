@@ -159,8 +159,7 @@ convertCharToHexUTF8() {
     #
     local mseDec=$(convertCharToDecimal $1 1)
     if [ $mseDec -gt 127 ]; then
-      mseMinParts=3
-      mseLength=(mseLength - 1)
+      mseLength=$((mseLength - 1))
     fi
 
 
