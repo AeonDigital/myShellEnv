@@ -39,7 +39,7 @@ convertDecimalToOctal() {
 
 
     #
-    # verifica cada um dos decimais apresentados identificando se
+    # verifica cada um dos valores apresentados identificando se
     # são válidos
     local mseREG='^[0-9]+$'
     for (( i=0; i<${#mseArrParam[@]}; i++ )); do
@@ -55,7 +55,7 @@ convertDecimalToOctal() {
     if [ $mseIsValid == 1 ]; then
 
       #
-      # Converte cada um dos decimais apresentados
+      # Converte cada um dos valores apresentados
       for (( i=0; i<${#mseArrParam[@]}; i++ )); do
         if [ "$i" != "0" ]; then
           mseRawOutput+='-'

@@ -42,7 +42,7 @@ convertDecimalToChar() {
 
 
     #
-    # verifica cada um dos decimais apresentados identificando se
+    # verifica cada um dos valores apresentados identificando se
     # são válidos
     local mseREG='^[0-9]+$'
     for (( i=0; i<${#mseArrParam[@]}; i++ )); do
@@ -58,9 +58,10 @@ convertDecimalToChar() {
     if [ $mseIsValid == 1 ]; then
 
       #
-      # Converte cada um dos decimais apresentados
+      # Converte cada um dos valores apresentados
       for (( i=0; i<${#mseArrParam[@]}; i++ )); do
-        mseTmp=$(convertDecimalToOctal ${mseArrParam[$i]})
+        # Converte cada decimal em um octal
+        mseTmp=$(printf '%o' ${mseArrParam[$i]})
         mseRawOutput+="\\${mseTmp}"
       done
 
