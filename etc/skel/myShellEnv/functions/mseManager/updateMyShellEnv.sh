@@ -34,7 +34,7 @@ updateMyShellEnv() {
     chmod u+x $mseTMP
     source $mseTMP
     installMyShellEnvTmp 'u'
-    rm "${HOME}/installMyShellEnvTmp.sh"
+    #rm "${HOME}/installMyShellEnvTmp.sh"
 
 
     #
