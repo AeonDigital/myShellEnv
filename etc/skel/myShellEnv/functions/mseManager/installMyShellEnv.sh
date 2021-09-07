@@ -36,7 +36,7 @@ installMyShellEnv() {
 
     if [ $1 == 'u' ]; then
       mseTargetDir="${HOME}/myShellEnvUpdate/"
-      mkdir -p "$mseTargetDir"
+      mkdir -p "${HOME}/myShellEnvUpdate"
 
       if [ -d $mseTargetDir ]; then
         ISOK=0
