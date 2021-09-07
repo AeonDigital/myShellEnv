@@ -84,8 +84,20 @@ savePromptConfig() {
   #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
 
 
-  MSE_GB_ARRAY_CONFIG=$MSE_PROMPT_SELECTED_COLORS
+
+  #
+  # Clona o array com as configurações que devem
+  # ser salvas.
+  unset MSE_GB_ARRAY_CONFIG
+  declare -A MSE_GB_ARRAY_CONFIG
+
+  for k in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
+    MSE_GB_ARRAY_CONFIG[$k]='"'${MSE_PROMPT_SELECTED_COLORS[$k]}'"'
+  done
+
   setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
+
+
 
   #MSE_PROMPT_LAST_SAVE_CONFIG=(
   #  $MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE_INDEX
