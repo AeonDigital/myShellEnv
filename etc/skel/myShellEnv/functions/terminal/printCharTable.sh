@@ -33,6 +33,7 @@ set +e
 #
 #   @example
 #     printCharTable 'code' 50 70
+#     printCharTable 'code' | less -r  # use desta forma para navegar pelos resultados.
 #
 printCharTable() {
   local mseOutputType='table'
