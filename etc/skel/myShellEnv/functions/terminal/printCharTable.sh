@@ -174,32 +174,30 @@ printCharTable() {
       local mseCOct
 
       printf "\n"
-      printf "Char   Decimal   Hex        Octal      "
+      printf "Char   Decimal       Hex        Octal      "
 
       for (( i=mseIniCode; i<=mseEndCode; i++ )); do
         if [ $i == 37 ]; then
-          printf '%%      37        25         045        '
+          printf "%%      37            25         045        "
         elif [ $i == 42 ]; then
-          printf '*      42        2A         052        '
+          printf "*      42            2A         052        "
         else
           mseChar=$(printf "%02x" $i | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8')
           mseCDec=$(convertCharToDecimal $mseChar 1)
           mseCHex=$(convertCharToHex $mseChar 1)
           mseCOct=$(convertCharToOctal $mseChar 1)
 
-          if [ $i -le 127 ]; then
-            mseChar=$(printf '%-5s' $mseChar)
+          if [ $i -le 126 ]; then
+            printf '%-7s' "$mseChar"
           else
-            mseChar=$(printf '%-4s' $mseChar)
+            printf '%-8s' "$mseChar"
           fi
 
-          mseCDec=$(printf '%-10s' $mseCDec)
-          mseCHex=$(printf '%-11s' $mseCHex)
-          mseCOct=$(printf '%-11s' $mseCOct)
-
-          printf $mseChar$mseCDec$mseCHex$mseCOct
-          printf "\n"
+          printf '%-14s' "$mseCDec"
+          printf '%-11s' "$mseCHex"
+          printf '%-11s' "$mseCOct"
         fi
+        printf "\n"
       done
 
     fi
