@@ -93,7 +93,9 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}functions/terminal/"
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
-      MSE_GB_TARGET_FILES=("charTools.sh" "promptConfig.sh")
+      MSE_GB_TARGET_FILES=(
+        "printCharTable" "promptConfig.sh" "setTerminalUTF8.sh"
+      )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi
@@ -103,7 +105,7 @@ installMyShellEnv() {
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}functions/thirdPart/"
       mseURL="${MSE_GB_URL_INSTALL}functions/thirdPart/"
-      MSE_GB_TARGET_FILES=("print256colours.sh" "printASCIIEChars.sh")
+      MSE_GB_TARGET_FILES=("print256colours.sh")
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
     fi

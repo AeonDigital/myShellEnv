@@ -4,162 +4,11 @@
 set +e
 
 
-# o dia que terminar os scripts daqui
-# será possível seguir com um método de edição de fonte de forma segura para os motivos
-# pretendidos
-# http://nafe.sourceforge.net/
 
 
 
 #
-# Permite ativar/desativar o UTF-8 do seu terminal 'bash'.
-#
-#   @param string $1
-#   Indique 'on' para ativar ou 'off' para desativar o UTF-8
-#   do seu terminal.
-#
-#   @example
-#     setUTF8 on
-#     setUTF8 off
-#
-setTerminalUTF8() {
-  if [ ".$1" == ".off" ] ; then
-    printf "\033%%@"
-    printf "UTF-8 off \n"
-  else
-    printf "\033%%G"
-    printf "UTF-8 on \u2658 \n"
-    # o caracter \u2658 deve aparecer como o cavalo do xadres
-  fi
-
-  printf "\n"
-}
-
-
-
-#
-# Imprime na tela o código hexadecimal UTF-8 correspondente ao caracter indicado.
-#
-#   @param char $1
-#   Caracter que terá seu código hexadecimal UTF-8 impresso.
-#
-#   @param bool $2
-#   Se omitido, ou se '0' irá retornar o código em formato texto e adicionará uma linha
-#   em branco após a impressão.
-#   Se '1' retornará apenas o código em formato texto.
-#
-#   @example
-#     convertCharToHexUTF8 "ü"  # \bcc3
-#
-#convertCharToHexUTF8() {
-#  if [ $# == 0 ]; then
-#    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
-#  else
-#    local i
-#    local mseRawCode=$(echo $1 | hexdump | head -1)
-#    local mseArrCode=(${mseRawCode// / })
-
-#    local mseLength="${#mseArrCode[@]}"
-#    local mseMinParts=2
-#    local mseDecCode='error'
-
-
-
-    #
-    # Para caracteres dentro da tabela ascii (entre 0 e 127) é esperado
-    # que as operações acima retornem 2 partes no array ${mseArrCode}.
-    #
-    # Para caracteres acima da posição 127 são esperados ao menos 3 partes
-    # onde, a última deve ser desprezada para fins de retorno.
-    #
-#    local mseDec=$(convertCharToDecimal $1 1)
-#    if [ $mseDec -gt 127 ]; then
-#      mseLength=$((mseLength - 1))
-#    fi
-
-
-#    if [ $mseLength -ge $mseMinParts ]; then
-#      mseIsValid=1
-#      mseDecCode=''
-
-#      for (( i=1; i<mseLength; i++)); do
-#        mseDecCode+='\\'"${mseArrCode[$i]}"
-#      done
-#    fi
-
-
-#    printf "${mseDecCode}"
-#    if [ $# == 1 ]; then
-#      printf "\n"
-#    else
-#      if [ $# == 2 ] && [ $2 == 0 ]; then
-#        printf "\n"
-#      fi
-#    fi
-#  fi
-#}
-
-
-
-#
-# Imprime na tela o código octal UTF-8 correspondente ao caracter indicado.
-#
-#   @param char $1
-#   Caracter que terá seu código octal UTF-8 impresso.
-#
-#   @param bool $2
-#   Se omitido, ou se '0' irá retornar o código em formato texto e adicionará uma linha
-#   em branco após a impressão.
-#   Se '1' retornará apenas o código em formato texto.
-#
-#   @example
-#     convertCharToOctalUTF8 "ü"  # \303\274
-#
-#convertCharToOctalUTF8() {
-#  if [ $# == 0 ]; then
-#    errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
-#  else
-#    local i
-#    local mseRawCode=$(echo $1 | hexdump -b | head -1)
-#    local mseArrCode=(${mseRawCode// / })
-
-#    local mseLength="${#mseArrCode[@]}"
-#    local mseMinParts=3
-#    local mseDecCode='error'
-
-
-#    if [ $mseLength -ge $mseMinParts ]; then
-#      mseIsValid=1
-#      mseDecCode=''
-
-#      for (( i=1; i<(mseLength - 1); i++)); do
-#        mseDecCode+='\\'"${mseArrCode[$i]}"
-#      done
-#    fi
-
-
-#    printf "${mseDecCode}"
-#    if [ $# == 1 ]; then
-#      printf "\n"
-#    else
-#      if [ $# == 2 ] && [ $2 == 0 ]; then
-#        printf "\n"
-#      fi
-#    fi
-#  fi
-#}
-
-
-
-
-
-
-
-
-
-
-#
-# Imprime os 256 caracteres presentes na atual fonte do seu terminal
+# Imprime os 256 caracteres presentes na atual fonte do seu terminal.
 #
 #   @param string $1
 #   Se omitido, ou se 'table' irá retornar a tabela com todos os marcadores de cabeçalho
@@ -173,23 +22,27 @@ setTerminalUTF8() {
 #   linhas e para facilitar a leitura é possível usar os próximos parâmetros.
 #
 #   @param int $2
+#   Usado apenas se $1='code'
 #   Número inteiro (a partir de 33) que indica de qual ítem a lista gerada na opção 'code'
-#   deve iniciar
+#   deve iniciar.
 #
 #   @param int $3
+#   Usado apenas se $1='code'
 #   Número inteiro (até 255) que indica o último ítem a ser mostrado quando está sendo usada
 #   a opção 'code'.
 #
 #   @example
-#     printTerminalCharTable 'code' 50 70
+#     printCharTable 'code' 50 70
 #
-printTerminalCharTable() {
+printCharTable() {
   local mseOutputType='table'
   local mseIniCode=33
   local mseEndCode=255
   local mseIsValid=1
 
 
+  #
+  # Valida os valores dos argumentos passados.
   if [ $# -ge 1 ]; then
     if [ $1 != "table" ] && [ $1 != "char" ] && [ $1 != "code" ]; then
       mseIsValid=0
@@ -238,6 +91,9 @@ printTerminalCharTable() {
   fi
 
 
+
+  #
+  # se os argumentos passados são válidos
   if [ $mseIsValid == 1 ]; then
 
     if [ $mseOutputType == "table" ] || [ $mseOutputType == "char" ]; then
@@ -317,28 +173,26 @@ printTerminalCharTable() {
       local mseCHexUTF8
       local mseCOctalUTF8
 
-      for (( i=mseIniCode; i<=mseEndCode; i++)); do
-        mseChar=$(convertDecimalToChar $i 1)
+      for (( i=mseIniCode; i<=mseEndCode; i++ )); do
+        mseChar=$(printf "%02x" $i | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8')
+        mseCDecimal=$(convertCharToDecimal $mseChar 1)
+        mseCHexUTF8=$(convertCharToHexUTF8 $mseChar 1)
+        mseCOctalUTF8=$(convertCharToOctalUTF8 $mseChar 1)
 
-        if [ $i == 42 ]; then
-          mseRawTable+='* 42 \\0a2a \\052'"\n"
+        if [ $i == 37 ]; then
+          mseLine='% 37 25 045'
+        elif [ $i == 42 ]; then
+          mseLine='* 42 2A 052'
         else
-          mseCDecimal=$i
-          mseCHexUTF8=$(convertCharToHexUTF8 $mseChar 1)
-          mseCOctalUTF8=$(convertCharToOctalUTF8 $mseChar 1)
-
-          if [ $mseChar == '%' ]; then
-            mseChar='%%'
-          fi
-
           mseLine=$(printf '%s %s %s %s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
-          mseRawTable+=$mseLine"\n"
         fi
+
+        mseRawTable+=$mseLine"\n"
       done
 
       printf "\n"
       mseRawTable=$(printf "${mseRawTable}")
-      column -e -t -o "  " -N "Char,Decimal,Hex UTF8,Octal UTF8" <<< "${mseRawTable}"
+      column -e -t -o "  " -N "Char,Decimal,Hex,Octal" <<< "${mseRawTable}"
       printf "\n"
 
     fi
