@@ -175,6 +175,7 @@ printCharTable() {
 
       printf "\n"
       printf "Char   Decimal       Hex        Octal      "
+      printf "\n"
 
       for (( i=mseIniCode; i<=mseEndCode; i++ )); do
         if [ $i == 37 ]; then
