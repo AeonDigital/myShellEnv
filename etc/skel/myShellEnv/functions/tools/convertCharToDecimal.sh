@@ -23,7 +23,7 @@ set +e
 #
 #   @example
 #     convertCharToDecimal "í"    # converte para -> "195 173"
-#     hex=$(convertCharToDecimal "í" 1)
+#     result=$(convertCharToDecimal "í" 1)
 #
 convertCharToDecimal() {
 

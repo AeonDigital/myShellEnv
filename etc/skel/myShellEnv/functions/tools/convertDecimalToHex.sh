@@ -10,7 +10,7 @@ set +e
 #
 # Converte o valor Decimal informado para o respectivo Hexadecimal (base 16).
 #
-# Use múltiplos hexadecimais separados por espaços se quiser converter mais de
+# Use múltiplos valores separados por espaços se quiser converter mais de
 # um ao mesmo tempo.
 #
 #   @param int $1
@@ -24,7 +24,7 @@ set +e
 #   @example
 #     convertDecimalToHex "161"       # converte para -> A1
 #     convertDecimalToHex "195 173"   # converte para -> "C3 AD"
-#     hex=$(convertDecimalToHex "161" 1)
+#     result=$(convertDecimalToHex "161" 1)
 #
 convertDecimalToHex() {
 
@@ -56,7 +56,6 @@ convertDecimalToHex() {
 
       #
       # Converte cada um dos decimais apresentados
-      # em seu correspondente hexadecimal
       for (( i=0; i<${#mseArrParam[@]}; i++ )); do
         if [ "$i" != "0" ]; then
           mseRawOutput+='-'

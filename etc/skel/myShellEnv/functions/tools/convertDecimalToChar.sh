@@ -27,7 +27,7 @@ set +e
 #
 #   @example
 #     convertDecimalToChar "195 173"    # converte para -> í
-#     hex=$(convertDecimalToChar "195 173" 1)
+#     result=$(convertDecimalToChar "195 173" 1)
 #
 convertDecimalToChar() {
 
@@ -59,7 +59,6 @@ convertDecimalToChar() {
 
       #
       # Converte cada um dos decimais apresentados
-      # em seu correspondente octal
       for (( i=0; i<${#mseArrParam[@]}; i++ )); do
         mseTmp=$(convertDecimalToOctal ${mseArrParam[$i]})
         mseRawOutput+="\\${mseTmp}"

@@ -10,6 +10,9 @@ set +e
 #
 # Converte o valor Decimal informado para o respectivo Octal (base 8).
 #
+# Use múltiplos valores separados por espaços se quiser converter mais de
+# um ao mesmo tempo.
+#
 #   @param int $1
 #   Valor que será convertido.
 #
@@ -19,22 +22,50 @@ set +e
 #   Se '1' retornará apenas o caracter.
 #
 #   @example
-#     convertDecimalToHex "161"    # converte para -> 241
-#     hex=$(convertDecimalToHex "161" 1)
+#     convertDecimalToOctal "161"       # converte para -> 241
+#     convertDecimalToOctal "195 173"   # converte para -> "303 255"
+#     result=$(convertDecimalToOctal "161" 1)
 #
 convertDecimalToOctal() {
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
+    local mseIsValid=1
+    local mseArrParam=(${1// / })
+    local mseRawOutput
+    local mseTmp
+
+
+    #
+    # verifica cada um dos decimais apresentados identificando se
+    # são válidos
     local mseREG='^[0-9]+$'
-    if ! [[ $1 =~ $mseREG ]]; then
-      errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid decimal"
-    else
+    for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+      if [ $mseIsValid == 1 ]; then
+        if ! [[ ${mseArrParam[$i]} =~ $mseREG ]]; then
+          mseIsValid=0
+          errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid decimal"
+        fi
+      fi
+    done
+
+
+    if [ $mseIsValid == 1 ]; then
 
       #
-      # Efetivamente converte o valor e imprime ele na tela.
-      printf "%o" $1
+      # Converte cada um dos decimais apresentados
+      for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+        if [ "$i" != "0" ]; then
+          mseRawOutput+='-'
+        fi
+
+        mseTmp=$(printf '%o' ${mseArrParam[$i]})
+        mseRawOutput+="${mseTmp}"
+      done
+
+      printf $mseRawOutput | sed 's/-/ /g'
 
       #
       # Adiciona o caracter de 'nova linha' caso necessário
@@ -45,7 +76,6 @@ convertDecimalToOctal() {
           printf "\n"
         fi
       fi
-
     fi
   fi
 }
