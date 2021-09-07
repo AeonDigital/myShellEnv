@@ -126,15 +126,6 @@ if [ $MSE_GB_ENABLE == 1 ]; then
 
 
   #
-  # Prompt padrão caso nenhum outro seja definido
-  MSE_GB_PROMPT_STYLE='SIMPLE'
-  MSE_GB_PROMPT_COLOR_SYMBOLS='LGREY'
-  MSE_GB_PROMPT_COLOR_USERNAME='DGREY'
-  MSE_GB_PROMPT_COLOR_DIRECTORY='LGREY'
-
-
-
-  #
   # Configuração para o bash
   HISTCONTROL=ignoreboth
   HISTSIZE=256

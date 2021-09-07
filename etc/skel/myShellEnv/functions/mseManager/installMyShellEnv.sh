@@ -94,7 +94,9 @@ installMyShellEnv() {
       mseDir="${mseTargetDir}functions/terminal/"
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
       MSE_GB_TARGET_FILES=(
-        "printCharTable.sh" "promptConfig.sh" "setTerminalUTF8.sh"
+        "listTerminalFonts" "printCharTable.sh"
+        "promptConfig.sh" "promptTools.sh"
+        "setTerminalUTF8.sh"
       )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
@@ -116,7 +118,7 @@ installMyShellEnv() {
       mseDir="${mseTargetDir}functions/tools/"
       mseURL="${MSE_GB_URL_INSTALL}functions/tools/"
       MSE_GB_TARGET_FILES=(
-        "setConfiguration.sh"
+        "setArrayConfiguration.sh" "setKeyValueConfiguration.sh"
 
         "convertCharToDecimal.sh" "convertCharToHex.sh" "convertCharToOctal.sh"
         "convertDecimalToChar.sh" "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
