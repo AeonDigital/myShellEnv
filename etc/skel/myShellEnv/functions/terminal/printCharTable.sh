@@ -165,6 +165,8 @@ printCharTable() {
     else
 
       local i
+      local l
+      local pad
       local mseLine
       local mseRawTable
 
@@ -188,12 +190,9 @@ printCharTable() {
           mseCHex=$(convertCharToHex $mseChar 1)
           mseCOct=$(convertCharToOctal $mseChar 1)
 
-          if [ $i -le 126 ]; then
-            printf '%-7s' "$mseChar"
-          else
-            printf '%-8s' "$mseChar"
-          fi
-
+          l=${#mseChar}
+          pad=$(expr 7 + $l - 1)
+          printf "%-${pad}s" "$mseChar"
           printf '%-14s' "$mseCDec"
           printf '%-11s' "$mseCHex"
           printf '%-11s' "$mseCOct"
