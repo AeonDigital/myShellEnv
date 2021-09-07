@@ -169,31 +169,38 @@ printCharTable() {
       local mseRawTable
 
       local mseChar
-      local mseCDecimal
-      local mseCHexUTF8
-      local mseCOctalUTF8
+      local mseCDec
+      local mseCHex
+      local mseCOct
+
+      printf "\n"
+      printf "Char   Decimal   Hex        Octal      "
 
       for (( i=mseIniCode; i<=mseEndCode; i++ )); do
-        mseChar=$(printf "%02x" $i | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8')
-        mseCDecimal=$(convertCharToDecimal $mseChar 1)
-        mseCHexUTF8=$(convertCharToHex $mseChar 1)
-        mseCOctalUTF8=$(convertCharToOctal $mseChar 1)
-
         if [ $i == 37 ]; then
-          mseLine='%%	37	25	045'
+          printf '%%      37        25         045        '
         elif [ $i == 42 ]; then
-          mseLine='*	42	2A	052'
+          printf '*      42        2A         052        '
         else
-          mseLine=$(printf '%s	%s	%s	%s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
+          mseChar=$(printf "%02x" $i | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8')
+          mseCDec=$(convertCharToDecimal $mseChar 1)
+          mseCHex=$(convertCharToHex $mseChar 1)
+          mseCOct=$(convertCharToOctal $mseChar 1)
+
+          if [ $i -le 127 ]; then
+            mseChar=$(printf '%-5s' $mseChar)
+          else
+            mseChar=$(printf '%-4s' $mseChar)
+          fi
+
+          mseCDec=$(printf '%-10s' $mseCDec)
+          mseCHex=$(printf '%-11s' $mseCHex)
+          mseCOct=$(printf '%-11s' $mseCOct)
+
+          printf $mseChar$mseCDec$mseCHex$mseCOct
+          printf "\n"
         fi
-
-        mseRawTable+=$mseLine"\n"
       done
-
-      printf "\n"
-      mseRawTable=$(printf "${mseRawTable}")
-      column -e -t -s "	" -o "  " -N "Char,Decimal,Hex,Octal" <<< "${mseRawTable}"
-      printf "\n"
 
     fi
   fi
