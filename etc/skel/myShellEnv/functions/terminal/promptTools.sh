@@ -99,6 +99,7 @@ savePromptConfig() {
 
   #
   # redefine o array que armazena as configurações do prompt atual
+  unset MSE_PROMPT_LAST_SAVE_CONFIG
   declare -A MSE_PROMPT_LAST_SAVE_CONFIG=(
     [STYLE]=$MSE_PROMPT_SELECTED_STYLE
     [STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX

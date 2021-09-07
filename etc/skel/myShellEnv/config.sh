@@ -2,7 +2,7 @@
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
 set +e
-setfont -v >> /dev/null 2>&1
+
 
 
 
@@ -112,7 +112,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       done
     done
 
-    #PS1=$(retrievePromptSelectionCode 1)
+    PS1=$(retrievePromptSelectionCode 1)
 
     unset mseBaseDir
     unset mseDirScripts

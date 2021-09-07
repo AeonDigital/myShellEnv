@@ -118,10 +118,10 @@ MSE_PROMPT_SELECTED_COLORS[DIRECTORY]="DGREY BLACK DEFAULT"
 # que a mesma seja recuperada após alterações.
 # Quando o usuário salvar uma nova configuração não será mais possível recuperar pois
 # estes valores serão sobrescritos
-declare -A MSE_PROMPT_LAST_SAVE_CONFIG=(
-  [STYLE]=$MSE_PROMPT_SELECTED_STYLE
-  [STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
-)
+declare -A MSE_PROMPT_LAST_SAVE_CONFIG
+MSE_PROMPT_LAST_SAVE_CONFIG[STYLE]=$MSE_PROMPT_SELECTED_STYLE
+MSE_PROMPT_LAST_SAVE_CONFIG[STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
+
 
 
 #
