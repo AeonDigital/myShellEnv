@@ -41,13 +41,13 @@ updateMyShellEnv() {
     # Falhando o processo de atualização..
     if [ $ISOK == 0 ]; then
       # remove os arquivos temporários
-      if [ -d "${HOME}/myShellEnvUpdate/" ]; then
-        rm -r "${HOME}/myShellEnvUpdate/"
+      if [ -d "${HOME}/myShellEnvUpdate" ]; then
+        rm -r "${HOME}/myShellEnvUpdate"
       fi
     else
       # substitui o diretório antigo pelo novo.
-      rm -r "${HOME}/myShellEnv/"
-      mv "${HOME}/myShellEnvUpdate/" "${HOME}/myShellEnv/"
+      rm -r "${HOME}/myShellEnv"
+      mv "${HOME}/myShellEnvUpdate" "${HOME}/myShellEnv"
     fi
   fi
 }

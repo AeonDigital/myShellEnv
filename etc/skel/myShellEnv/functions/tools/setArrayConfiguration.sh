@@ -35,7 +35,7 @@ setArrayConfiguration() {
   if [ $# != 3 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 3 arguments"
   else
-    if [ ! -f $3 ]; then
+    if [ ! -f $2 ]; then
       errorAlert "${FUNCNAME[0]}" "especified file not found"
     else
       local mseArr=$1
