@@ -32,7 +32,7 @@ declare -A MSE_GB_ARRAY_CONFIG
 #     setArrayConfiguration 'ARRAY_NAME' 'ARRAY_VALUES' '~/config.sh'
 #
 setArrayConfiguration() {
-  if [ $# != 3 ]; then
+  if [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 3 arguments"
   else
     if [ ! -f $2 ]; then
@@ -42,13 +42,12 @@ setArrayConfiguration() {
       local mseSearch
       local mseNewFile
       local mseNewLine
-      local mseHasConfigInLine
+
 
       #
       # Para cada linha do arquivo indicado
       while read line; do
-        mseHasConfigInLine=0
-        mseNewLine=$line"\n"
+        mseNewLine=$line
 
         #
         # Identifica se a linha atual possui alguma configuração para a
@@ -56,7 +55,7 @@ setArrayConfiguration() {
         mseSearch="${mseArr}["
 
         if [[ "$line" == *"$mseSearch"* ]]; then
-          mseNewLine=''
+          mseNewLine=""
 
           #
           # Para cada chave a ser redefinida, identifica se a linha atual
@@ -70,11 +69,12 @@ setArrayConfiguration() {
           done
         fi
 
-
-        mseNewFile+=$mseNewLine
+        if [ $mseNewLine != "" ]; then
+          mseNewFile+="${mseNewLine}"
+        fi
       done < $2
 
-      echo $mseNewFile
+      printf "${mseNewFile}" > "$2"
     fi
   fi
 }

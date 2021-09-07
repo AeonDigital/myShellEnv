@@ -80,11 +80,6 @@ showPromptConfig() {
 savePromptConfig() {
   local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
-  #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
-  #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
-
-
-
   #
   # Clona o array com as configurações que devem
   # ser salvas.
@@ -95,14 +90,22 @@ savePromptConfig() {
     MSE_GB_ARRAY_CONFIG[$k]='"'${MSE_PROMPT_SELECTED_COLORS[$k]}'"'
   done
 
+
+  setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
+  setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
+
   setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
 
 
-
-  #MSE_PROMPT_LAST_SAVE_CONFIG=(
-  #  $MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE_INDEX
-  #  $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
-  #)
+  #
+  # redefine o array que armazena as configurações do prompt atual
+  declare -A MSE_PROMPT_LAST_SAVE_CONFIG=(
+    [STYLE]=$MSE_PROMPT_SELECTED_STYLE
+    [STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
+  )
+  for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
+    MSE_PROMPT_LAST_SAVE_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
+  done
 }
 
 
