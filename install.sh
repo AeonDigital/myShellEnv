@@ -286,7 +286,7 @@ if [ $ISOK == 1 ]; then
 
 
 
-  rm -R "${HOME}/tmpInstaller"
+  rm -r "${HOME}/tmpInstaller"
   rm install.sh
   waitUser
 fi

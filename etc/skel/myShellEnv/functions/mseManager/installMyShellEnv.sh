@@ -19,24 +19,31 @@ MSE_GB_URL_INSTALL="${MSE_GB_URL_BASE}etc/skel/myShellEnv/"
 # Efetua o download e instalação dos arquivos necessários para
 # o funcionamento do 'myShellEnv'.
 #
-#   @param bool $1
-#   Use '1' para instalar os scripts no 'skel' ou '0' para
-#   instalar no ambiente do usuário atualmente logado.
+#   @param mixed $1
+#   Use '1' para instalar os scripts no 'skel'.
+#   Use '0' para instalar no ambiente do usuário atualmente logado.
+#   Use 'u' para atualizar os arquivos do usuário atualmente logado.
 #
 installMyShellEnv() {
   if [ $# != 1 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 arguments"
   else
 
-    local mseIsSkel=0
-    if [ $1 == 1 ] || [ $1 == 0 ]; then
-      mseIsSkel=$1
-    fi
-
     local mseTargetDir="${HOME}/myShellEnv/"
-    if [ $mseIsSkel == 1 ]; then
+    if [ $1 == 1 ]; then
       mseTargetDir="/etc/skel/myShellEnv/"
     fi
+
+    if [ $1 == 'u' ]; then
+      mseTargetDir="${HOME}/myShellEnvUpdate/"
+      mkdir -p "$mseTargetDir"
+
+      if [ -d $mseTargetDir ]; then
+        $ISOK=0
+        errorAlert "${FUNCNAME[0]}" "temp directory cannot be created"
+      fi
+    fi
+
 
 
     # Básico

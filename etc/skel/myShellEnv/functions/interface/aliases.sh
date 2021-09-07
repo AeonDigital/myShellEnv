@@ -13,7 +13,7 @@ set +e
 alias copy="cp"
 alias move="mv"
 alias remove="rm"
-alias removeall="rm -R"
+alias removeall="rm -r"
 alias makefile="touch"
 alias makedir="mkdir -pv"
 

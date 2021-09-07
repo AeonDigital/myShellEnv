@@ -24,6 +24,7 @@ updateMyShellEnv() {
     printf "    TGT: ${mseTMP} \n"
     printf "    URL: ${mseURL} \n\n"
   else
+    ISOK=1
     printf "    > Carregando script: ${mseTMP} \n"
 
     local mseOLD='installMyShellEnv()'
@@ -32,7 +33,21 @@ updateMyShellEnv() {
 
     chmod u+x $mseTMP
     source $mseTMP
-    installMyShellEnvTmp 0
+    installMyShellEnvTmp 'u'
     rm "${HOME}/installMyShellEnvTmp.sh"
+
+
+    #
+    # Falhando o processo de atualização..
+    if [ $ISOK == 0 ]; then
+      # remove os arquivos temporários
+      if [ -d "${HOME}/myShellEnvUpdate/" ]; then
+        rm -r "${HOME}/myShellEnvUpdate/"
+      fi
+    else
+      # substitui o diretório antigo pelo novo.
+      rm -r "${HOME}/myShellEnv/"
+      mv "${HOME}/myShellEnvUpdate/" "${HOME}/myShellEnv/"
+    fi
   fi
 }
