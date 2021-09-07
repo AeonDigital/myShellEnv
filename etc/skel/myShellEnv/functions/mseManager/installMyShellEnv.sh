@@ -116,7 +116,7 @@ installMyShellEnv() {
       MSE_GB_TARGET_FILES=(
         "setConfiguration.sh"
 
-        "convertCharToDecimal.sh"
+        "convertCharToDecimal.sh" "convertCharToHex.sh"
 
         "convertDecimalToChar.sh" "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
         "convertHexToChar.sh" "convertHexToDecimal.sh" "convertHexToOctal.sh"
