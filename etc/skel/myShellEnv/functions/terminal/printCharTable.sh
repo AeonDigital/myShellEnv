@@ -176,13 +176,15 @@ printCharTable() {
       for (( i=mseIniCode; i<=mseEndCode; i++ )); do
         mseChar=$(printf "%02x" $i | xxd -p -r | iconv -f 'CP437//' -t 'UTF-8')
         mseCDecimal=$(convertCharToDecimal $mseChar 1)
-        mseCHexUTF8=$(convertCharToHexUTF8 $mseChar 1)
-        mseCOctalUTF8=$(convertCharToOctalUTF8 $mseChar 1)
+        mseCHexUTF8=$(convertCharToHex $mseChar 1)
+        mseCOctalUTF8=$(convertCharToOctal $mseChar 1)
 
         if [ $i == 37 ]; then
           mseLine='%:37:25:045'
         elif [ $i == 42 ]; then
           mseLine='*:42:2A:052'
+        elif [ $i == 58 ]; then
+          mseLine='-:45:3A:072'
         else
           mseLine=$(printf '%s:%s:%s:%s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
         fi
