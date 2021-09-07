@@ -42,7 +42,7 @@ convertHexToChar() {
 
 
     #
-    # verifica cada um dos decimais apresentados identificando se
+    # verifica cada um dos valores apresentados identificando se
     # são válidos
     local mseREG='^[0-9A-Fa-f]{1,}$'
     for (( i=0; i<${#mseArrParam[@]}; i++ )); do

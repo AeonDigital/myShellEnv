@@ -8,7 +8,7 @@ set +e
 
 
 #
-# Converte o valor Decimal informado para o respectivo Hexadecimal (base 16).
+# Converte o valor Decimal informado para o respectivo Hexadecimal.
 #
 # Use múltiplos valores separados por espaços se quiser converter mais de
 # um ao mesmo tempo.

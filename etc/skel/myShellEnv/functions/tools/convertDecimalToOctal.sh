@@ -8,7 +8,7 @@ set +e
 
 
 #
-# Converte o valor Decimal informado para o respectivo Octal (base 8).
+# Converte o valor Decimal informado para o respectivo Octal.
 #
 # Use múltiplos valores separados por espaços se quiser converter mais de
 # um ao mesmo tempo.

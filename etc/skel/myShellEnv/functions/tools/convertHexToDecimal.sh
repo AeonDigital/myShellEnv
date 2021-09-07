@@ -8,7 +8,10 @@ set +e
 
 
 #
-# Converte o valor Hexadecimal informado para o respectivo Decimal (base 10).
+# Converte o valor Hexadecimal informado para o respectivo Decimal.
+#
+# Use múltiplos valores separados por espaços se quiser converter mais de
+# um ao mesmo tempo.
 #
 #   @param int $1
 #   Valor que será convertido.
@@ -19,23 +22,51 @@ set +e
 #   Se '1' retornará apenas o caracter.
 #
 #   @example
-#     convertHexToDecimal "A1"    # converte para -> 161
-#     hex=$(convertHexToDecimal "A1" 1)
+#     convertHexToDecimal "A1"      # converte para -> 161
+#     convertHexToDecimal "C3 AD"   # converte para -> "195 173"
+#     result=$(convertHexToDecimal "161" 1)
 #
 convertHexToDecimal() {
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
+    local mseIsValid=1
+    local mseArrParam=(${1// / })
+    local mseRawOutput
+    local mseTmp
+
+
+    #
+    # verifica cada um dos valores apresentados identificando se
+    # são válidos
     local mseREG='^[0-9A-Fa-f]{1,}$'
-    if ! [[ $1 =~ $mseREG ]]; then
-      errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid hexadecimal"
-    else
+    for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+      if [ $mseIsValid == 1 ]; then
+        if ! [[ ${mseArrParam[$i]} =~ $mseREG ]]; then
+          mseIsValid=0
+          errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid hexadecimal"
+        fi
+      fi
+    done
+
+
+    if [ $mseIsValid == 1 ]; then
 
       #
-      # Efetivamente converte o valor e imprime ele na tela.
-      local val=$(echo $((16#$1)))
-      printf "$val"
+      # Converte cada um dos valores apresentados
+      for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+        if [ "$i" != "0" ]; then
+          mseRawOutput+='-'
+        fi
+
+        # Converte cada hex em um decimal
+        mseTmp=$(echo $((16#${mseArrParam[$i]})))
+        mseRawOutput+="${mseTmp}"
+      done
+
+      printf $mseRawOutput | sed 's/-/ /g'
 
       #
       # Adiciona o caracter de 'nova linha' caso necessário
@@ -46,7 +77,6 @@ convertHexToDecimal() {
           printf "\n"
         fi
       fi
-
     fi
   fi
 }
