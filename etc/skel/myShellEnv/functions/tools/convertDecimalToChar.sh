@@ -36,8 +36,8 @@ convertDecimalToChar() {
   else
     local i
     local mseIsValid=1
-    local mseRawDec=(${1// / })
-    local mseRawOctal
+    local mseArrParam=(${1// / })
+    local mseRawOutput
     local mseTmp
 
 
@@ -45,9 +45,9 @@ convertDecimalToChar() {
     # verifica cada um dos decimais apresentados identificando se
     # são válidos
     local mseREG='^[0-9]+$'
-    for (( i=0; i<${#mseRawDec[@]}; i++ )); do
+    for (( i=0; i<${#mseArrParam[@]}; i++ )); do
       if [ $mseIsValid == 1 ]; then
-        if ! [[ ${mseRawDec[$i]} =~ $mseREG ]]; then
+        if ! [[ ${mseArrParam[$i]} =~ $mseREG ]]; then
           mseIsValid=0
           errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid decimal"
         fi
@@ -60,12 +60,12 @@ convertDecimalToChar() {
       #
       # Converte cada um dos decimais apresentados
       # em seu correspondente octal
-      for (( i=0; i<${#mseRawDec[@]}; i++ )); do
-        mseTmp=$(convertDecimalToOctal ${mseRawDec[$i]})
-        mseRawOctal+="\\${mseTmp}"
+      for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+        mseTmp=$(convertDecimalToOctal ${mseArrParam[$i]})
+        mseRawOutput+="\\${mseTmp}"
       done
 
-      printf $mseRawOctal
+      printf $mseRawOutput
 
       #
       # Adiciona o caracter de 'nova linha' caso necessário
