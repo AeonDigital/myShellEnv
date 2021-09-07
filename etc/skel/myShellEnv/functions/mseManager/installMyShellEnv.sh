@@ -94,7 +94,7 @@ installMyShellEnv() {
       mseDir="${mseTargetDir}functions/terminal/"
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
       MSE_GB_TARGET_FILES=(
-        "listTerminalFonts" "printCharTable.sh"
+        "listTerminalFonts.sh" "printCharTable.sh"
         "promptConfig.sh" "promptTools.sh"
         "setTerminalUTF8.sh"
       )
