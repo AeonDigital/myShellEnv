@@ -23,10 +23,10 @@ set +e
 #   Se '1' retornará apenas o caracter.
 #
 #   @example
-#     convertDecimalToChar "ED"    # converte para -> í
-#     hex=$(convertDecimalToChar "ED" 1)
+#     convertHexToChar "ED"    # converte para -> í
+#     hex=$(convertHexToChar "ED" 1)
 #
-convertDecimalToChar() {
+convertHexToChar() {
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
