@@ -8,7 +8,10 @@ set +e
 
 
 #
-# Converte o valor Octal informado para o respectivo Decimal (base 10).
+# Converte o valor Octal informado para o respectivo Decimal.
+#
+# Use múltiplos valores separados por espaços se quiser converter mais de
+# um ao mesmo tempo.
 #
 #   @param int $1
 #   Valor que será convertido.
@@ -19,23 +22,51 @@ set +e
 #   Se '1' retornará apenas o caracter.
 #
 #   @example
-#     convertOctalToDecimal "241"    # converte para -> 161
-#     hex=$(convertOctalToDecimal "241" 1)
+#     convertOctalToDecimal "241"       # converte para -> 161
+#     convertOctalToDecimal "303 255"   # converte para -> "195 173"
+#     result=$(convertOctalToDecimal "241" 1)
 #
 convertOctalToDecimal() {
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
+    local mseIsValid=1
+    local mseArrParam=(${1// / })
+    local mseRawOutput
+    local mseTmp
+
+
+    #
+    # verifica cada um dos valores apresentados identificando se
+    # são válidos
     local mseREG='^[0-7]+$'
-    if ! [[ $1 =~ $mseREG ]]; then
-      errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid octal"
-    else
+    for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+      if [ $mseIsValid == 1 ]; then
+        if ! [[ ${mseArrParam[$i]} =~ $mseREG ]]; then
+          mseIsValid=0
+          errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid octal"
+        fi
+      fi
+    done
+
+
+    if [ $mseIsValid == 1 ]; then
 
       #
-      # Efetivamente converte o valor e imprime ele na tela.
-      local val=$(echo $((8#$1)))
-      printf "$val"
+      # Converte cada um dos valores apresentados
+      for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+        if [ "$i" != "0" ]; then
+          mseRawOutput+='-'
+        fi
+
+        # Converte cada octal em um decimal
+        mseTmp=$(echo $((8#${mseArrParam[$i]})))
+        mseRawOutput+="${mseTmp}"
+      done
+
+      printf $mseRawOutput | sed 's/-/ /g'
 
       #
       # Adiciona o caracter de 'nova linha' caso necessário
@@ -46,7 +77,6 @@ convertOctalToDecimal() {
           printf "\n"
         fi
       fi
-
     fi
   fi
 }

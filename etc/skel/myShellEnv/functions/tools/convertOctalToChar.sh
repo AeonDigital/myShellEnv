@@ -8,7 +8,14 @@ set +e
 
 
 #
-# Converte o valor Octal informado para o respectivo Char.
+# Converte o valor Octal informado para o respectivo Caracter.
+#
+# Use múltiplos valores separados por espaços para representar caracteres
+# multibyte.
+#
+# Importante salientar que os caracteres correspondentes aos decimais acima do
+# número 127 dependem da fonte sendo usada no terminal e no fato de ele estar
+# ou não preparado para usar caracteres UTF-8.
 #
 #   @param int $1
 #   Valor que será convertido.
@@ -19,23 +26,44 @@ set +e
 #   Se '1' retornará apenas o caracter.
 #
 #   @example
-#     convertOctalToChar "195 173"    # converte para -> í
-#     hex=$(convertOctalToChar "241" 1)
+#     convertOctalToChar "303 255"    # converte para -> í
+#     result=$(convertOctalToChar "303 255" 1)
 #
 convertOctalToChar() {
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
   else
+    local i
+    local mseIsValid=1
+    local mseArrParam=(${1// / })
+    local mseRawOutput
+    local mseTmp
+
+
+    #
+    # verifica cada um dos valores apresentados identificando se
+    # são válidos
     local mseREG='^[0-7]+$'
-    if ! [[ $1 =~ $mseREG ]]; then
-      errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid octal"
-    else
+    for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+      if [ $mseIsValid == 1 ]; then
+        if ! [[ ${mseArrParam[$i]} =~ $mseREG ]]; then
+          mseIsValid=0
+          errorAlert "${FUNCNAME[0]}" "argument 1 is not an valid octal"
+        fi
+      fi
+    done
+
+
+    if [ $mseIsValid == 1 ]; then
 
       #
-      # Efetivamente converte o valor e imprime ele na tela.
-      local val=$(echo $((16#$1)))
-      printf "$val"
+      # Converte cada um dos valores apresentados
+      for (( i=0; i<${#mseArrParam[@]}; i++ )); do
+        mseRawOutput+="\\${mseArrParam[$i]}"
+      done
+
+      printf $mseRawOutput
 
       #
       # Adiciona o caracter de 'nova linha' caso necessário
@@ -46,7 +74,6 @@ convertOctalToChar() {
           printf "\n"
         fi
       fi
-
     fi
   fi
 }

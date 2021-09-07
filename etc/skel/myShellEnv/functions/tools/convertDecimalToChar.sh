@@ -10,7 +10,7 @@ set +e
 #
 # Converte o valor Decimal informado para o respectivo Caracter.
 #
-# Use múltiplos decimais separados por espaços para representar caracteres
+# Use múltiplos valores separados por espaços para representar caracteres
 # multibyte.
 #
 # Importante salientar que os caracteres correspondentes aos decimais acima do
