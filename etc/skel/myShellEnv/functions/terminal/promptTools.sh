@@ -76,22 +76,22 @@ showPromptConfig() {
 
 #
 # Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
-# !!!!!!!!!!!!!!!!!!!!!!
-#savePromptConfig() {
-  #local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+#
+savePromptConfig() {
+  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
 
   #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
   #setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
 
-  #setKeyValueConfiguration PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_SYMBOLS $mseCfgFile
-  #setKeyValueConfiguration PROMPT_COLOR_USERNAME $PROMPT_COLOR_USERNAME $mseCfgFile
-  #setKeyValueConfiguration PROMPT_COLOR_DIRECTORY $PROMPT_COLOR_DIRECTORY $mseCfgFile
+
+  MSE_GB_ARRAY_CONFIG=$MSE_PROMPT_SELECTED_COLORS
+  setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
 
   #MSE_PROMPT_LAST_SAVE_CONFIG=(
   #  $MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE_INDEX
   #  $PROMPT_COLOR_SYMBOLS $PROMPT_COLOR_USERNAME $PROMPT_COLOR_DIRECTORY
   #)
-#}
+}
 
 
 
