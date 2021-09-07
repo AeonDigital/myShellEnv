@@ -39,7 +39,7 @@ installMyShellEnv() {
       mkdir -p "$mseTargetDir"
 
       if [ -d $mseTargetDir ]; then
-        $ISOK=0
+        ISOK=0
         errorAlert "${FUNCNAME[0]}" "temp directory cannot be created"
       fi
     fi
