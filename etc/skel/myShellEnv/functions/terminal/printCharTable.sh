@@ -180,13 +180,11 @@ printCharTable() {
         mseCOctalUTF8=$(convertCharToOctal $mseChar 1)
 
         if [ $i == 37 ]; then
-          mseLine='%:37:25:045'
+          mseLine='%%	37	25	045'
         elif [ $i == 42 ]; then
-          mseLine='*:42:2A:052'
-        elif [ $i == 58 ]; then
-          mseLine='-:45:3A:072'
+          mseLine='*	42	2A	052'
         else
-          mseLine=$(printf '%s:%s:%s:%s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
+          mseLine=$(printf '%s	%s	%s	%s' $mseChar $mseCDecimal $mseCHexUTF8 $mseCOctalUTF8)
         fi
 
         mseRawTable+=$mseLine"\n"
@@ -194,7 +192,7 @@ printCharTable() {
 
       printf "\n"
       mseRawTable=$(printf "${mseRawTable}")
-      column -e -t -s ":" -o "  " -N "Char,Decimal,Hex,Octal" <<< "${mseRawTable}"
+      column -e -t -s "	" -o "  " -N "Char,Decimal,Hex,Octal" <<< "${mseRawTable}"
       printf "\n"
 
     fi
