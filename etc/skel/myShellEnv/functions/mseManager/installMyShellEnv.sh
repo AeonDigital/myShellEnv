@@ -38,7 +38,7 @@ installMyShellEnv() {
       mseTargetDir="${HOME}/myShellEnvUpdate/"
       mkdir -p "${HOME}/myShellEnvUpdate"
 
-      if [ -d $mseTargetDir ]; then
+      if [ ! -d "${HOME}/myShellEnvUpdate" ]; then
         ISOK=0
         errorAlert "${FUNCNAME[0]}" "temp directory cannot be created"
       fi
