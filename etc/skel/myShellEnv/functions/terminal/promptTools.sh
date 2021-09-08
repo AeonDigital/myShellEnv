@@ -87,6 +87,8 @@ showPromptConfig() {
 #
 savePromptConfig() {
   local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
+  local mseOldCfg="$HOME"'/myShellEnv/.old/promptConfig.sh'
+  cp "$mseCfgFile" "$mseOldCfg"
 
   #
   # Clona o array com as configurações que devem
@@ -100,6 +102,7 @@ savePromptConfig() {
 
   setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
   setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
+
 
   setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
 

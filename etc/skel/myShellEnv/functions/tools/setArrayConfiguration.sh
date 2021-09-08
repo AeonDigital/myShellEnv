@@ -40,14 +40,24 @@ setArrayConfiguration() {
     else
       local mseArr=$1
       local mseSearch
-      local mseNewFile
       local mseNewLine
 
 
       #
+      # Inicia um novo arquivo temporário apenas para salvar
+      # a configuração que está sendo setada.
+      local mseTmpFile="${HOME}/.mseTmpConfig"
+      echo "" > "$mseTmpFile"
+
+
+      #
       # Para cada linha do arquivo indicado
-      while read line; do
-        mseNewLine=$line"\n"
+      # **o arquivo é lido de forma 'readonly' em especial para
+      # não perder caracteres especiais que seriam 'evaluados' de outra forma**
+      local mseIFS=$IFS
+      IFS=
+      while read -r line; do
+        mseNewLine=$line
 
         #
         # Identifica se a linha atual possui alguma configuração para a
@@ -55,7 +65,6 @@ setArrayConfiguration() {
         mseSearch="${mseArr}["
 
         if [[ "$line" == *"$mseSearch"* ]]; then
-          mseNewLine=""
 
           #
           # Para cada chave a ser redefinida, identifica se a linha atual
@@ -69,12 +78,14 @@ setArrayConfiguration() {
           done
         fi
 
-        if [ "$mseNewLine" != "" ]; then
-          mseNewFile+="${mseNewLine}"
-        fi
+        echo -e "$mseNewLine" >> "$mseTmpFile"
       done < $2
+      IFS=$mseIFS
 
-      printf %q "$mseNewFile" > "$2"
+      #
+      # Efetivamente substitui o arquivo de configuração anterior
+      mv "$mseTmpFile" "$2"
+
     fi
   fi
 }
