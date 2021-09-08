@@ -110,23 +110,3 @@ declare -A MSE_PROMPT_SELECTED_COLORS
 MSE_PROMPT_SELECTED_COLORS[SYMBOLS]="LGREY BLACK DEFAULT"
 MSE_PROMPT_SELECTED_COLORS[USERNAME]="DGREY BLACK DEFAULT"
 MSE_PROMPT_SELECTED_COLORS[DIRECTORY]="DGREY BLACK DEFAULT"
-
-
-
-#
-# Armazena a configuração definida inicialmente para o prompt permitindo
-# que a mesma seja recuperada após alterações.
-# Quando o usuário salvar uma nova configuração não será mais possível recuperar pois
-# estes valores serão sobrescritos
-declare -A MSE_PROMPT_LAST_SAVE_CONFIG
-MSE_PROMPT_LAST_SAVE_CONFIG[STYLE]=$MSE_PROMPT_SELECTED_STYLE
-MSE_PROMPT_LAST_SAVE_CONFIG[STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
-
-
-
-#
-# Preenche automaticamente o array ${MSE_PROMPT_LAST_SAVE_CONFIG}
-for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
-  MSE_PROMPT_LAST_SAVE_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
-done
-unset key

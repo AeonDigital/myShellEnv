@@ -8,6 +8,14 @@ set +e
 
 
 #
+# Armazena a configuração salvas para o prompt
+declare -A MSE_PROMPT_LAST_SAVE_CONFIG
+
+
+
+
+
+#
 # Mostra as configurações atualmente selecionadas para a
 # amostragem do prompt.
 #
@@ -115,9 +123,28 @@ savePromptConfig() {
 # Restaura as configurações do último prompt salvo.
 #
 restorePromptConfig() {
-
   local key
-  MSE_PROMPT_SELECTED_COLORS=()
+
+
+  #
+  # Se o array que armazena as últimas configurações salvas para o prompt
+  # não tiver sido iniciado ainda, inicia-o baseado nos dados que estão
+  # atualmente em uso
+  if [ ${#MSE_PROMPT_LAST_SAVE_CONFIG[@]} == 0 ]; then
+
+    MSE_PROMPT_LAST_SAVE_CONFIG[STYLE]=$MSE_PROMPT_SELECTED_STYLE
+    MSE_PROMPT_LAST_SAVE_CONFIG[STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
+
+    #
+    # Preenche automaticamente o array ${MSE_PROMPT_LAST_SAVE_CONFIG}
+    for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
+      MSE_PROMPT_LAST_SAVE_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
+    done
+  }
+
+
+  unset MSE_PROMPT_SELECTED_COLORS
+  declare -A MSE_PROMPT_SELECTED_COLORS
 
   for key in "${!MSE_PROMPT_LAST_SAVE_CONFIG[@]}"; do
     if [ $key == "STYLE" ]; then
@@ -128,6 +155,7 @@ restorePromptConfig() {
       MSE_PROMPT_SELECTED_COLORS[${key}]=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     fi
   done
+
 
   PS1=$(retrievePromptSelectionCode 1)
 }

@@ -112,7 +112,11 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       done
     done
 
-    PS1=$(retrievePromptSelectionCode 1)
+
+    #
+    # carrega as configurações do prompt
+    restorePromptConfig
+
 
     unset mseBaseDir
     unset mseDirScripts
