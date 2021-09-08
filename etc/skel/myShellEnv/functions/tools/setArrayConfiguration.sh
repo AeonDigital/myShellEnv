@@ -47,7 +47,7 @@ setArrayConfiguration() {
       # Inicia um novo arquivo temporário apenas para salvar
       # a configuração que está sendo setada.
       local mseTmpFile="${HOME}/.mseTmpConfig"
-      echo "" > "$mseTmpFile"
+      printf '' > "$mseTmpFile"
 
 
       #
@@ -57,7 +57,9 @@ setArrayConfiguration() {
       local mseIFS=$IFS
       IFS=
       while read -r line; do
-        mseNewLine=(echo "$line" | sed 's/\\n/\\\\n/g')
+        #
+        # escapa os caracteres '\n' para que não sejam 'evaluados' ao salvar
+        mseNewLine=$(echo "$line" | sed 's/\\n/\\\\n/g')
 
         #
         # Identifica se a linha atual possui alguma configuração para a

@@ -85,28 +85,3 @@ MSE_PROMPT_STYLE_SQUEMA[2]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\
 MSE_PROMPT_STYLE_NAME[3]="NEWLINE03"
 MSE_PROMPT_STYLE_SAMPLE[3]="${NONE}\342\224\214\342\224\200\342\224\200 \$ username@host in ~/atual/directory/path \n\342\224\224\342\224\200\342\225\274 _"
 MSE_PROMPT_STYLE_SQUEMA[3]='[[DIRECTORY]]\[\342\224\]\214\[\342\224\]\200\[\342\224\]\200 [[SYMBOLS]]\$ [[USERNAME]]\u[[SYMBOLS]]@[[USERNAME]]\h[[SYMBOLS]] in [[DIRECTORY]]\w \n[[DIRECTORY]]\[\342\224\]\224\[\342\225\]\274[[NONE]]\040'
-
-
-
-
-
-#
-# Armazena o nome do estilo que está sendo usado neste momento.
-MSE_PROMPT_SELECTED_STYLE=SIMPLE
-MSE_PROMPT_SELECTED_STYLE_INDEX=0
-
-
-#
-# Armazena a coleção de cores definidas para cada um dos possíveis placeholders
-#
-# Para cada placeholder, a configuração de cores deve ser armazenada numa única string
-# onde cada item é separada por um espaço e respeitando a seguinte ordem:
-#
-#   @example
-#     [PLACEHOLDER]="FONTE FUNDO ATRIBUTO"
-#     [SYMBOLS]="LGREY BLACK DEFAULT"
-#
-declare -A MSE_PROMPT_SELECTED_COLORS
-MSE_PROMPT_SELECTED_COLORS[SYMBOLS]="LGREY BLACK DEFAULT"
-MSE_PROMPT_SELECTED_COLORS[USERNAME]="DGREY BLACK DEFAULT"
-MSE_PROMPT_SELECTED_COLORS[DIRECTORY]="DGREY BLACK DEFAULT"

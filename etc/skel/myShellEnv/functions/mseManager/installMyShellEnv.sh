@@ -102,8 +102,19 @@ installMyShellEnv() {
       mseURL="${MSE_GB_URL_INSTALL}functions/terminal/"
       MSE_GB_TARGET_FILES=(
         "listTerminalFonts.sh" "printCharTable.sh"
-        "promptConfig.sh" "promptTools.sh"
-        "setTerminalUTF8.sh"
+        "promptTools.sh" "setTerminalUTF8.sh"
+      )
+
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
+    fi
+
+
+    # Funções :: terminal :: config
+    if [ $ISOK == 1 ]; then
+      mseDir="${mseTargetDir}functions/terminal/config/"
+      mseURL="${MSE_GB_URL_INSTALL}functions/terminal/config/"
+      MSE_GB_TARGET_FILES=(
+        "promptConfig.sh" "promptStyles.sh"
       )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"

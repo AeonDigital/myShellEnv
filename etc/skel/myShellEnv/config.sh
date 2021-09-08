@@ -97,8 +97,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     mseBaseDir="${HOME}/myShellEnv/"
     mseDirScripts=(
       "functions/*" "functions/string/*"
-      "functions/terminal/*" "functions/thirdPart/*"
-      "functions/mseManager/*" "functions/tools/*"
+      "functions/terminal/*" "functions/terminal/config/*"
+      "functions/thirdPart/*" "functions/mseManager/*" "functions/tools/*"
     )
 
 
@@ -115,7 +115,7 @@ if [ $MSE_GB_ENABLE == 1 ]; then
 
     #
     # carrega as configurações do prompt
-    restorePromptConfig
+    restorePromptSettings
 
 
     unset mseBaseDir

@@ -86,9 +86,9 @@ showPromptConfig() {
 # Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
 #
 savePromptConfig() {
-  local mseCfgFile="${HOME}/myShellEnv/functions/terminal/promptConfig.sh"
-  local mseOldCfg="${HOME}/myShellEnv/.old/promptConfig.sh"
-  mkdir -p "${HOME}/myShellEnv/.old"
+  local mseCfgFile="${HOME}/myShellEnv/functions/terminal/config/promptConfig.sh"
+  local mseOldCfg="${HOME}/myShellEnv/functions/terminal/config/.old/promptConfig.sh"
+  mkdir -p "${HOME}/myShellEnv/functions/terminal/config/.old"
   cp "$mseCfgFile" "$mseOldCfg"
 
   #
@@ -124,7 +124,7 @@ savePromptConfig() {
 #
 # Restaura as configurações do último prompt salvo.
 #
-restorePromptConfig() {
+restorePromptSettings() {
   local key
 
 
@@ -228,7 +228,7 @@ showPromptStyles() {
 # A alteração de estilo é feita imediatamente mas não será efetivada para as próximas
 # sessões a não ser que seja usado o comando 'savePromptConfig'.
 #
-# Caso queira retornar para a configuração original da sessão use o comando 'restorePromptConfig'.
+# Caso queira retornar para a configuração original da sessão use o comando 'restorePromptSettings'.
 #
 #   @param string|int $1
 #   Estilo do prompt a ser usado (pelo nome ou pelo índice).
