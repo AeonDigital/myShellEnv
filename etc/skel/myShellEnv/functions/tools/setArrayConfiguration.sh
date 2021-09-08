@@ -47,7 +47,7 @@ setArrayConfiguration() {
       #
       # Para cada linha do arquivo indicado
       while read line; do
-        mseNewLine=$line
+        mseNewLine=$line"\n"
 
         #
         # Identifica se a linha atual possui alguma configuração para a
@@ -64,7 +64,7 @@ setArrayConfiguration() {
             mseSearch="${mseArr}[${k}]"
 
             if [[ "$line" == *"$mseSearch"* ]]; then
-              mseNewLine=${mseSearch}'="'${MSE_GB_ARRAY_CONFIG[$k]}'"'"\n"
+              mseNewLine=${mseSearch}'='${MSE_GB_ARRAY_CONFIG[$k]}"\n"
             fi
           done
         fi
