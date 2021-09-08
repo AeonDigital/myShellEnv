@@ -47,15 +47,16 @@ setArrayConfiguration() {
       # Inicia um novo arquivo temporário apenas para salvar
       # a configuração que está sendo setada.
       local mseTmpFile="${HOME}/.mseTmpConfig"
-      echo "" > "$mseTmpFile"
+      #echo "" > "$mseTmpFile"
+      echo "" > "${HOME}/tmpConfig.sh"
+      local mseIFS=$IFS
+      IFS=
 
 
       #
       # Para cada linha do arquivo indicado
       # **o arquivo é lido de forma 'readonly' em especial para
       # não perder caracteres especiais que seriam 'evaluados' de outra forma**
-      local mseIFS=$IFS
-      IFS=
       while read -r line; do
         mseNewLine=$line
 
@@ -73,18 +74,19 @@ setArrayConfiguration() {
             mseSearch="${mseArr}[${k}]"
 
             if [[ "$line" == *"$mseSearch"* ]]; then
-              mseNewLine=${mseSearch}'='${MSE_GB_ARRAY_CONFIG[$k]}"\n"
+              mseNewLine=${mseSearch}'='${MSE_GB_ARRAY_CONFIG[$k]}
             fi
           done
         fi
 
-        echo -e "$mseNewLine" >> "$mseTmpFile"
+        #echo -e "$mseNewLine" >> "$mseTmpFile"
+        echo -e "$mseNewLine" >> "${HOME}/tmpConfig.sh"
       done < $2
       IFS=$mseIFS
 
       #
       # Efetivamente substitui o arquivo de configuração anterior
-      mv "$mseTmpFile" "$2"
+      #mv "$mseTmpFile" "$2"
 
     fi
   fi

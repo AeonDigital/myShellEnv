@@ -86,8 +86,9 @@ showPromptConfig() {
 # Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
 #
 savePromptConfig() {
-  local mseCfgFile="$HOME"'/myShellEnv/functions/terminal/promptConfig.sh'
-  local mseOldCfg="$HOME"'/myShellEnv/.old/promptConfig.sh'
+  local mseCfgFile="${HOME}/myShellEnv/functions/terminal/promptConfig.sh"
+  local mseOldCfg="${HOME}/myShellEnv/.old/promptConfig.sh"
+  mkdir -p "${HOME}/myShellEnv/.old"
   cp "$mseCfgFile" "$mseOldCfg"
 
   #
