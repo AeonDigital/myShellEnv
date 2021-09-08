@@ -9,7 +9,7 @@ set +e
 
 #
 # @variables
-declare -A MSE_GB_ARRAY_CONFIG
+declare -gA MSE_GB_ARRAY_CONFIG
 
 
 

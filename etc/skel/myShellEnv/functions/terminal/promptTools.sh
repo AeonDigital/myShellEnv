@@ -9,7 +9,7 @@ set +e
 
 #
 # Armazena a configuração salvas para o prompt
-declare -A MSE_PROMPT_LAST_SAVE_CONFIG
+declare -gA MSE_PROMPT_LAST_SAVE_CONFIG
 
 
 
@@ -91,8 +91,7 @@ savePromptConfig() {
   #
   # Clona o array com as configurações que devem
   # ser salvas.
-  unset MSE_GB_ARRAY_CONFIG
-  declare -A MSE_GB_ARRAY_CONFIG
+  declare -gA MSE_GB_ARRAY_CONFIG
 
   for k in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
     MSE_GB_ARRAY_CONFIG[$k]='"'${MSE_PROMPT_SELECTED_COLORS[$k]}'"'
@@ -107,8 +106,7 @@ savePromptConfig() {
 
   #
   # redefine o array que armazena as configurações do prompt atual
-  unset MSE_PROMPT_LAST_SAVE_CONFIG
-  declare -A MSE_PROMPT_LAST_SAVE_CONFIG
+  declare -gA MSE_PROMPT_LAST_SAVE_CONFIG
   MSE_PROMPT_LAST_SAVE_CONFIG[STYLE]=$MSE_PROMPT_SELECTED_STYLE
   MSE_PROMPT_LAST_SAVE_CONFIG[STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
 
@@ -143,8 +141,7 @@ restorePromptConfig() {
   fi
 
 
-  unset MSE_PROMPT_SELECTED_COLORS
-  declare -A MSE_PROMPT_SELECTED_COLORS
+  declare -gA MSE_PROMPT_SELECTED_COLORS
 
   for key in "${!MSE_PROMPT_LAST_SAVE_CONFIG[@]}"; do
     if [ $key == "STYLE" ]; then
@@ -152,7 +149,7 @@ restorePromptConfig() {
     elif [ $key == "STYLE_INDEX" ]; then
       MSE_PROMPT_SELECTED_STYLE_INDEX=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     else
-      MSE_PROMPT_SELECTED_COLORS[${key}]=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
+      MSE_PROMPT_SELECTED_COLORS[$key]=${MSE_PROMPT_LAST_SAVE_CONFIG[${key}]}
     fi
   done
 
