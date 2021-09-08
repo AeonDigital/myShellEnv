@@ -69,7 +69,7 @@ setArrayConfiguration() {
           done
         fi
 
-        if [ $mseNewLine != "" ]; then
+        if [ "$mseNewLine" != "" ]; then
           mseNewFile+="${mseNewLine}"
         fi
       done < $2
