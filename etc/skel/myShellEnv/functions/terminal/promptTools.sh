@@ -130,7 +130,7 @@ restorePromptConfig() {
   # Se o array que armazena as últimas configurações salvas para o prompt
   # não tiver sido iniciado ainda, inicia-o baseado nos dados que estão
   # atualmente em uso
-  if [ ${#MSE_PROMPT_LAST_SAVE_CONFIG[@]} == 0 ]; then
+  if [[ ! -v MSE_PROMPT_LAST_SAVE_CONFIG[@] ]]; then
 
     MSE_PROMPT_LAST_SAVE_CONFIG[STYLE]=$MSE_PROMPT_SELECTED_STYLE
     MSE_PROMPT_LAST_SAVE_CONFIG[STYLE_INDEX]=$MSE_PROMPT_SELECTED_STYLE_INDEX
@@ -140,7 +140,7 @@ restorePromptConfig() {
     for key in "${!MSE_PROMPT_SELECTED_COLORS[@]}"; do
       MSE_PROMPT_LAST_SAVE_CONFIG[${key}]=${MSE_PROMPT_SELECTED_COLORS[${key}]}
     done
-  }
+  fi
 
 
   unset MSE_PROMPT_SELECTED_COLORS
