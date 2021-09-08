@@ -74,7 +74,7 @@ setArrayConfiguration() {
         fi
       done < $2
 
-      printf '$mseNewFile' > "$2"
+      printf %q "$mseNewFile" > "$2"
     fi
   fi
 }
