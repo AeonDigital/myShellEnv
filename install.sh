@@ -281,7 +281,7 @@ if [ $ISOK == 1 ]; then
       if [ -f /etc/skel/.bashrc ]; then
         echo $mseSourceBashRC >> /etc/skel/.bashrc
       else
-        echo "[[ \$- != *i* ]] && return\n" > /etc/skel/.bashrc
+        echo "[[ \$- != *i* ]] && return" > /etc/skel/.bashrc
         echo $mseSourceBashRC >> /etc/skel/.bashrc
       fi
     fi
@@ -294,7 +294,7 @@ if [ $ISOK == 1 ]; then
       if [ -f ${HOME}/.bashrc ]; then
         echo $mseSourceBashRC >> "${HOME}/.bashrc"
       else
-        echo "[[ \$- != *i* ]] && return\n" > "${HOME}/.bashrc"
+        echo "[[ \$- != *i* ]] && return" > "${HOME}/.bashrc"
         echo $mseSourceBashRC >> "${HOME}/.bashrc"
       fi
     fi
