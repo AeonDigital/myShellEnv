@@ -274,11 +274,23 @@ if [ $ISOK == 1 ]; then
     mseSourceBashRC='source ~/myShellEnv/start.sh || true'
 
     if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
-      echo $mseSourceBashRC >> /etc/skel/.bashrc
+      if [ -f /etc/skel/.bashrc ]; then
+        printf $mseSourceBashRC >> /etc/skel/.bashrc
+      else
+        printf "#!/bin/bash" > /etc/skel/.bashrc
+        printf "[[ \$- != *i* ]] && return\n" >> /etc/skel/.bashrc
+        echo $mseSourceBashRC >> /etc/skel/.bashrc
+      fi
     fi
 
     if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
-      echo $mseSourceBashRC >> ${HOME}/.bashrc
+      if [ -f /etc/skel/.bashrc ]; then
+        printf $mseSourceBashRC >> ${HOME}/.bashrc
+      else
+        printf "#!/bin/bash" > ${HOME}/.bashrc
+        printf "[[ \$- != *i* ]] && return\n" >> ${HOME}/.bashrc
+        echo $mseSourceBashRC >> ${HOME}/.bashrc
+      fi
     fi
 
     unset mseSourceBashRC
@@ -287,7 +299,12 @@ if [ $ISOK == 1 ]; then
 
 
   rm -r "${HOME}/tmpInstaller"
-  rm install.sh
+  if [ -f install.sh ]; then
+    rm install.sh
+  fi
+  if [ -f myShellEnvInstall.sh ]; then
+    rm myShellEnvInstall.sh
+  fi
   waitUser
 fi
 
