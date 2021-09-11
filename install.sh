@@ -274,7 +274,7 @@ if [ $ISOK == 1 ]; then
     mseSourceBashRC='source ~/myShellEnv/start.sh || true'
 
     if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
-      if [ -f /etc/skel/.bash_profile ]; then
+      if [ ! -f /etc/skel/.bash_profile ]; then
         echo "source ~/.bashrc" > /etc/skel/.bash_profile
       fi
 
@@ -287,7 +287,7 @@ if [ $ISOK == 1 ]; then
     fi
 
     if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
-      if [ -f "${HOME}/.bash_profile" ]; then
+      if [ ! -f "${HOME}/.bash_profile" ]; then
         echo "source ~/.bashrc" > "${HOME}/.bash_profile"
       fi
 
