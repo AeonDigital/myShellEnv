@@ -87,7 +87,7 @@ set +e
 #
 # Cor do fundo
 #
-# 49:   Padrão        (usualmente preto ou azul)
+# 49:   Padrão        (assume o fundo atual do terminal)
 # 40:   Preto
 # 41:   Vermelho
 # 42:   Verde
@@ -118,30 +118,30 @@ set +e
 # 'L' indica 'Light'
 #
 
-NONE='\e[0;37;40m'
+NONE='\e[0;37;49m'
 
 BLACK='\e[0;30;47m'
-DGREY='\e[0;90;40m'
-LGREY='\e[0;37;40m'
-WHITE='\e[0;97;40m'
+DGREY='\e[0;90;49m'
+LGREY='\e[0;37;49m'
+WHITE='\e[0;97;49m'
 
-RED='\e[0;31;40m'
-LRED='\e[0;91;40m'
+RED='\e[0;31;49m'
+LRED='\e[0;91;49m'
 
-GREEN='\e[0;32;40m'
-LGREEN='\e[0;92;40m'
+GREEN='\e[0;32;49m'
+LGREEN='\e[0;92;49m'
 
-YELLOW='\e[0;33;40m'
-LYELLOW='\e[0;93;40m'
+YELLOW='\e[0;33;49m'
+LYELLOW='\e[0;93;49m'
 
-BLUE='\e[0;34;40m'
-LBLUE='\e[0;94;40m'
+BLUE='\e[0;34;49m'
+LBLUE='\e[0;94;49m'
 
-PURPLE='\e[0;35;40m'
-LPURPLE='\e[0;95;40m'
+PURPLE='\e[0;35;49m'
+LPURPLE='\e[0;95;49m'
 
-CYAN='\e[0;36;40m'
-LCYAN='\e[0;96;40m'
+CYAN='\e[0;36;49m'
+LCYAN='\e[0;96;49m'
 
 
 
