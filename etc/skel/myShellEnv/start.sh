@@ -24,6 +24,7 @@ if [ $MSE_GB_ENABLE == 1 ] && [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; the
 
   #
   # Coleta informações do sistema
+  mseDISTRO=`cat /etc/os-release | grep -oP -m1 '(?<=NAME=")[^"]*'`
   mseKERNEL=`uname -r`
   mseARCH=`uname -m`
   mseCPU=`awk -F '[ :][ :]+' '/^model name/ { print $2; exit; }' /proc/cpuinfo`
@@ -43,7 +44,7 @@ if [ $MSE_GB_ENABLE == 1 ] && [ $MSE_GB_START == 1 ] && [ "$0" == "-bash" ]; the
 
 
   clear
-  echo -e "\e[37m  Arch Linux $mseKERNEL $mseARCH \e[00m
+  echo -e "\e[37m  $mseDISTRO $mseKERNEL $mseARCH \e[00m
   \e[1;30m
            #####
           #######
