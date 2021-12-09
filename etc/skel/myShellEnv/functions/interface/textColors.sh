@@ -87,7 +87,7 @@ set +e
 #
 # Cor do fundo
 #
-# 49:   Padrão        (usualmente preto ou azul)
+# 49:   Padrão        (assume o fundo atual do terminal)
 # 40:   Preto
 # 41:   Vermelho
 # 42:   Verde
@@ -160,7 +160,7 @@ MSE_GB_AVAILABLE_COLOR_CODES=(
 )
 
 MSE_GB_AVAILABLE_BGCOLOR_CODES=(
-  '40'
+  '49'
   '40' '100' '47' '107' '41' '101'
   '42' '102' '43' '103' '44' '104'
   '45' '105' '46' '106'
