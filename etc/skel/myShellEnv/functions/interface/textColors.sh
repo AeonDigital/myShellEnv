@@ -87,7 +87,7 @@ set +e
 #
 # Cor do fundo
 #
-# 49:   Padrão        (assume o fundo atual do terminal)
+# 37:   Padrão        (assume o fundo atual do terminal)
 # 40:   Preto
 # 41:   Vermelho
 # 42:   Verde
