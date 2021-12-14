@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
+
+
+
+
+
+
+
 #
-set +e
-
-
-
-
-
-#
-# @variables
+# Variáveis
 MSE_GB_ALERT_WAIT_PROMPT="Precione qualquer tecla para prosseguir."
 
 
