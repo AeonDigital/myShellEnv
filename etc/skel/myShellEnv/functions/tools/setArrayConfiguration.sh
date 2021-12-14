@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
+
+
+
+
+
+
+
 #
-set +e
-
-
-
-
-
-#
-# @variables
+# Variáveis
 declare -A MSE_GB_ARRAY_CONFIG
 
 

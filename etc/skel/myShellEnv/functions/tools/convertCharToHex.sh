@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
-#
-set +e
+
+
 
 
 
@@ -44,7 +44,6 @@ convertCharToHex() {
       if [ "$i" != "0" ]; then
         printf ' '
       fi
-
       printf '%X' "'$c"
     done
 
