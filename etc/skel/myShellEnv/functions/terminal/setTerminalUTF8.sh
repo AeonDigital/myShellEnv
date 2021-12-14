@@ -15,8 +15,8 @@
 #   do seu terminal.
 #
 #   @example
-#     setUTF8 on
-#     setUTF8 off
+#     setTerminalUTF8 on
+#     setTerminalUTF8 off
 #
 setTerminalUTF8() {
   if [ ".$1" == ".off" ]; then

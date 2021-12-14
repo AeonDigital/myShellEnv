@@ -14,15 +14,20 @@ loadTestScripts() {
   # Carrega todos os scripts que serão testados
   local mseBaseDir="${PWD}/etc/skel/myShellEnv/"
   local mseDirScripts=(
-    "functions/interface"
-    "functions/string"
-    #"functions/tools"
+    #"functions/interface"
+    #"functions/string"
+    "functions/tools"
   )
 
   local mseCountTests=0
   local mseCountAssert=0
   local testISOK=1
   local testError=0
+
+  # Importante!!!
+  # sem isto as conversões de caracteres falham
+  # Este 'set' funciona na maior parte dos sistemas testados até o momento.
+  LC_CTYPE=C
 
 
   #
