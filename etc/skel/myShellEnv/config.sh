@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
-#
-set +e
+
+
 
 
 
@@ -29,6 +29,7 @@ set +e
 #
 MSE_GB_ENABLE=1
 if [ $MSE_GB_ENABLE == 1 ]; then
+  LC_CTYPE=C
 
   #
   # Carrega as funções de interface
@@ -98,7 +99,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     mseDirScripts=(
       "functions/*" "functions/string/*"
       "functions/terminal/*" "functions/terminal/config/*"
-      "functions/thirdPart/*" "functions/mseManager/*" "functions/tools/*"
+      "functions/thirdPart/*" "functions/tools/*"
+      "management/instalation/*" "management/config_files/*"
     )
 
 

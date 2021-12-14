@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
-#
-set +e
+
+
 
 
 
@@ -75,8 +75,8 @@ showPromptConfig() {
     mseRawTable+="${mseLine}"
   done
 
-  mseRawTable=$(printf "${mseRawTable}")
-  column -e -t -s ":" -o " | " -N "PlaceHolder,FontColor,BGColor,Attribute,Sample" <<< "${mseRawTable}"
+  mseRawTable=$(printf "PlaceHolder:FontColor:BGColor:Attribute:Sample\n${mseRawTable}")
+  column -e -s ":" -t <<< "${mseRawTable}"
   printf "\n"
 }
 

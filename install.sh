@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
 # Torne este arquivo executável executando o comando abaixo
@@ -7,7 +7,7 @@
 # Execute assim
 # ./install.sh
 #
-set -eu
+
 
 
 
@@ -103,11 +103,11 @@ TMP_INSTALL_IN_MY_USER=0
 
 createTmpInstallerEnv
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "installMyShellEnv.sh" "${TMP_URL_INSTALL}functions/mseManager/installMyShellEnv.sh"
+  downloadInstallScripts "installMyShellEnv.sh" "${TMP_URL_INSTALL}management/instalation/installMyShellEnv.sh"
 fi
 
 if [ $ISOK == 1 ]; then
-  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${TMP_URL_INSTALL}functions/mseManager/downloadMyShellEnvFiles.sh"
+  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${TMP_URL_INSTALL}management/instalation/downloadMyShellEnvFiles.sh"
 fi
 
 
