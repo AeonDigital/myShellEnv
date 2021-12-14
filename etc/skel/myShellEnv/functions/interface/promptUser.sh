@@ -288,7 +288,7 @@ test_promptUser() {
 
   ((mseCountAssert=mseCountAssert+1))
   testResult=$(MSE_GB_PROMPT_TEST=1 && echo -e "my own value" | promptUser "value")
-  testExpected="my"
+  testExpected="my own value"
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
     echo "   OK"
