@@ -98,8 +98,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     mseBaseDir="${HOME}/myShellEnv/"
     mseDirScripts=(
       "functions/*" "functions/string/*"
-      "functions/terminal/*" "functions/terminal/config/*"
       "functions/thirdPart/*" "functions/tools/*"
+      "management/terminal/*" "management/terminal/config/*"
       "management/instalation/*" "management/config_files/*"
     )
 

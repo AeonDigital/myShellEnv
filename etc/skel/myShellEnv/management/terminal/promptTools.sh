@@ -86,9 +86,9 @@ showPromptConfig() {
 # Salva as configurações atualmente definidas como o padrão para o prompt deste usuário.
 #
 savePromptConfig() {
-  local mseCfgFile="${HOME}/myShellEnv/functions/terminal/config/promptConfig.sh"
-  local mseOldCfg="${HOME}/myShellEnv/functions/terminal/config/.old/promptConfig.sh"
-  mkdir -p "${HOME}/myShellEnv/functions/terminal/config/.old"
+  local mseCfgFile="${HOME}/myShellEnv/management/terminal/config/promptConfig.sh"
+  local mseOldCfg="${HOME}/myShellEnv/management/terminal/config/.old/promptConfig.sh"
+  mkdir -p "${HOME}/myShellEnv/management/terminal/config/.old"
   cp "$mseCfgFile" "$mseOldCfg"
 
   #
@@ -101,8 +101,8 @@ savePromptConfig() {
   done
 
 
-  setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE $MSE_PROMPT_SELECTED_STYLE $mseCfgFile
-  setKeyValueConfiguration MSE_PROMPT_SELECTED_STYLE_INDEX $MSE_PROMPT_SELECTED_STYLE_INDEX $mseCfgFile
+  mcfSetKeyValue "MSE_PROMPT_SELECTED_STYLE" "$MSE_PROMPT_SELECTED_STYLE" $mseCfgFile
+  mcfSetKeyValue "MSE_PROMPT_SELECTED_STYLE_INDEX" "$MSE_PROMPT_SELECTED_STYLE_INDEX" $mseCfgFile
 
 
   setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile

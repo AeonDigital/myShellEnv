@@ -14,15 +14,17 @@ loadTestScripts() {
   # Carrega todos os scripts que serão testados
   local mseBaseDir="${PWD}/etc/skel/myShellEnv/"
   local mseDirScripts=(
-    #"functions/interface"
-    #"functions/string"
+    "functions/interface"
+    "functions/string"
     "functions/tools"
+    "management/config_files"
   )
 
   local mseCountTests=0
   local mseCountAssert=0
   local testISOK=1
   local testError=0
+
 
   # Importante!!!
   # sem isto as conversões de caracteres falham
@@ -81,6 +83,7 @@ loadTestScripts() {
               local mseFullFileName=$(basename -- "$rawLine")
               local mseExtension="${mseFullFileName##*.}"
               local mseFilename="${mseFullFileName%.*}"
+
 
               ((mseCountTests=mseCountTests+1))
               MSE_GB_ALERT_MSG=()
