@@ -1,14 +1,14 @@
-#!/bin/bash
+#!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
+
+
+
+
+
+
+
 #
-set +e
-
-
-
-
-
-#
-# @variables
+# Variáveis
 #
 # As variáveis abaixo guardam a configuração atual do prompt.
 # Há 2 conjuntos de variáveis que são usadas para tal tarefa.
