@@ -30,6 +30,8 @@
 #     result=$(convertHexToChar "C3 AD" 1)
 #
 convertHexToChar() {
+  local oLC_CTYPE="${LC_CTYPE}"
+  LC_CTYPE=C
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -81,4 +83,6 @@ convertHexToChar() {
       fi
     fi
   fi
+
+  LC_CTYPE="${oLC_CTYPE}"
 }

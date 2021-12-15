@@ -14,7 +14,7 @@
 #   String que será convertida.
 #
 #   @example
-#     result=$(toUpperCase "TEXT")
+#     result=$(toUpperCase "text")
 #
 toUpperCase() {
   echo "$1" | awk '{print toupper($0)}'

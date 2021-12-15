@@ -27,6 +27,8 @@
 #     result=$(convertHexToOctal "A1" 1)
 #
 convertHexToOctal() {
+  local oLC_CTYPE="${LC_CTYPE}"
+  LC_CTYPE=C
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -82,4 +84,6 @@ convertHexToOctal() {
       fi
     fi
   fi
+
+  LC_CTYPE="${oLC_CTYPE}"
 }

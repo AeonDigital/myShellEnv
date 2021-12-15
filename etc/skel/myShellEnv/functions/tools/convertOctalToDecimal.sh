@@ -27,6 +27,8 @@
 #     result=$(convertOctalToDecimal "241" 1)
 #
 convertOctalToDecimal() {
+  local oLC_CTYPE="${LC_CTYPE}"
+  LC_CTYPE=C
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -79,4 +81,6 @@ convertOctalToDecimal() {
       fi
     fi
   fi
+
+  LC_CTYPE="${oLC_CTYPE}"
 }

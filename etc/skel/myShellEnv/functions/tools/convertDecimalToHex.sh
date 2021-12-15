@@ -27,6 +27,8 @@
 #     result=$(convertDecimalToHex "161" 1)
 #
 convertDecimalToHex() {
+  local oLC_CTYPE="${LC_CTYPE}"
+  LC_CTYPE=C
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -78,4 +80,6 @@ convertDecimalToHex() {
       fi
     fi
   fi
+
+  LC_CTYPE="${oLC_CTYPE}"
 }

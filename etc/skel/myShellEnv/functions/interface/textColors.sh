@@ -271,7 +271,7 @@ showTextColors() {
     mseRawTable=$(sed 's/^\s*//g' <<< "${mseRawTable}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')
 
     if [ $# == 0 ] || [ $1 == 0 ]; then
-      column -e -t -s ":" <<< "Cor:Raw:Variavel:Aparencia\n${mseRawTable}"
+      column -e -t -s ":" <<< $(printf "Cor:Raw:Variavel:Aparencia\n${mseRawTable}")
     else
       if [ $1 == 1 ]; then
         column -e -t -s ":" -o " | " -N "Cor,Raw,Variavel,Aparencia" -H "Variavel" <<< "${mseRawTable}"

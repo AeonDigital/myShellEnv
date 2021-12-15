@@ -29,7 +29,7 @@
 #
 MSE_GB_ENABLE=1
 if [ $MSE_GB_ENABLE == 1 ]; then
-  LC_CTYPE=C
+
 
   #
   # Carrega as funções de interface

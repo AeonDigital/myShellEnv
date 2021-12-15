@@ -26,6 +26,8 @@
 #     result=$(convertCharToDecimal "í" 1)
 #
 convertCharToDecimal() {
+  local oLC_CTYPE="${LC_CTYPE}"
+  LC_CTYPE=C
 
   if [ $# != 1 ] && [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 1 or 2 arguments"
@@ -60,4 +62,6 @@ convertCharToDecimal() {
     fi
 
   fi
+
+  LC_CTYPE="${oLC_CTYPE}"
 }

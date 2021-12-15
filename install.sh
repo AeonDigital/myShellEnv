@@ -226,7 +226,7 @@ if [ $ISOK == 1 ]; then
 
 
   #
-  # Sendo para instalar no no usuário atual...
+  # Sendo para instalar no usuário atual...
   if [ $ISOK == 1 ] && [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
     mkdir -p "${HOME}/myShellEnv"
     if [ ! -d "${HOME}/myShellEnv" ]; then
