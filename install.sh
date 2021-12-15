@@ -1,4 +1,4 @@
-#!/bin/bash -eu
+#!/bin/bash -e
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
 # Torne este arquivo executável usando o comando abaixo

@@ -21,14 +21,14 @@ declare -A MSE_GB_PROMPT_BOOL_OPTIONS_VALUES=(
   ["yes"]="1" ["sim"]="1" ["y"]="1" ["s"]="1"
   ["no"]="0" ["nao"]="0" ["n"]="0"
 )
-declare -a MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS=(
+MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS=(
   "yes" "sim" "y" "s" "no" "nao" "n"
 )
 
 #
 # Armazena os valores aceitos para um prompt do tipo 'list'
 declare -A MSE_GB_PROMPT_LIST_OPTIONS_VALUES=()
-declare -a MSE_GB_PROMPT_LIST_OPTIONS_ORDERS=()
+MSE_GB_PROMPT_LIST_OPTIONS_ORDERS=()
 
 
 
@@ -117,8 +117,7 @@ promptUser() {
       local msePromptOptions=""
       local msePromptReadLineMessage=""
       if [ "$mseType" == "bool" ]; then
-        for key in "${!MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS[@]}"; do
-          key="${MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS[$key]}"
+        for key in "${MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS[@]}"; do
           if [ "$mseValue" != "${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$key]}" ]; then
             mseValue="${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$key]}"
 
