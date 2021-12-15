@@ -25,25 +25,3 @@ trim() {
   # portanto não é adequada ao que se deseja.
   # echo "$1" | xargs
 }
-
-
-
-
-
-#
-# Teste
-test_trim() {
-  ((mseCountAssert=mseCountAssert+1))
-  local testResult=$(trim "   texto   aqui   ")
-  local testExpected="texto   aqui"
-
-  if [ "${testResult}" == "$testExpected" ]; then
-    testISOK=1
-    echo "   OK"
-  else
-    testISOK=0
-    echo "   FAIL"
-    echo "   Result  : ${testResult}"
-    echo "   Expected: ${testExpected}"
-  fi
-}

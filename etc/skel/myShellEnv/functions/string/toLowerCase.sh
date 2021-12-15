@@ -19,25 +19,3 @@
 toLowerCase() {
   echo "$1" | awk '{print tolower($0)}'
 }
-
-
-
-
-
-#
-# Teste
-test_toLowerCase() {
-  ((mseCountAssert=mseCountAssert+1))
-  local testResult=$(toLowerCase "CONVERT To Lower Case")
-  local testExpected="convert to lower case"
-
-  if [ "$testResult" == "$testExpected" ]; then
-    testISOK=1
-    echo "   OK"
-  else
-    testISOK=0
-    echo "   FAIL"
-    echo "   Result  : ${testResult}"
-    echo "   Expected: ${testExpected}"
-  fi
-}

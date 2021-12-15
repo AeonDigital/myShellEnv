@@ -24,25 +24,3 @@
 trimD() {
   sed 's/\s*'"$1"'\s*/'"$1"'/g' <<< "$2"
 }
-
-
-
-
-
-#
-# Teste
-test_trimD() {
-  ((mseCountAssert=mseCountAssert+1))
-  local testResult=$(trimD ":" "  Keep  calm   :   and   ... :   think  ")
-  local testExpected="  Keep  calm:and   ...:think  "
-
-  if [ "${testResult}" == "$testExpected" ]; then
-    testISOK=1
-    echo "   OK"
-  else
-    testISOK=0
-    echo "   FAIL"
-    echo "   Result  : ${testResult}"
-    echo "   Expected: ${testExpected}"
-  fi
-}
