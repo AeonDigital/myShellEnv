@@ -117,7 +117,7 @@ if [ $ISOK == 1 ]; then
 
   clear
   setIMessage "" 1
-  setIMessage "${WHITE}myShellEnv v 1.0 [2021-09-01]${NONE}"
+  setIMessage "${WHITE}myShellEnv v 1.0 [2021-12-15]${NONE}"
   setIMessage "Iniciando o processo de instalação."
   alertUser
 
