@@ -228,7 +228,6 @@ showTextColors() {
 
   if [ $# == 1 ] && [ $1 == 3 ]; then
 
-
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
       mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
@@ -256,6 +255,10 @@ showTextColors() {
 
   else
 
+    if [ $# == 0 ] || [ $1 == 0 ]; then
+      mseRawTable="Cor:Raw:Variavel:Aparencia\n"
+    fi
+
     for (( i=0; i<mseLength; i++)); do
       mseColorName=${MSE_GB_AVAILABLE_COLOR_LABELS[$i]}
       mseColorRaw=${MSE_GB_AVAILABLE_COLOR_NAMES[$i]}
@@ -271,7 +274,7 @@ showTextColors() {
     mseRawTable=$(sed 's/^\s*//g' <<< "${mseRawTable}" | sed 's/\s*$//g' | sed 's/\s*:/:/g' | sed 's/:\s*/:/g')
 
     if [ $# == 0 ] || [ $1 == 0 ]; then
-      column -e -t -s ":" <<< $(printf "Cor:Raw:Variavel:Aparencia\n${mseRawTable}")
+      column -e -t -s ":" <<< "${mseRawTable}"
     else
       if [ $1 == 1 ]; then
         column -e -t -s ":" -o " | " -N "Cor,Raw,Variavel,Aparencia" -H "Variavel" <<< "${mseRawTable}"
