@@ -103,6 +103,7 @@ installMyShellEnv() {
         "convertDecimalToChar.sh" "convertDecimalToHex.sh" "convertDecimalToOctal.sh"
         "convertHexToChar.sh" "convertHexToDecimal.sh" "convertHexToOctal.sh"
         "convertOctalToChar.sh" "convertOctalToDecimal.sh" "convertOctalToHex.sh"
+        "hasValueInArray.sh"
       )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
