@@ -85,7 +85,7 @@ executeTests() {
               local mseFilename="${mseFullFileName%.*}"
 
 
-              #if [ "$mseFilename" == "test_mcfCommentSectionVariable" ]; then
+              #if [ "$mseFilename" == "test_promptUser" ]; then
               ((mseCountTests=mseCountTests+1))
               MSE_GB_ALERT_MSG=()
               MSE_GB_PROMPT_MSG=()

@@ -9,6 +9,7 @@
 
 #
 # Armazena a configuração salvas para o prompt
+unset MSE_PROMPT_LAST_SAVE_CONFIG
 declare -A MSE_PROMPT_LAST_SAVE_CONFIG
 
 

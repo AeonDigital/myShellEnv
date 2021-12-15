@@ -9,6 +9,7 @@
 
 #
 # Variáveis
+unset MSE_GB_ARRAY_CONFIG
 declare -A MSE_GB_ARRAY_CONFIG
 
 

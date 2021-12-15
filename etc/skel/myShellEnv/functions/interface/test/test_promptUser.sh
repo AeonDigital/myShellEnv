@@ -56,7 +56,8 @@ test_promptUser() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  declare -A MSE_GB_PROMPT_LIST_OPTIONS_VALUES=(["arch"]="Arch" ["ubuntu"]="Ubuntu" ["debian"]="Debian")
+  MSE_GB_PROMPT_LIST_OPTIONS_LABELS=("arch" "ubuntu" "debian")
+  MSE_GB_PROMPT_LIST_OPTIONS_VALUES=("Arch" "Ubuntu" "Debian")
   testResult=$(MSE_GB_PROMPT_TEST=1 && echo -e "arch" | promptUser "list")
   testExpected="Arch"
   if [ "$testResult" == "$testExpected" ]; then

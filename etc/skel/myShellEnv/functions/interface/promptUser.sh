@@ -17,18 +17,22 @@ MSE_GB_PROMPT_ERROR_EXPECTED="Valor inválido. Esperado apenas: "
 
 #
 # Valores padrões usados para prompt do tipo 'bool'
-declare -A MSE_GB_PROMPT_BOOL_OPTIONS_VALUES=(
-  ["yes"]="1" ["sim"]="1" ["y"]="1" ["s"]="1"
-  ["no"]="0" ["nao"]="0" ["n"]="0"
-)
-MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS=(
+unset MSE_GB_PROMPT_BOOL_OPTIONS_LABELS
+unset MSE_GB_PROMPT_BOOL_OPTIONS_VALUES
+MSE_GB_PROMPT_BOOL_OPTIONS_LABELS=(
   "yes" "sim" "y" "s" "no" "nao" "n"
+)
+MSE_GB_PROMPT_BOOL_OPTIONS_VALUES=(
+  "1" "1" "1" "1" "0" "0" "0"
 )
 
 #
 # Armazena os valores aceitos para um prompt do tipo 'list'
-declare -A MSE_GB_PROMPT_LIST_OPTIONS_VALUES=()
-MSE_GB_PROMPT_LIST_OPTIONS_ORDERS=()
+unset MSE_GB_PROMPT_LIST_OPTIONS_LABELS
+unset MSE_GB_PROMPT_LIST_OPTIONS_VALUES
+MSE_GB_PROMPT_LIST_OPTIONS_LABELS=()
+MSE_GB_PROMPT_LIST_OPTIONS_VALUES=()
+
 
 
 
@@ -52,15 +56,15 @@ MSE_GB_PROMPT_LIST_OPTIONS_ORDERS=()
 #   - value : aceita qualquer resposta como válida.
 #
 #
-#   Para usar o tipo 'list' é necessário preencher a variável
-#   ${MSE_GB_PROMPT_LIST_OPTIONS_VALUES} com as chaves/valores que são
-#   aceitos para a mesma.
-#   A 'key' é sempre uma string que o usuário pode digitar.
-#   Já o 'value' correspondente à 'key' será o valor que será armazenado
-#   na variável ${MSE_GB_PROMPT_RESULT}
+#   Para usar o tipo 'list' é necessário preencher as variáveis
+#   ${MSE_GB_PROMPT_LIST_OPTIONS_LABELS} e ${MSE_GB_PROMPT_LIST_OPTIONS_VALUES}
+#   com as chaves/valores que são aceitos para a mesma.
 #
-#   Use a variável ${MSE_GB_PROMPT_LIST_OPTIONS_ORDERS} para indicar a
-#   ordem em que as chaves de valores aceitos devem aparecer para o usuário.
+#   Em "LABELS" armazene as 'keys' que são as strings que o usuário pode
+#   digitar. Já em "VALUES" deve existir um valor correspondente à posição de
+#   cada "key" previamente definida.
+#   O valor selecionado irá ficar armazenado na variável
+#   ${MSE_GB_PROMPT_RESULT}
 #
 #   @example
 #     MSE_GB_PROMPT_MSG=()
@@ -76,8 +80,11 @@ MSE_GB_PROMPT_LIST_OPTIONS_ORDERS=()
 #
 #
 #
-#     declare -A MSE_GB_PROMPT_LIST_OPTIONS_VALUES=(
-#       ["arch"]="Arch" ["ubuntu"]="Ubuntu" ["debian"]="Debian"
+#     MSE_GB_PROMPT_LIST_OPTIONS_LABELS=(
+#       "arch" "ubuntu" "debian"
+#     )
+#     MSE_GB_PROMPT_LIST_OPTIONS_VALUES=(
+#       "Arch" "Ubuntu" "Debian"
 #     )
 #
 #     MSE_GB_PROMPT_MSG=()
@@ -113,13 +120,17 @@ promptUser() {
       fi
 
 
+      local mseKey=""
       local mseValue=""
       local msePromptOptions=""
       local msePromptReadLineMessage=""
       if [ "$mseType" == "bool" ]; then
-        for key in "${MSE_GB_PROMPT_BOOL_OPTIONS_ORDERS[@]}"; do
-          if [ "$mseValue" != "${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$key]}" ]; then
-            mseValue="${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$key]}"
+
+        for index in "${!MSE_GB_PROMPT_BOOL_OPTIONS_LABELS[@]}"; do
+          mseKey="${MSE_GB_PROMPT_BOOL_OPTIONS_LABELS[$index]}"
+
+          if [ "$mseValue" != "${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$index]}" ]; then
+            mseValue="${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$index]}"
 
             if [ "$msePromptOptions" != "" ]; then
               msePromptOptions="${msePromptOptions} | "
@@ -130,20 +141,17 @@ promptUser() {
             fi
           fi
 
-          msePromptOptions="${msePromptOptions}${key}"
+          msePromptOptions="${msePromptOptions}${mseKey}"
           msePromptReadLineMessage="${MSE_GB_PROMPT_INDENT}[ ${msePromptOptions} ] : "
         done
+
       elif [ "$mseType" == "list" ]; then
-        if [ ${#MSE_GB_PROMPT_LIST_OPTIONS_ORDERS[@]} == 0 ]; then
-          for key in "${!MSE_GB_PROMPT_LIST_OPTIONS_VALUES[@]}"; do
-            MSE_GB_PROMPT_LIST_OPTIONS_ORDERS+=($key)
-          done
-        fi
 
-        for key in "${!MSE_GB_PROMPT_LIST_OPTIONS_ORDERS[@]}"; do
-          key="${MSE_GB_PROMPT_LIST_OPTIONS_ORDERS[$key]}"
-          if [ "$mseValue" != "${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$key]}" ]; then
-            mseValue="${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$key]}"
+        for index in "${!MSE_GB_PROMPT_LIST_OPTIONS_LABELS[@]}"; do
+          mseKey="${MSE_GB_PROMPT_LIST_OPTIONS_LABELS[$index]}"
+
+          if [ "$mseValue" != "${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$index]}" ]; then
+            mseValue="${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$index]}"
 
             if [ "$msePromptOptions" != "" ]; then
               msePromptOptions="${msePromptOptions} | "
@@ -154,9 +162,10 @@ promptUser() {
             fi
           fi
 
-          msePromptOptions="${msePromptOptions}${key}"
+          msePromptOptions="${msePromptOptions}${mseKey}"
           msePromptReadLineMessage="${MSE_GB_PROMPT_INDENT}[ ${msePromptOptions} ] : "
         done
+
       else
         msePromptReadLineMessage="${MSE_GB_PROMPT_INDENT}: "
       fi
@@ -192,17 +201,25 @@ promptUser() {
           # Verifica se o valor digitado corresponde a algum dos valores válidos.
           if [ "$mseType" == "bool" ]; then
             msePromptValue=$(echo "$msePromptValue" | awk '{print tolower($0)}')
-            if [ ${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$msePromptValue]+exists} ]; then
-              MSE_GB_PROMPT_RESULT=${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$msePromptValue]}
-            fi
+
+            for index in "${!MSE_GB_PROMPT_BOOL_OPTIONS_LABELS[@]}"; do
+              mseKey="${MSE_GB_PROMPT_BOOL_OPTIONS_LABELS[$index]}"
+              if [ "$mseKey" == "$msePromptValue" ]; then
+                MSE_GB_PROMPT_RESULT=${MSE_GB_PROMPT_BOOL_OPTIONS_VALUES[$index]}
+              fi
+            done
           elif [ "$mseType" == "list" ]; then
             msePromptValue=$(echo "$msePromptValue" | awk '{print tolower($0)}')
-            if [ ${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$msePromptValue]+exists} ]; then
-              MSE_GB_PROMPT_RESULT=${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$msePromptValue]}
-            fi
+
+            for index in "${!MSE_GB_PROMPT_LIST_OPTIONS_LABELS[@]}"; do
+              mseKey="${MSE_GB_PROMPT_LIST_OPTIONS_LABELS[$index]}"
+              if [ "$mseKey" == "$msePromptValue" ]; then
+                MSE_GB_PROMPT_RESULT=${MSE_GB_PROMPT_LIST_OPTIONS_VALUES[$index]}
+              fi
+            done
           else
               MSE_GB_PROMPT_RESULT=$msePromptValue
-            fi
+          fi
         done
 
       fi
