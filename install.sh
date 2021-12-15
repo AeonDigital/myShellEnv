@@ -32,7 +32,10 @@ downloadInstallScripts() {
     printf "ERROR in ${FUNCNAME[0]}: expected 2 arguments"
   else
     local mseTMP="${HOME}/tmpInstaller/$1"
-    local mseSCode=$(curl -s -w "%{http_code}" -o "${mseTMP}" "$2" || true)
+    local mseSCode=""
+    if [ $DEBUG == 0 ] || [ ! -f "${mseTMP}" ]; then
+      mseSCode=$(curl -s -w "%{http_code}" -o "${mseTMP}" "$2" || true)
+    fi
 
     if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
       ISOK=0
@@ -90,6 +93,7 @@ createTmpInstallerEnv() {
 # Efetua o download de todos os scripts necessários para a instalação
 
 ISOK=1
+DEBUG=0
 
 TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
 TMP_URL_ETC="${TMP_URL_BASE}etc/"
@@ -303,13 +307,14 @@ if [ $ISOK == 1 ]; then
   fi
 
 
-
-  rm -r "${HOME}/tmpInstaller"
-  if [ -f install.sh ]; then
-    rm install.sh
-  fi
-  if [ -f myShellEnvInstall.sh ]; then
-    rm myShellEnvInstall.sh
+  if [ $DEBUG == 0 ]; then
+    rm -r "${HOME}/tmpInstaller"
+    if [ -f install.sh ]; then
+      rm install.sh
+    fi
+    if [ -f myShellEnvInstall.sh ]; then
+      rm myShellEnvInstall.sh
+    fi
   fi
   waitUser
 fi
