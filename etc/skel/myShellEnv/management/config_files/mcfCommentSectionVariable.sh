@@ -32,9 +32,9 @@ mcfCommentSectionVariable()
   if [ "${tgtVariable}" != "" ]; then
     if [ "$1" == "" ]; then
       # Apenas a primeira ocorrência.
-      sed -i "/^\($2\s*=\)/{s/.*/#&/;:A;n;bA}" "$4";
+      sed -i "/^\($2\s*=\)/{s/.*/$3&/;:A;n;bA}" "$4";
     else
-      sed -i "/^\[$1\]$/,/^\[/ s/^\(.*$2\s*=.*\)$/#\1/" "$4";
+      sed -i "/^\[$1\]$/,/^\[/ s/^\(.*$2\s*=.*\)$/$3\1/" "$4";
     fi;
   fi;
 }
