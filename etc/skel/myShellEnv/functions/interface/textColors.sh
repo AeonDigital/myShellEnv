@@ -17,14 +17,14 @@
 #
 # Os modificadores são:
 # - Atributos
-# - Cor de Fonte
 # - Cor de Fundo
+# - Cor de Fonte
 #
 # Assim sendo, o comando a ser usado deve corresponder à seguinte estrutura:
-# \e[Atributo;Fonte;Fundo
+# \e[Atributo;Fundo;Fonte
 #
 # Exemplo:
-# \e[0;93;44]Texto estilizado
+# echo -e "\e[0;44;93mTexto estilizado\e[0;37;37m"
 # O código acima exibirá o texto sem nenhum atributo especial onde a cor da fonte é amarelo claro
 # e o fundo é azul
 #
@@ -55,31 +55,7 @@
 # 28: Remove o Oculto*
 #
 # *:  Estes ítens não puderam ser testados direto no terminal via VM possivelmente por que
-#     necessitavam de uma fonte que correspondesse a tais atributos.
-#
-
-
-
-#
-# Cor da fonte
-#
-# 39:   Padrão        (usualmente verde, branco ou cinza claro)
-# 30:   Preto         (combine com um fundo colorido para obter um bom resultado)
-# 31:   Vermelho      (Não use com um fundo verde)
-# 32:   Verde
-# 33:   Amarelo
-# 34:   Azul
-# 35:   Púrpura
-# 36:   Ciano
-# 37:   Cinza claro
-# 90:   Cinza escuro
-# 91:   Vermelho claro
-# 92:   Verde claro
-# 93:   Amarelo claro
-# 94:   Azul claro
-# 95:   Púrpura claro|Pink
-# 96:   Ciano claro
-# 97:   Branco
+#     necessitavam de uma fonte que correspondesse aos mesmos.
 #
 
 
@@ -108,6 +84,29 @@
 
 
 
+#
+# Cor da fonte
+#
+# 39:   Padrão
+# 30:   Preto         (combine com um fundo colorido para obter um bom resultado)
+# 31:   Vermelho      (Não use com um fundo verde)
+# 32:   Verde
+# 33:   Amarelo
+# 34:   Azul
+# 35:   Púrpura
+# 36:   Ciano
+# 37:   Cinza claro
+# 90:   Cinza escuro
+# 91:   Vermelho claro
+# 92:   Verde claro
+# 93:   Amarelo claro
+# 94:   Azul claro
+# 95:   Púrpura claro|Pink
+# 96:   Ciano claro
+# 97:   Branco
+#
+
+
 
 
 #
@@ -120,28 +119,28 @@
 
 NONE='\e[0;37;37m'
 
-BLACK='\e[0;30;47m'
-DGREY='\e[0;90;37m'
+BLACK='\e[0;47;30m'
+DGREY='\e[0;37;90m'
 LGREY='\e[0;37;37m'
-WHITE='\e[0;97;37m'
+WHITE='\e[0;37;97m'
 
-RED='\e[0;31;37m'
-LRED='\e[0;91;37m'
+RED='\e[0;37;31m'
+LRED='\e[0;37;91m'
 
-GREEN='\e[0;32;37m'
-LGREEN='\e[0;92;37m'
+GREEN='\e[0;37;32m'
+LGREEN='\e[0;37;92m'
 
-YELLOW='\e[0;33;37m'
-LYELLOW='\e[0;93;37m'
+YELLOW='\e[0;37;33m'
+LYELLOW='\e[0;37;93m'
 
-BLUE='\e[0;34;37m'
-LBLUE='\e[0;94;37m'
+BLUE='\e[0;37;34m'
+LBLUE='\e[0;37;94m'
 
-PURPLE='\e[0;35;37m'
-LPURPLE='\e[0;95;37m'
+PURPLE='\e[0;37;35m'
+LPURPLE='\e[0;37;95m'
 
-CYAN='\e[0;36;37m'
-LCYAN='\e[0;96;37m'
+CYAN='\e[0;37;36m'
+LCYAN='\e[0;37;96m'
 
 
 
