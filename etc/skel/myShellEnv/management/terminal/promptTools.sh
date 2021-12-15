@@ -105,7 +105,7 @@ savePromptConfig() {
   mcfSetVariable "MSE_PROMPT_SELECTED_STYLE_INDEX" "$MSE_PROMPT_SELECTED_STYLE_INDEX" $mseCfgFile
 
 
-  setArrayConfiguration "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
+  mcfSetArrayValues "MSE_PROMPT_SELECTED_COLORS" $mseCfgFile
 
 
   #

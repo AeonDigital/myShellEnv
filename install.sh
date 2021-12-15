@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
-# Torne este arquivo executável executando o comando abaixo
+# Torne este arquivo executável usando o comando abaixo
 # chmod u+x install.sh
 #
 # Execute assim
@@ -59,7 +59,6 @@ downloadInstallScripts() {
 # permitem o seguimento da instalação.
 #
 createTmpInstallerEnv() {
-
   mkdir -p "${HOME}/tmpInstaller"
   if [ ! -d "${HOME}/tmpInstaller" ]; then
     ISOK=0
@@ -69,8 +68,8 @@ createTmpInstallerEnv() {
   else
     if [ $ISOK == 1 ]; then
       local mseInstallFiles=(
-        "textColors.sh" "alertUser.sh" "errorAlert.sh"
-        "waitUser.sh" "promptUser.sh" "setIMessage.sh"
+        "alertUser.sh" "errorAlert.sh" "promptUser.sh"
+        "setIMessage.sh" "textColors.sh" "waitUser.sh"
       )
 
       local mseFileName
@@ -182,6 +181,7 @@ if [ $ISOK == 1 ]; then
       setIMessage "" 1
       setIMessage "Não foi possível instalar a mensagem de login"
       setIMessage "Processo abortado."
+      alertUser
     else
       setIMessage "" 1
       setIMessage "${WHITE}Instalação da mensagem de login concluída${NONE}"

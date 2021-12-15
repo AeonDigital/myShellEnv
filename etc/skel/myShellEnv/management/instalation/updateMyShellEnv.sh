@@ -19,10 +19,13 @@ updateMyShellEnv() {
   if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
     ISOK=0
 
-    printf "    Não foi possível fazer o download do arquivo de atualizações \n"
-    printf "    A instalação foi encerrada.\n"
-    printf "    TGT: ${mseTMP} \n"
-    printf "    URL: ${mseURL} \n\n"
+    setIMessage "" 1
+    setIMessage "Não foi possível fazer o download do arquivo de atualizações."
+    setIMessage "A instalação foi encerrada."
+    setIMessage "TGT: ${mseTMP}"
+    setIMessage "URL: ${mseURL}"
+    alertUser
+
   else
     ISOK=1
     printf "    > Carregando script: ${mseTMP} \n"

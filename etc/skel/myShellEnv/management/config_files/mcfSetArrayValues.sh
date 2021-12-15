@@ -30,9 +30,9 @@ declare -A MSE_GB_ARRAY_CONFIG
 #   Arquivo onde a alteração será feita.
 #
 #   @example
-#     setArrayConfiguration 'TARGET_ARRAY_NAME' '~/config.sh'
+#     mcfSetArrayValues 'TARGET_ARRAY_NAME' '~/config.sh'
 #
-setArrayConfiguration() {
+mcfSetArrayValues() {
   if [ $# != 2 ]; then
     errorAlert "${FUNCNAME[0]}" "expected 3 arguments"
   else

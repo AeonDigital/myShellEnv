@@ -51,8 +51,10 @@ downloadMyShellEnvFiles() {
       else
         ISOK=1
 
-        printf "\n${MSE_GB_ALERT_INDENT}Baixando arquivos para o diretório: \n"
-        printf "\n${MSE_GB_ALERT_INDENT}${LBLUE}$2${NONE} ...\n"
+        setIMessage "" 1
+        setIMessage "Baixando arquivos para o diretório:"
+        setIMessage "${LBLUE}$2${NONE} ..."
+        alertUser
 
         local mseScript
         local mseTMP
@@ -71,11 +73,14 @@ downloadMyShellEnvFiles() {
           fi
         done
 
+
+        setIMessage "" 1
         if [ $ISOK == 1 ]; then
-          printf "${MSE_GB_ALERT_INDENT}Finalizado com sucesso.\n"
+          setIMessage "Finalizado com sucesso."
         else
-          printf "${MSE_GB_ALERT_INDENT}Processo abortado.\n"
+          setIMessage "Processo abortado."
         fi
+        alertUser
       fi
     fi
   fi

@@ -79,7 +79,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
       #
       # Sendo para questioná-lo sobre o início da sessão...
       if [ $MSE_GB_ROOT_PROMPTSTART == 1 ]; then
-        setIMessage "\n${WHITE}Deseja iniciar o myShellEnv?${NONE}" 1
+        setIMessage "" 1
+        setIMessage "${WHITE}Deseja iniciar o myShellEnv?${NONE}"
 
         promptUser
         MSE_GB_START=${MSE_GB_PROMPT_RESULT}
@@ -99,8 +100,8 @@ if [ $MSE_GB_ENABLE == 1 ]; then
     mseDirScripts=(
       "functions/*" "functions/string/*"
       "functions/thirdPart/*" "functions/tools/*"
+      "management/config_files/*" "management/instalation/*"
       "management/terminal/*" "management/terminal/config/*"
-      "management/instalation/*" "management/config_files/*"
     )
 
 

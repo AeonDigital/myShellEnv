@@ -112,13 +112,29 @@ installMyShellEnv() {
 
 
 
+    # Gerenciamento :: configuração
+    if [ $ISOK == 1 ]; then
+      mseDir="${mseTargetDir}management/config_files/"
+      mseURL="${MSE_GB_URL_INSTALL}management/config_files/"
+      MSE_GB_TARGET_FILES=(
+        "mcfCommentSectionVariable.sh" "mcfCommentVariable.sh" "mcfPrintSectionVariable.sh"
+        "mcfPrintSectionVariableInfo.sh" "mcfPrintSectionVariables.sh" "mcfPrintSectionVariableValue.sh"
+        "mcfPrintVariable.sh" "mcfPrintVariableInfo.sh" "mcfPrintVariables.sh"
+        "mcfPrintVariableValue.sh" "mcfSetArrayValues.sh" "mcfSetSectionVariable.sh"
+        "mcfSetVariable.sh" "mcfUncommentSectionVariable.sh" "mcfUncommentVariable.sh"
+      )
+
+      downloadMyShellEnvFiles "$mseURL" "$mseDir"
+    fi
+
+
     # Gerenciamento :: instalação/atualização
     if [ $ISOK == 1 ]; then
       mseDir="${mseTargetDir}management/instalation/"
       mseURL="${MSE_GB_URL_INSTALL}management/instalation/"
       MSE_GB_TARGET_FILES=(
-        "installMyShellEnv.sh" "downloadMyShellEnvFiles.sh"
-        "updateMyShellEnv.sh" "uninstallMyShellEnv.sh"
+        "downloadMyShellEnvFiles.sh" "installMyShellEnv.sh"
+        "uninstallMyShellEnv.sh" "updateMyShellEnv.sh"
       )
 
       downloadMyShellEnvFiles "$mseURL" "$mseDir"
