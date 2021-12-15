@@ -9,10 +9,10 @@
 
 #
 # Teste
-test_mcfSetKeyValue() {
+test_mcfCommentSectionVariable() {
   ((mseCountAssert=mseCountAssert+1))
-  local testResult=$(mcfPrintVariable "CONTAINER_WEBSERVER_NAME" "${mseTMPDIR}/test/.config")
-  local testExpected="CONTAINER_WEBSERVER_NAME    =   dev-php-webserver"
+  local testResult=$(mcfPrintVariable "COMMENT_TEST_NOT" "${mseTMPDIR}/test/.config")
+  local testExpected=""
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
@@ -26,9 +26,9 @@ test_mcfSetKeyValue() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  mcfSetKeyValue "CONTAINER_WEBSERVER_NAME" "dev-teste" "${mseTMPDIR}/test/.config"
-  local testResult=$(mcfPrintVariable "CONTAINER_WEBSERVER_NAME" "${mseTMPDIR}/test/.config")
-  local testExpected="CONTAINER_WEBSERVER_NAME    =   dev-teste"
+  mcfUncommentVariable "COMMENT_TEST_NOT" "#" "${mseTMPDIR}/test/.config"
+  local testResult=$(mcfPrintVariable "COMMENT_TEST_NOT" "${mseTMPDIR}/test/.config")
+  local testExpected="COMMENT_TEST_NOT            =   value"
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
@@ -42,9 +42,9 @@ test_mcfSetKeyValue() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  mcfSetKeyValue "CONTAINER_WEBSERVER_NAME" "dev-php-webserver" "${mseTMPDIR}/test/.config"
-  local testResult=$(mcfPrintVariable "CONTAINER_WEBSERVER_NAME" "${mseTMPDIR}/test/.config")
-  local testExpected="CONTAINER_WEBSERVER_NAME    =   dev-php-webserver"
+  mcfCommentVariable "COMMENT_TEST_NOT" "#" "${mseTMPDIR}/test/.config"
+  local testResult=$(mcfPrintVariable "COMMENT_TEST_NOT" "${mseTMPDIR}/test/.config")
+  local testExpected=""
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
@@ -61,8 +61,8 @@ test_mcfSetKeyValue() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  local testResult=$(mcfPrintSectionVariable "teste" "GIT_LOG_LENGTH" "${mseTMPDIR}/test/.config")
-  local testExpected="GIT_LOG_LENGTH              =   20"
+  local testResult=$(mcfPrintSectionVariable "teste" "COMMENT_TEST" "${mseTMPDIR}/test/.config")
+  local testExpected=""
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
@@ -76,9 +76,9 @@ test_mcfSetKeyValue() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  mcfSetSectionKeyValue "teste" "GIT_LOG_LENGTH" "30" "${mseTMPDIR}/test/.config"
-  local testResult=$(mcfPrintSectionVariable "teste" "GIT_LOG_LENGTH" "${mseTMPDIR}/test/.config")
-  local testExpected="GIT_LOG_LENGTH              =   30"
+  mcfUncommentSectionVariable "teste" "COMMENT_TEST" "#" "${mseTMPDIR}/test/.config"
+  local testResult=$(mcfPrintSectionVariable "teste" "COMMENT_TEST" "${mseTMPDIR}/test/.config")
+  local testExpected="COMMENT_TEST                =   value"
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1
@@ -92,9 +92,9 @@ test_mcfSetKeyValue() {
 
 
   ((mseCountAssert=mseCountAssert+1))
-  mcfSetSectionKeyValue "teste" "GIT_LOG_LENGTH" "20" "${mseTMPDIR}/test/.config"
-  local testResult=$(mcfPrintSectionVariable "teste" "GIT_LOG_LENGTH" "${mseTMPDIR}/test/.config")
-  local testExpected="GIT_LOG_LENGTH              =   20"
+  mcfCommentSectionVariable "teste" "COMMENT_TEST" "#" "${mseTMPDIR}/test/.config"
+  local testResult=$(mcfPrintSectionVariable "teste" "COMMENT_TEST" "${mseTMPDIR}/test/.config")
+  local testExpected=""
 
   if [ "$testResult" == "$testExpected" ]; then
     testISOK=1

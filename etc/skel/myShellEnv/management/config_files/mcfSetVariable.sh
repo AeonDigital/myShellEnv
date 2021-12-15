@@ -20,7 +20,7 @@
 #   @param string $3
 #   Caminho até o arquivo que deve ser verificado.
 #
-mcfSetKeyValue()
+mcfSetVariable()
 {
-  mcfSetSectionKeyValue "" "$1" "$2" "$3";
+  mcfSetSectionVariable "" "$1" "$2" "$3";
 }

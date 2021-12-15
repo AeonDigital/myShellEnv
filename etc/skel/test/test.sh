@@ -9,7 +9,7 @@
 
 #
 # Carrega e executa a bateria de testes unitários
-loadTestScripts() {
+executeTests() {
   #
   # Carrega todos os scripts que serão testados
   local mseBaseDir="${PWD}/etc/skel/myShellEnv/"
@@ -85,6 +85,7 @@ loadTestScripts() {
               local mseFilename="${mseFullFileName%.*}"
 
 
+              #if [ "$mseFilename" == "test_mcfCommentSectionVariable" ]; then
               ((mseCountTests=mseCountTests+1))
               MSE_GB_ALERT_MSG=()
               MSE_GB_PROMPT_MSG=()
@@ -92,6 +93,7 @@ loadTestScripts() {
               echo "#"
               echo "## $mseFilename"
               $mseFilename
+              #fi
             fi
           done <<< ${mseTestFiles}
 
@@ -106,4 +108,4 @@ loadTestScripts() {
     echo "Testes executados: $mseCountAssert"
   fi
 }
-loadTestScripts
+executeTests
