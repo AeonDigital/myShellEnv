@@ -1,0 +1,32 @@
+[submodule "Shell-MSE-Main-Module"]
+	path = Shell-MSE-Main-Module
+	url = https://github.com/AeonDigital/Shell-MSE-Main-Module.git
+	branch = main
+[submodule "Shell-MSE-UnitTest"]
+	path = Shell-MSE-UnitTest
+	url = https://github.com/AeonDigital/Shell-MSE-UnitTest
+	branch = main
+[submodule "Shell-MSE-String"]
+	path = Shell-MSE-String
+	url = https://github.com/AeonDigital/Shell-MSE-String
+	branch = main
+[submodule "Shell-MSE-Character"]
+	path = Shell-MSE-Character
+	url = https://github.com/AeonDigital/Shell-MSE-Character
+	branch = main
+[submodule "Shell-MSE-Management-Config-Files"]
+	path = Shell-MSE-Management-Config-Files
+	url = https://github.com/AeonDigital/Shell-MSE-Management-Config-Files
+	branch = main
+[submodule "Shell-MSE-Interface"]
+	path = Shell-MSE-Interface
+	url = https://github.com/AeonDigital/Shell-MSE-Interface
+	branch = main
+[submodule "Shell-MSE-Interface-Color"]
+	path = Shell-MSE-Interface-Color
+	url = https://github.com/AeonDigital/Shell-MSE-Interface-Color
+	branch = main
+[submodule "Shell-MSE-Interface-Terminal"]
+	path = Shell-MSE-Interface-Terminal
+	url = https://github.com/AeonDigital/Shell-MSE-Interface-Terminal
+	branch = main

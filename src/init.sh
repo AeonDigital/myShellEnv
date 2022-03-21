@@ -17,7 +17,14 @@
 MSE_TMP_THIS_MODULE_NAME="myShellEnv"
 MSE_TMP_THIS_MODULE_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 MSE_TMP_ISOK=1
-MSE_TMP_THIS_MODULE_DEPENDENCY=()
+MSE_TMP_THIS_MODULE_DEPENDENCY=(
+  "Shell-MSE-String"
+  "Shell-MSE-Character"
+  "Shell-MSE-Management-Config-Files"
+  "Shell-MSE-Interface"
+  "Shell-MSE-Interface-Color"
+  "Shell-MSE-Interface-Terminal"
+)
 
 
 
@@ -83,14 +90,19 @@ if [ ${MSE_TMP_ISOK} == 1 ]; then
   if [ ${#MSE_TMP_THIS_MODULE_DEPENDENCY[@]} -gt 0 ]; then
     for mseDependency in "${MSE_TMP_THIS_MODULE_DEPENDENCY[@]}";
     do
-      msePathToModule="${MSE_TMP_THIS_MODULE_DIRECTORY}/../${mseDependency}/src/init.sh"
-      if [ -f "${msePathToModule}" ]; then
-        . "${msePathToModule}"
-        MSE_TMP_THIS_MODULE_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-      else
-        MSE_TMP_ISOK=0
-        mse_mod_replacePlaceHolder "MODULE" "${mseDependency}" "${lbl_generic_ModuleNotFound}"
-        printf "${msePathToModule}\n"
+      #
+      # Se o módulo ainda não foi carregado
+      mseIsDependencyModuleLoaded=$(mse_mod_checkIfHasValueInArray "${mseDependency}" "MSE_GLOBAL_MODULES_NAMES")
+      if [ $mseIsDependencyModuleLoaded == 0 ]; then
+        msePathToModule="${MSE_TMP_THIS_MODULE_DIRECTORY}/../${mseDependency}/src/init.sh"
+        if [ -f "${msePathToModule}" ]; then
+          . "${msePathToModule}"
+          MSE_TMP_THIS_MODULE_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+        else
+          MSE_TMP_ISOK=0
+          mse_mod_replacePlaceHolder "MODULE" "${mseDependency}" "${lbl_generic_ModuleNotFound}"
+          printf "${msePathToModule}\n"
+        fi
       fi
     done
 
