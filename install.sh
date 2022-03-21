@@ -27,7 +27,7 @@ MSE_TMP_INSTALL_OPTIONS_GLOBAL=0
 MSE_TMP_INSTALL_OPTIONS_CURRENT_USER=0
 MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE=0 # não usado
 
-MSE_TMP_INSTALLATION_PATH="${MSE_TMP_INSTALL_PATH_TO_HOME}"
+MSE_TMP_INSTALLATION_PATH="${HOME}"
 MSE_TMP_INSTALL_PATH_TO_HOME="${HOME}"
 MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP="${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
 
@@ -131,6 +131,7 @@ mse_install_myShellEnv() {
         $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
       else
         cp -r "/etc/skel/.myShellEnv" "${MSE_TMP_INSTALL_PATH_TO_HOME}"
+        rm "${MSE_TMP_INSTALL_PATH_TO_HOME}/.myShellEnv/src/bashrcBackup/bashrc*"
       fi
 
 
