@@ -120,7 +120,7 @@ mse_install_myShellEnv() {
       MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
       MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
     else
-      local mseTmpBashrcBackup
+      local mseTmpBashrcBackup=""
 
       #
       # Inicia a instalação do repositório
@@ -136,7 +136,7 @@ mse_install_myShellEnv() {
 
       #
       # Verifica se a instalação foi ok
-      if [ ! -d "${mseInstallationPath}/.myShellEnv/myShellEnv" ]; then
+      if [ ! -d "${mseInstallationPath}/.myShellEnv/src" ]; then
         ISOK=0
 
         MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
@@ -167,7 +167,7 @@ mse_install_myShellEnv() {
         if [ $ISOK == 1 ]; then
           #
           # Adiciona o novo '.bashrc'
-          cp "${mseInstallationPath}/.myShellEnv/myShellEnv/src/templates/.bashrc" "${mseInstallationPath}/.bashrc"
+          cp "${mseInstallationPath}/.myShellEnv/src/templates/.bashrc" "${mseInstallationPath}/.bashrc"
           if [ $? != 0 ]; then
             ISOK=0
 
@@ -365,7 +365,7 @@ if [ $ISOK == 1 ]; then
       #
       # Se a instalação principal ocorreu globalmente
       # e, além desta instalação é necessário instalar para o usuário corrente...
-      if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
+      if [ $ISOK == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
         MSE_TMP_INSTALLATION_PATH="~"
         mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}" "1"
       fi
