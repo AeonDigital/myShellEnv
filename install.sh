@@ -27,7 +27,8 @@ MSE_TMP_INSTALL_OPTIONS_GLOBAL=0
 MSE_TMP_INSTALL_OPTIONS_CURRENT_USER=0
 MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE=0 # não usado
 
-MSE_TMP_INSTALLATION_PATH="~"
+MSE_TMP_INSTALL_PATH_TO_HOME="${HOME}"
+MSE_TMP_INSTALLATION_PATH="${MSE_TMP_INSTALL_PATH_TO_HOME}"
 
 
 
@@ -105,7 +106,7 @@ mse_install_myShellEnv() {
 
     MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
     MSE_TMP_INSTALL_INTERFACE_MSG+=("There is already a version of \"myShellEnv\" installed in")
-    MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallPath}")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
     MSE_TMP_INSTALL_INTERFACE_MSG+=("Uninstall the previous version to install a new one.")
   else
 
@@ -130,7 +131,7 @@ mse_install_myShellEnv() {
       if [ $mseFromSkel == 0 ]; then
         $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${mseInstallationPath}/.myShellEnv")
       else
-        cp -r "/etc/skel/.myShellEnv" "~"
+        cp -r "/etc/skel/.myShellEnv" "${MSE_TMP_INSTALL_PATH_TO_HOME}"
       fi
 
 
@@ -173,7 +174,7 @@ mse_install_myShellEnv() {
 
             MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
             MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not install ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file in the indicated location:")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.bashrc")
             MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
           fi
         fi
@@ -366,7 +367,7 @@ if [ $ISOK == 1 ]; then
       # Se a instalação principal ocorreu globalmente
       # e, além desta instalação é necessário instalar para o usuário corrente...
       if [ $ISOK == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
-        MSE_TMP_INSTALLATION_PATH="~"
+        MSE_TMP_INSTALLATION_PATH="${MSE_TMP_INSTALL_PATH_TO_HOME}"
         mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}" "1"
       fi
     else
@@ -385,7 +386,7 @@ if [ $ISOK == 0 ]; then
   MSE_TMP_INSTALL_INTERFACE_MSG+=("Aborted installation\n")
   mse_install_alertUser
 else
-  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}Success!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}Installation success!${MSE_TMP_INSTALL_COLOR_NONE}")
 
   if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ]; then
     MSE_TMP_INSTALL_INTERFACE_MSG+=("New users will be created with their own installation of \"myShellEnv\"")
