@@ -1,9 +1,0 @@
-CONTAINER_WEBSERVER_NAME    =   dev-php-webserver
-APACHE_RUN_USER             =   [[apacheuser]]
-APACHE_RUN_GROUP            =   [[apachegroup]]
-FORCE_HTTPS                 =   0
-DEBUG_MODE                  =   1
-UPDATE_ROUTES               =   1
-REQUEST_TIMEOUT             =   1200
-REQUEST_MAX_FILESIZE        =   100
-REQUEST_MAX_POSTSIZE        =   100

@@ -7,7 +7,7 @@ myShellEnv
 
 
 
-Conjunto de ferramentas comuns de uso com scripts em **Bash**.  
+Conjunto de módulos de scripts shell.
 Para instalar use no seu ambiente use as instruções abaixo.
 
 ``` bash

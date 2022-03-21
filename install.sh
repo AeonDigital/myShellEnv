@@ -1,87 +1,226 @@
-#!/bin/bash -e
+#!/usr/bin/env bash
 # myShellEnv v 1.0 [aeondigital.com.br]
 #
-# Torne este arquivo executável usando o comando abaixo
-# chmod u+x install.sh
+# Torne este arquivo executável usando :
+# > chmod u+x install.sh
 #
 # Execute assim
-# ./install.sh
+# > ./install.sh
+
+
+
+
+
+
+set -eu
+ISOK=1
+MSE_TMP_INSTALL_INDENT="    "
+MSE_TMP_INSTALL_INTERFACE_MSG=()
+MSE_TMP_INSTALL_PROMPT_RESULT=""
+
+MSE_TMP_INSTALL_COLOR_NONE=""
+MSE_TMP_INSTALL_COLOR_HIGHLIGHT=""
+MSE_TMP_INSTALL_COLOR_CONTRAST=""
+MSE_TMP_INSTALL_COLOR_ERROR=""
+
+MSE_TMP_INSTALL_OPTIONS_GLOBAL=0
+MSE_TMP_INSTALL_OPTIONS_CURRENT_USER=0
+MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE=0 # não usado
+
+MSE_TMP_INSTALLATION_PATH="~"
+
+
+
+
+
 #
+# Mostra uma mensagem de alerta para o usuário.
+mse_install_alertUser() {
+  if [ ${#MSE_TMP_INSTALL_INTERFACE_MSG[@]} -gt 0 ]; then
+    local mseMsg
 
+    printf "\n"
+    for mseMsg in "${MSE_TMP_INSTALL_INTERFACE_MSG[@]}"; do
+      printf "${MSE_TMP_INSTALL_INDENT}${mseMsg}\n"
+    done
 
-
-
-
-
-#
-# Efetua o download de scripts necessários para a instalação.
-# Em caso de falha, altera o valor da variável de controle ${ISOK} para "0".
-# Sendo bem sucedido irá carregar o script.
-#
-#   @param string $1
-#   Nome do script a ser salvo no diretório temporário 'tmpInstaller'.
-#
-#   @param string $2
-#   Url onde está o arquivo a ser baixado.
-#
-#   @example
-#     downloadInstallScripts "textColors.sh" "textColors.sh"
-#
-downloadInstallScripts() {
-  if [ $# != 2 ]; then
-    printf "ERROR in ${FUNCNAME[0]}: expected 2 arguments"
-  else
-    local mseTMP="${HOME}/tmpInstaller/$1"
-    local mseSCode=""
-    if [ $DEBUG == 0 ] || [ ! -f "${mseTMP}" ]; then
-      mseSCode=$(curl -s -w "%{http_code}" -o "${mseTMP}" "$2" || true)
-    fi
-
-    if [ ! -f "$mseTMP" ] || [ $mseSCode != 200 ]; then
-      ISOK=0
-
-      printf "    Não foi possível fazer o download do arquivo de instalação '$1'\n"
-      printf "    A instalação foi encerrada.\n"
-      printf "    TGT: ${mseTMP} \n"
-      printf "    URL: $2 \n\n"
-    else
-      printf "    > Carregando script: ${mseTMP} \n"
-      source "${mseTMP}"
-    fi
+    MSE_TMP_INSTALL_INTERFACE_MSG=()
   fi
 }
 
+#
+# Mostra uma mensagem para o usuário e permite que ele
+# ofereça uma resposta booleana.
+mse_install_promptUser() {
+  MSE_TMP_INSTALL_PROMPT_RESULT=""
+  local msePromptValidInputs=("yes" "y" "no" "n")
+  local msePromptValue=""
+
+  if [ ${#MSE_TMP_INSTALL_INTERFACE_MSG[@]} -gt 0 ]; then
+    mse_install_alertUser
+
+    #
+    # Efetua um loop recebendo valores do usuário até que seja digitado algum válido.
+    while [ "$MSE_TMP_INSTALL_PROMPT_RESULT" == "" ]; do
+      if [ "$msePromptValue" != "" ]; then
+        printf "${MSE_TMP_INSTALL_INDENT}Invalid value\n"
+      fi
+
+      #
+      # Permite que o usuário digite sua resposta
+      read -p "${MSE_TMP_INSTALL_INDENT}confirm [ yes/y/no/n ] : " msePromptValue
+
+      #
+      # Verifica se o valor digitado corresponde a algum dos valores válidos.
+      msePromptValue=$(printf "$msePromptValue" | awk '{print tolower($0)}')
+      if [ "$msePromptValue" == "yes" ] || [ "$msePromptValue" == "y" ]; then
+        MSE_TMP_INSTALL_PROMPT_RESULT=1
+      elif [ "$msePromptValue" == "no" ] || [ "$msePromptValue" == "n" ]; then
+        MSE_TMP_INSTALL_PROMPT_RESULT=0
+      fi
+    done
+  fi
+}
+
+#
+# Verifica se um comando indicado existe.
+mse_install_checkIfCommandExists() {
+  $1 &> /dev/null
+  if [ $? == 0 ]; then printf "1"; else printf "0"; fi
+}
+
+#
+# Efetua a instalação no diretório indicado
+mse_install_myShellEnv() {
+  local mseInstallationPath=$1
+  local mseFromSkel=0
+  if [ $# == 2 ] && [ $2 == 1 ]; then
+    mseFromSkel=1
+  fi
 
 
-#
-# Efetua o download dos scripts mínimos necessários para efetuar a
-# instalação de um pacote 'standAlone'.
-#
-# Um diretório chamado 'tmpInstaller' será criado no diretório $HOME do
-# usuário que iniciou a instalação e nele serão alocados scripts que
-# permitem o seguimento da instalação.
-#
-createTmpInstallerEnv() {
-  mkdir -p "${HOME}/tmpInstaller"
-  if [ ! -d "${HOME}/tmpInstaller" ]; then
+
+  if [ -d "${mseInstallationPath}/.myShellEnv" ]; then
     ISOK=0
 
-    printf "    Não foi possível criar o diretório temporário de instalação. \n"
-    printf "    A instalação foi encerrada.\n"
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("There is already a version of \"myShellEnv\" installed in")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallPath}")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("Uninstall the previous version to install a new one.")
   else
-    if [ $ISOK == 1 ]; then
-      local mseInstallFiles=(
-        "alertUser.sh" "errorAlert.sh" "promptUser.sh"
-        "setIMessage.sh" "textColors.sh" "waitUser.sh"
-      )
 
-      local mseFileName
-      for mseFileName in "${mseInstallFiles[@]}"; do
-        if [ $ISOK == 1 ]; then
-          downloadInstallScripts "${mseFileName}" "${TMP_URL_INSTALL}functions/interface/${mseFileName}"
+    #
+    # Cria o diretório de instalação
+    mkdir -p "${mseInstallationPath}/.myShellEnv"
+    if [ ! -d "${mseInstallationPath}/.myShellEnv" ]; then
+      ISOK=0
+
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not create installation directory")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
+    else
+      local mseTmpBashrcBackup
+
+      #
+      # Inicia a instalação do repositório
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}Cloning repository${MSE_TMP_INSTALL_COLOR_NONE}")
+      mse_install_alertUser
+
+      if [ $mseFromSkel == 0 ]; then
+        $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${mseInstallationPath}/.myShellEnv")
+      else
+        cp -r "/etc/skel/.myShellEnv" "~"
+      fi
+
+
+      #
+      # Verifica se a instalação foi ok
+      if [ ! -d "${mseInstallationPath}/.myShellEnv/myShellEnv" ]; then
+        ISOK=0
+
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not clone repository.")
+      else
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}clone ok!${MSE_TMP_INSTALL_COLOR_NONE}")
+        mse_install_alertUser
+
+        #
+        # Gera uma cópia do '.bashrc' do local da instalação
+        if [ -f "${mseInstallationPath}/.bashrc" ] || [ -h "${mseInstallationPath}/.bashrc" ]; then
+          mseTmpBashrcBackup="${mseInstallationPath}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
+
+          MSE_TMP_INSTALL_INTERFACE_MSG+=("Creating backup of ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE}")
+          MSE_TMP_INSTALL_INTERFACE_MSG+=("copying to ${mseTmpBashrcBackup}")
+          mse_install_alertUser
+
+          mv "${mseInstallationPath}/.bashrc" "$mseTmpBashrcBackup"
+          if [ $? != 0 ]; then
+            ISOK=0
+
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not save your ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} backup.")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
+          fi
         fi
-      done
+
+
+        if [ $ISOK == 1 ]; then
+          #
+          # Adiciona o novo '.bashrc'
+          cp "${mseInstallationPath}/.myShellEnv/myShellEnv/src/templates/.bashrc" "${mseInstallationPath}/.bashrc"
+          if [ $? != 0 ]; then
+            ISOK=0
+
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not install ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file in the indicated location:")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
+          fi
+        fi
+
+      fi
+
+
+      #
+      # Se uma falha ocorrer, remove a instalação
+      if [ $ISOK == 0 ]; then
+        local mseTmpRemoveInstallationPath=1
+
+        #
+        # Restaura o .bashrc
+        if [ "${mseTmpBashrcBackup}" != "" ] && [ -f "${mseTmpBashrcBackup}" ]; then
+          mv "${mseTmpBashrcBackup}" "${mseInstallationPath}/.bashrc"
+
+          if [ $? != 0 ]; then
+            mseTmpRemoveInstallationPath=0
+
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and your ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file could not be restored.")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("But do not worry. A copy of it is saved in:")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseTmpBashrcBackup}")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation try to restore it manually")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("and then delete the directory indicated below")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
+            mse_install_alertUser
+          fi
+        fi
+
+        #
+        # remove o diretório da instalação
+        if [ $mseTmpRemoveInstallationPath == 1 ] && [ -d "${mseInstallationPath}/.myShellEnv" ]; then
+          rm -rf "${mseInstallationPath}/.myShellEnv"
+
+          if [ $? != 0 ]; then
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and could not remove cloned repository:")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation you need to manually remove it")
+            mse_install_alertUser
+          fi
+        fi
+      fi
     fi
+
   fi
 }
 
@@ -90,245 +229,195 @@ createTmpInstallerEnv() {
 
 
 #
-# Efetua o download de todos os scripts necessários para a instalação
+# Define as cores se for possível de utilizá-las
+if [ ! -z "${BASH_VERSION-}" ] && [ -t 1 ]; then
+  MSE_TMP_TERMINAL_N_COLORS="$(tput colors 2> /dev/null || tput Co 2> /dev/null || echo -1)"
 
-ISOK=1
-DEBUG=0
+  if [ -n "$MSE_TMP_TERMINAL_N_COLORS" ] && [ $MSE_TMP_TERMINAL_N_COLORS -ge 8 ]; then
+    MSE_TMP_INSTALL_COLOR_NONE='\e[0;37;37m'
+    MSE_TMP_INSTALL_COLOR_HIGHLIGHT='\e[0;37;94m'
+    MSE_TMP_INSTALL_COLOR_CONTRAST='\e[0;37;90m'
+    MSE_TMP_INSTALL_COLOR_ERROR='\e[0;37;91m'
+  fi
 
-TMP_URL_BASE="https://raw.githubusercontent.com/AeonDigital/myShellEnv/main/"
-TMP_URL_ETC="${TMP_URL_BASE}etc/"
-TMP_URL_INSTALL="${TMP_URL_BASE}etc/skel/myShellEnv/"
-
-TMP_INSTALL_IN_SKEL=0
-TMP_INSTALL_LOGIN_MESSAGE=0
-TMP_INSTALL_IN_MY_USER=0
-
-
-createTmpInstallerEnv
-if [ $ISOK == 1 ]; then
-  downloadInstallScripts "installMyShellEnv.sh" "${TMP_URL_INSTALL}management/instalation/installMyShellEnv.sh"
-fi
-
-if [ $ISOK == 1 ]; then
-  downloadInstallScripts "downloadMyShellEnvFiles.sh" "${TMP_URL_INSTALL}management/instalation/downloadMyShellEnvFiles.sh"
+  unset MSE_TMP_TERMINAL_N_COLORS
 fi
 
 
 
 
 
-if [ $ISOK == 1 ]; then
+#
+# Identifica se a versão mínima do bash é a que está rodando
+# e se as dependencias da instalação está presentes.
+if [ -z "${BASH_VERSION-}" ]; then
+  ISOK=0
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("Bash 5.0 required")
+else
+  MSE_TMP_INSTALL_BASH_REQUIRED_MAJOR_VERSION=5
+  MSE_TMP_INSTALL_BASH_REQUIRED_MINOR_VERSION=0
+  MSE_TMP_INSTALL_BASH_REQUIRED_COMPARE_VERSION="${MSE_TMP_INSTALL_BASH_REQUIRED_MAJOR_VERSION}${MSE_TMP_INSTALL_BASH_REQUIRED_MINOR_VERSION}"
 
-  clear
-  setIMessage "" 1
-  setIMessage "${WHITE}myShellEnv v 1.0 [2021-12-15]${NONE}"
-  setIMessage "Iniciando o processo de instalação."
-  alertUser
+  MSE_TMP_INSTALLED_BASH_MAJOR_VERSION="${BASH_VERSINFO[0]}"
+  MSE_TMP_INSTALLED_BASH_MINOR_VERSION="${BASH_VERSINFO[1]}"
+  MSE_TMP_INSTALLED_BASH_COMPARE_VERSION="${MSE_TMP_INSTALLED_BASH_MAJOR_VERSION}${MSE_TMP_INSTALLED_BASH_MINOR_VERSION}"
 
+  if [ ${MSE_TMP_INSTALLED_BASH_COMPARE_VERSION} -lt ${MSE_TMP_INSTALL_BASH_REQUIRED_COMPARE_VERSION} ]; then
+    ISOK=0
 
-
-  #
-  # sendo um root
-  if [ $ISOK == 1 ] && [ $EUID == 0 ]; then
-    setIMessage "" 1
-    setIMessage "Você foi identificado como um usuário com privilégios ${LBLUE}root${NONE}"
-    setIMessage "Isto significa que você tem permissão para instalar o ${LBLUE}myShellEnv${NONE}"
-    setIMessage "para ${WHITE}todo novo usuário${NONE} criado nesta máquina."
-    alertUser
-
-    setIMessage "\n" 1
-    setIMessage "Você deseja instalar a mensagem de login?"
-    setIMessage "[ ${DGREY}Ela será vista por todos os usuários!${NONE} ]"
-
-    promptUser
-    TMP_INSTALL_LOGIN_MESSAGE=$MSE_GB_PROMPT_RESULT
-    MSE_GB_PROMPT_RESULT=""
-
-
-    setIMessage "\n" 1
-    setIMessage "Você deseja fazer uma instalação global (${LBLUE}skel${NONE})?"
-    setIMessage "[ ${DGREY}Usuários existentes não serão alterados!${NONE} ]"
-
-    promptUser
-    TMP_INSTALL_IN_SKEL=$MSE_GB_PROMPT_RESULT
-    MSE_GB_PROMPT_RESULT=""
-  fi
-
-
-
-
-
-  #
-  # Verifica se é para efetuar a instalação do 'myShellEnv' para o usuário atual.
-  setIMessage "\n" 1
-  setIMessage "Prosseguir instalação para o seu próprio usuário?"
-
-  promptUser
-  TMP_INSTALL_IN_MY_USER=$MSE_GB_PROMPT_RESULT
-  MSE_GB_PROMPT_RESULT=""
-
-
-
-
-
-  #
-  # Sendo para instalar a mensagem de login...
-  if [ $ISOK == 1 ] && [ $TMP_INSTALL_LOGIN_MESSAGE == 1 ]; then
-    if [ -f "/etc/issue" ]; then
-      cp /etc/issue /etc/issue_beforeMyShellEnv
-    fi
-    mseSCode=$(curl -s -w "%{http_code}" -o /etc/issue "${TMP_URL_ETC}loginMessage" || true)
-
-    if [ ! -f "/etc/issue" ] || [ $mseSCode != 200 ]; then
-      ISOK=0
-
-      setIMessage "" 1
-      setIMessage "Não foi possível instalar a mensagem de login"
-      setIMessage "Processo abortado."
-      alertUser
-    else
-      setIMessage "" 1
-      setIMessage "${WHITE}Instalação da mensagem de login concluída${NONE}"
-      alertUser
-    fi
-
-    unset mseSCode
-  fi
-
-
-
-
-
-  #
-  # Sendo para instalar no skel...
-  if [ $ISOK == 1 ] && [ $TMP_INSTALL_IN_SKEL == 1 ]; then
-    mkdir -p "/etc/skel/myShellEnv"
-    if [ ! -d "/etc/skel/myShellEnv" ]; then
-      ISOK=0
-
-      setIMessage "\n" 1
-      setIMessage "Não foi possível criar o diretório ${LBLUE}/etc/skel/myShellEnv${NONE}?"
-      setIMessage "Esta ação foi encerrada.\n"
-      alertUser
-    else
-      installMyShellEnv 1
-
-      if [ $ISOK == 1 ]; then
-        setIMessage "" 1
-        setIMessage "${WHITE}Instalação no skel concluída${NONE}"
-        alertUser
-      fi
-    fi
-  fi
-
-
-
-
-
-  #
-  # Sendo para instalar no usuário atual...
-  if [ $ISOK == 1 ] && [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
-    mkdir -p "${HOME}/myShellEnv"
-    if [ ! -d "${HOME}/myShellEnv" ]; then
-      ISOK=0
-
-      setIMessage "\n" 1
-      setIMessage "Não foi possível criar o diretório ${LBLUE}${HOME}/myShellEnv${NONE}?"
-      setIMessage "Esta ação foi encerrada.\n"
-      alertUser
-    else
-      installMyShellEnv 0
-
-      if [ $ISOK == 1 ]; then
-        setIMessage "" 1
-        setIMessage "${WHITE}Instalação para o seu usuário concluída${NONE}"
-        alertUser
-      fi
-    fi
-  fi
-
-
-
-
-
-  #
-  # Efetua alterações finais conforme sucesso ou falha da instalação
-  if [ $ISOK == 0 ]; then
-    setIMessage "" 1
-    setIMessage "${LRED}Processo de instalação encerrado com falhas${NONE}"
-
-
-    if [ $TMP_INSTALL_LOGIN_MESSAGE == 1 ] && [ -f "/etc/issue_beforeMyShellEnv" ]; then
-      cp /etc/issue_beforeMyShellEnv /etc/issue
-      rm /etc/issue_beforeMyShellEnv
-    fi
-
-    if [ $TMP_INSTALL_IN_SKEL == 1 ] && [ -d "/etc/skel/myShellEnv" ]; then
-      rm -r "/etc/skel/myShellEnv"
-    fi
-
-    if [ $TMP_INSTALL_IN_MY_USER == 1 ] && [ -d "${HOME}/myShellEnv" ]; then
-      rm -r "${HOME}/myShellEnv"
-    fi
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("Your Bash version is recognized as ${MSE_TMP_INSTALLED_BASH_MAJOR_VERSION}.${MSE_TMP_INSTALLED_BASH_MINOR_VERSION}")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("and the required by this installation is ${MSE_TMP_INSTALL_BASH_REQUIRED_MAJOR_VERSION}.${MSE_TMP_INSTALL_BASH_REQUIRED_MINOR_VERSION}")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("Upgrade your Bash and try again")
   else
-    setIMessage "${LGREEN}Processo de instalação encerrado com sucesso!${NONE}"
-    setIMessage "As atualizações serão carregadas no próximo login."
-    setIMessage ""
+    MSE_TMP_GIT=$(mse_install_checkIfCommandExists "git --version")
 
-    mseSourceBashRC='source ~/myShellEnv/start.sh || true'
+    if [ $MSE_TMP_GIT == 0 ]; then
+      ISOK=0
 
-    if [ $TMP_INSTALL_IN_SKEL == 1 ]; then
-      if [ ! -f /etc/skel/.bash_profile ]; then
-        echo "source ~/.bashrc" > /etc/skel/.bash_profile
-      fi
-
-      if [ -f /etc/skel/.bashrc ]; then
-        echo $mseSourceBashRC >> /etc/skel/.bashrc
-      else
-        echo "[[ \$- != *i* ]] && return" > /etc/skel/.bashrc
-        echo $mseSourceBashRC >> /etc/skel/.bashrc
-      fi
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Git not found.")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Install and try again.")
     fi
 
-    if [ $TMP_INSTALL_IN_MY_USER == 1 ]; then
-      if [ ! -f "${HOME}/.bash_profile" ]; then
-        echo "source ~/.bashrc" > "${HOME}/.bash_profile"
-      fi
-
-      if [ -f ${HOME}/.bashrc ]; then
-        echo $mseSourceBashRC >> "${HOME}/.bashrc"
-      else
-        echo "[[ \$- != *i* ]] && return" > "${HOME}/.bashrc"
-        echo $mseSourceBashRC >> "${HOME}/.bashrc"
-      fi
-    fi
-
-    unset mseSourceBashRC
+    unset MSE_TMP_GIT
   fi
 
+  unset MSE_TMP_INSTALL_BASH_REQUIRED_MAJOR_VERSION
+  unset MSE_TMP_INSTALL_BASH_REQUIRED_MINOR_VERSION
+  unset MSE_TMP_INSTALL_BASH_REQUIRED_COMPARE_VERSION
 
-  if [ $DEBUG == 0 ]; then
-    rm -r "${HOME}/tmpInstaller"
-    if [ -f install.sh ]; then
-      rm install.sh
-    fi
-    if [ -f myShellEnvInstall.sh ]; then
-      rm myShellEnvInstall.sh
-    fi
-  fi
-  waitUser
+  unset MSE_TMP_INSTALLED_BASH_MAJOR_VERSION
+  unset MSE_TMP_INSTALLED_BASH_MINOR_VERSION
+  unset MSE_TMP_INSTALLED_BASH_COMPARE_VERSION
 fi
 
 
 
 
-unset TMP_URL_BASE
-unset TMP_URL_ETC
-unset TMP_URL_INSTALL
-unset TMP_INSTALL_IN_SKEL
-unset TMP_INSTALL_LOGIN_MESSAGE
-unset TMP_INSTALL_IN_MY_USER
+
+#
+# Não havendo erros até aqui, prossegue a instalação
+if [ $ISOK == 1 ]; then
+  clear
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}myShellEnv v 1.0${MSE_TMP_INSTALL_COLOR_NONE}")
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_CONTRAST}Starting installation${MSE_TMP_INSTALL_COLOR_NONE}")
+  mse_install_alertUser
 
 
-unset downloadInstallScripts
-unset createTmpInstallerEnv
+  #
+  # Se o usuário atual é um root
+  if [ $EUID == 0 ]; then
+
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("You have been identified as a user with ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}root${MSE_TMP_INSTALL_COLOR_NONE} privileges")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("you are allowed to install \"myShellEnv\" ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}globally${MSE_TMP_INSTALL_COLOR_NONE}.")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("With this ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}every new user${MSE_TMP_INSTALL_COLOR_NONE} will be created with their own \"myShellEnv\" installation.")
+    mse_install_alertUser
+
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("Do you want to do a global install?")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_CONTRAST}Existing users will not be changed${MSE_TMP_INSTALL_COLOR_NONE}")
+    mse_install_promptUser
+
+    MSE_TMP_INSTALL_OPTIONS_GLOBAL=${MSE_TMP_INSTALL_PROMPT_RESULT}
+    if [ ${MSE_TMP_INSTALL_OPTIONS_GLOBAL} == 1 ]; then
+      MSE_TMP_INSTALLATION_PATH="/etc/skel"
+      if [ ! -d "$MSE_TMP_INSTALLATION_PATH" ] || [ ! -x "$MSE_TMP_INSTALLATION_PATH" ]; then
+        ISOK=0
+
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("The global installation path was not found")
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("or you do not have permission to access it")
+        MSE_TMP_INSTALL_INTERFACE_MSG+=("path: ${MSE_TMP_INSTALLATION_PATH}")
+        mse_install_alertUser
+      fi
+    fi
+
+
+
+    if [ $ISOK == 1 ]; then
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Do you want to install \"myShellEnv\" login message?")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_CONTRAST}It will be seen by all users!${MSE_TMP_INSTALL_COLOR_NONE}")
+      mse_install_promptUser
+
+      MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE=${MSE_TMP_INSTALL_PROMPT_RESULT}
+    fi
+  fi
+
+
+
+
+
+  if [ $ISOK == 1 ]; then
+
+    #
+    # Verifica se deve instalar mesmo para este usuário
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("Confirm installation for this user")
+    mse_install_promptUser
+
+    MSE_TMP_INSTALL_OPTIONS_CURRENT_USER=${MSE_TMP_INSTALL_PROMPT_RESULT}
+
+    #
+    # Instala no local indicado
+    if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] || [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
+      mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}"
+
+      #
+      # Se a instalação principal ocorreu globalmente
+      # e, além desta instalação é necessário instalar para o usuário corrente...
+      if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
+        MSE_TMP_INSTALLATION_PATH="~"
+        mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}" "1"
+      fi
+    else
+      ISOK=0
+    fi
+  fi
+fi
+
+
+
+
+
+#
+# Encerra o script de instalação
+if [ $ISOK == 0 ]; then
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("Aborted installation\n")
+  mse_install_alertUser
+else
+  MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}Success!${MSE_TMP_INSTALL_COLOR_NONE}\n")
+
+  if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ]; then
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("New users will be created with their own installation of \"myShellEnv\"")
+  fi
+  if [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("To immediately start \"myShellEnv\" use the command:")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=(". ~/.bashrc")
+  fi
+
+  mse_install_alertUser
+fi
+
+
+
+unset ISOK
+unset MSE_TMP_INSTALL_INDENT
+unset MSE_TMP_INSTALL_INTERFACE_MSG
+unset MSE_TMP_INSTALL_PROMPT_RESULT
+
+unset MSE_TMP_INSTALL_COLOR_NONE
+unset MSE_TMP_INSTALL_COLOR_HIGHLIGHT
+unset MSE_TMP_INSTALL_COLOR_CONTRAST
+unset MSE_TMP_INSTALL_COLOR_ERROR
+
+unset MSE_TMP_INSTALL_OPTIONS_GLOBAL
+unset MSE_TMP_INSTALL_OPTIONS_CURRENT_USER
+unset MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE
+
+unset MSE_TMP_INSTALLATION_PATH
+
+
+unset mse_install_alertUser
+unset mse_install_promptUser
+unset mse_install_checkIfCommandExists
+unset mse_install_myShellEnv
