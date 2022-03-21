@@ -27,8 +27,9 @@ MSE_TMP_INSTALL_OPTIONS_GLOBAL=0
 MSE_TMP_INSTALL_OPTIONS_CURRENT_USER=0
 MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE=0 # não usado
 
-MSE_TMP_INSTALL_PATH_TO_HOME="${HOME}"
 MSE_TMP_INSTALLATION_PATH="${MSE_TMP_INSTALL_PATH_TO_HOME}"
+MSE_TMP_INSTALL_PATH_TO_HOME="${HOME}"
+MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP="${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
 
 
 
@@ -93,35 +94,33 @@ mse_install_checkIfCommandExists() {
 #
 # Efetua a instalação no diretório indicado
 mse_install_myShellEnv() {
-  local mseInstallationPath=$1
   local mseFromSkel=0
-  if [ $# == 2 ] && [ $2 == 1 ]; then
+  if [ $# == 1 ] && [ $1 == 1 ]; then
     mseFromSkel=1
   fi
 
 
 
-  if [ -d "${mseInstallationPath}/.myShellEnv" ]; then
+  if [ -d "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" ]; then
     ISOK=0
 
     MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
     MSE_TMP_INSTALL_INTERFACE_MSG+=("There is already a version of \"myShellEnv\" installed in")
-    MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
+    MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
     MSE_TMP_INSTALL_INTERFACE_MSG+=("Uninstall the previous version to install a new one.")
   else
 
     #
     # Cria o diretório de instalação
-    mkdir -p "${mseInstallationPath}/.myShellEnv"
-    if [ ! -d "${mseInstallationPath}/.myShellEnv" ]; then
+    mkdir -p "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv"
+    if [ ! -d "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" ]; then
       ISOK=0
 
       MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
       MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not create installation directory")
-      MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
       MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
     else
-      local mseTmpBashrcBackup=""
 
       #
       # Inicia a instalação do repositório
@@ -129,7 +128,7 @@ mse_install_myShellEnv() {
       mse_install_alertUser
 
       if [ $mseFromSkel == 0 ]; then
-        $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${mseInstallationPath}/.myShellEnv")
+        $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
       else
         cp -r "/etc/skel/.myShellEnv" "${MSE_TMP_INSTALL_PATH_TO_HOME}"
       fi
@@ -137,7 +136,7 @@ mse_install_myShellEnv() {
 
       #
       # Verifica se a instalação foi ok
-      if [ ! -d "${mseInstallationPath}/.myShellEnv/src" ]; then
+      if [ ! -d "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src" ]; then
         ISOK=0
 
         MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
@@ -148,14 +147,12 @@ mse_install_myShellEnv() {
 
         #
         # Gera uma cópia do '.bashrc' do local da instalação
-        if [ -f "${mseInstallationPath}/.bashrc" ] || [ -h "${mseInstallationPath}/.bashrc" ]; then
-          mseTmpBashrcBackup="${mseInstallationPath}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
-
+        if [ -f "${MSE_TMP_INSTALLATION_PATH}/.bashrc" ] || [ -h "${MSE_TMP_INSTALLATION_PATH}/.bashrc" ]; then
           MSE_TMP_INSTALL_INTERFACE_MSG+=("Creating backup of ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE}")
-          MSE_TMP_INSTALL_INTERFACE_MSG+=("copying to ${mseTmpBashrcBackup}")
+          MSE_TMP_INSTALL_INTERFACE_MSG+=("copying to ${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}")
           mse_install_alertUser
 
-          mv "${mseInstallationPath}/.bashrc" "$mseTmpBashrcBackup"
+          mv "${MSE_TMP_INSTALLATION_PATH}/.bashrc" "${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}"
           if [ $? != 0 ]; then
             ISOK=0
 
@@ -168,13 +165,13 @@ mse_install_myShellEnv() {
         if [ $ISOK == 1 ]; then
           #
           # Adiciona o novo '.bashrc'
-          cp "${mseInstallationPath}/.myShellEnv/src/templates/.bashrc" "${mseInstallationPath}/.bashrc"
+          cp "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src/templates/.bashrc" "${MSE_TMP_INSTALLATION_PATH}/.bashrc"
           if [ $? != 0 ]; then
             ISOK=0
 
             MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}FAIL!${MSE_TMP_INSTALL_COLOR_NONE}\n")
             MSE_TMP_INSTALL_INTERFACE_MSG+=("Could not install ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file in the indicated location:")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.bashrc")
+            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALLATION_PATH}/.bashrc")
             MSE_TMP_INSTALL_INTERFACE_MSG+=("Please check permissions and try again.")
           fi
         fi
@@ -185,43 +182,49 @@ mse_install_myShellEnv() {
       #
       # Se uma falha ocorrer, remove a instalação
       if [ $ISOK == 0 ]; then
-        local mseTmpRemoveInstallationPath=1
-
-        #
-        # Restaura o .bashrc
-        if [ "${mseTmpBashrcBackup}" != "" ] && [ -f "${mseTmpBashrcBackup}" ]; then
-          mv "${mseTmpBashrcBackup}" "${mseInstallationPath}/.bashrc"
-
-          if [ $? != 0 ]; then
-            mseTmpRemoveInstallationPath=0
-
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and your ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file could not be restored.")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("But do not worry. A copy of it is saved in:")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseTmpBashrcBackup}")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation try to restore it manually")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("and then delete the directory indicated below")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
-            mse_install_alertUser
-          fi
-        fi
-
-        #
-        # remove o diretório da instalação
-        if [ $mseTmpRemoveInstallationPath == 1 ] && [ -d "${mseInstallationPath}/.myShellEnv" ]; then
-          rm -rf "${mseInstallationPath}/.myShellEnv"
-
-          if [ $? != 0 ]; then
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and could not remove cloned repository:")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("${mseInstallationPath}/.myShellEnv")
-            MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation you need to manually remove it")
-            mse_install_alertUser
-          fi
-        fi
+        mse_remove_failedInstallation
       fi
     fi
 
+  fi
+}
+
+#
+# Remove a instalação do diretório indicado
+mse_remove_failedInstallation() {
+  local mseTmpRemoveInstallationPath=1
+
+  #
+  # Restaura o .bashrc
+  if [ "${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}" != "" ] && [ -f "${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}" ]; then
+    mv "${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}" "${MSE_TMP_INSTALLATION_PATH}/.bashrc"
+
+    if [ $? != 0 ]; then
+      mseTmpRemoveInstallationPath=0
+
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and your ${MSE_TMP_INSTALL_COLOR_HIGHLIGHT}.bashrc${MSE_TMP_INSTALL_COLOR_NONE} file could not be restored.")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("But do not worry. A copy of it is saved in:")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation try to restore it manually")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("and then delete the directory indicated below")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
+      mse_install_alertUser
+    fi
+  fi
+
+  #
+  # remove o diretório da instalação
+  if [ $mseTmpRemoveInstallationPath == 1 ] && [ -d "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" ]; then
+    rm -rf "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv"
+
+    if [ $? != 0 ]; then
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALL_COLOR_ERROR}Attention!${MSE_TMP_INSTALL_COLOR_NONE}")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Installation failed and could not remove cloned repository:")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
+      MSE_TMP_INSTALL_INTERFACE_MSG+=("Before trying a new installation you need to manually remove it")
+      mse_install_alertUser
+    fi
   fi
 }
 
@@ -323,6 +326,8 @@ if [ $ISOK == 1 ]; then
     MSE_TMP_INSTALL_OPTIONS_GLOBAL=${MSE_TMP_INSTALL_PROMPT_RESULT}
     if [ ${MSE_TMP_INSTALL_OPTIONS_GLOBAL} == 1 ]; then
       MSE_TMP_INSTALLATION_PATH="/etc/skel"
+      MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP="${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
+
       if [ ! -d "$MSE_TMP_INSTALLATION_PATH" ] || [ ! -x "$MSE_TMP_INSTALLATION_PATH" ]; then
         ISOK=0
 
@@ -361,14 +366,27 @@ if [ $ISOK == 1 ]; then
     #
     # Instala no local indicado
     if [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] || [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
-      mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}"
+      mse_install_myShellEnv
 
       #
       # Se a instalação principal ocorreu globalmente
       # e, além desta instalação é necessário instalar para o usuário corrente...
       if [ $ISOK == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_GLOBAL == 1 ] && [ $MSE_TMP_INSTALL_OPTIONS_CURRENT_USER == 1 ]; then
+        mseTmpGlobalInstallationPath="${MSE_TMP_INSTALL_PATH_TO_HOME}"
+        mseTmpGlobalBashrcBackup="${MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP}"
+
+
         MSE_TMP_INSTALLATION_PATH="${MSE_TMP_INSTALL_PATH_TO_HOME}"
-        mse_install_myShellEnv "${MSE_TMP_INSTALLATION_PATH}" "1"
+        MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP="${MSE_TMP_INSTALLATION_PATH}/.myShellEnv/src/bashrcBackup/bashrc-mse-backup-$(date +%Y-%m-%d-%H-%M-%S)"
+        mse_install_myShellEnv "1"
+
+        #
+        # Havendo uma falha, remove a instalação global.
+        if [ $ISOK == 0 ]; then
+          MSE_TMP_INSTALLATION_PATH="${mseTmpGlobalInstallationPath}"
+          MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP="${mseTmpGlobalBashrcBackup}"
+          mse_remove_failedInstallation
+        fi
       fi
     else
       ISOK=0
@@ -416,6 +434,8 @@ unset MSE_TMP_INSTALL_OPTIONS_CURRENT_USER
 unset MSE_TMP_INSTALL_OPTIONS_LOGIN_MESSAGE
 
 unset MSE_TMP_INSTALLATION_PATH
+unset MSE_TMP_INSTALL_PATH_TO_HOME
+unset MSE_TMP_INSTALL_PATH_TO_BASHRC_BACKUP
 
 
 unset mse_install_alertUser
