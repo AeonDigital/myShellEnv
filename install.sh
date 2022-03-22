@@ -128,7 +128,6 @@ mse_install_myShellEnv() {
       mse_install_alertUser
 
       if [ $mseFromSkel == 0 ]; then
-        # Testar com o -C
         $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
         $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule init)
         $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule update --remote)
