@@ -130,7 +130,6 @@ mse_install_myShellEnv() {
       if [ $mseFromSkel == 0 ]; then
         $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
         $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule init)
-        $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule update --remote)
       else
         cp -r "/etc/skel/.myShellEnv" "${MSE_TMP_INSTALL_PATH_TO_HOME}"
         rm "${MSE_TMP_INSTALL_PATH_TO_HOME}/.myShellEnv/src/bashrcBackup/bashrc*"
