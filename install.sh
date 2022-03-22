@@ -129,7 +129,7 @@ mse_install_myShellEnv() {
 
       if [ $mseFromSkel == 0 ]; then
         # Testar com o -C
-        $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" clone --depth=1 https://github.com/AeonDigital/myShellEnv.git)
+        $(git clone --depth=1 https://github.com/AeonDigital/myShellEnv.git "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv")
         $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule init)
         $(git -C "${MSE_TMP_INSTALLATION_PATH}/.myShellEnv" submodule update --remote)
       else
