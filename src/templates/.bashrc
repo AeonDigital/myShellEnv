@@ -5,8 +5,8 @@
 # [[INI-MYSHELLENV]]
 # Do not remove the markup above and below to
 # 'myshellenv' to manage your custom bashrc.
-if [ -f "~/.myShellEnv/src/init.sh" ]; then
-  . "~/.myShellEnv/src/init.sh" || true
+if [ -f ~/.myShellEnv/src/init.sh ]; then
+  . ~/.myShellEnv/src/init.sh || true
 fi
 # Add your customizations in the lines below
 # [[END-MYSHELLENV]]
