@@ -8,32 +8,22 @@
 
 
 #
-# Aliases de comandos
-## Lidando com arquivos e diretórios
-alias copy="cp"
-alias move="mv"
-alias remove="rm"
-alias removeall="rm -r"
-alias makefile="touch"
-alias makedir="mkdir -pv"
+# Navegação e comandos de listagem
+alias ..="cd .."
+alias tohome="cd ~"
+alias toroot="cd /"
 
+alias cls="clear;pwd;ls -lsA --group-directories-first"
 
-#
-## Listando arquivos e diretórios
-alias ls="ls --color=always"
-alias list="ls -l --group-directories-first"
-alias listall="ls -la --group-directories-first"
-alias listdir="ls -ld */"
+alias ls="ls --color=auto --group-directories-first"
+alias ll="ls --color=auto --group-directories-first"
+alias lall="ls -lsA --group-directories-first"
+alias ldir="ls -ld */"
 alias dir="dir --color=auto"
 alias vdir="vdir --color=auto"
-alias grep="grep --colour=always"
-
-
-#
-## Navegando entre os diretórios
-alias cd..="cd .."
-alias tohome="cd ~"
-
+alias grep="grep --colour=auto"
+alias fgrep="fgrep --colour=auto"
+alias egrep="egrep --colour=auto"
 
 #
 ## Procurando arquivos e mostrando informações
@@ -44,8 +34,7 @@ alias whereisdirci="find / -type d -iname"
 alias showmyip="curl ipinfo.io/ip"
 alias showdate="date +'%A, %d de %B - %Y [%T (%Z)]'"
 
-
 #
 ## Redefinindo o bash
-alias reloadbash="source ~/.bashrc"
+alias reloadbash=". ~/.bashrc"
 alias restartbash="exec bash"

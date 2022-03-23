@@ -7,6 +7,20 @@
 # 'myshellenv' to manage your custom bashrc.
 if [ -f ~/.myShellEnv/src/init.sh ]; then
   . ~/.myShellEnv/src/init.sh || true
+  PS1=$(mse_iter_retrieveRawPromptCode 1)
+
+  shopt -s checkwinsize
+  shopt -s histappend
+
+  HISTSIZE=1000
+  HISTFILESIZE=2000
+
+
+  if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+  fi
+else
+  PS1="\[\e[0;94;49m\]\$ \[\e[0;90;49m\]\u\[\e[0;94;49m\]@\[\e[0;90;49m\]\h\[\e[0;94;49m\] in \[\e[0;37;37m\]\[\e[0;90;49m\]\w \n\076\[\e[0;37;37m\]\040"
 fi
 # Add your customizations in the lines below
 # [[END-MYSHELLENV]]
