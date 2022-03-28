@@ -12,7 +12,7 @@ if [ -f ~/.myShellEnv/src/init.sh ]; then
   if [ -f ~/.myShellEnvConf.sh ]; then
     .  ~/.myShellEnvConf.sh || true
   fi
-  PS1=$(mse_iter_retrieveRawPromptCode 1)
+  PS1=$(mse_term_retrieveRawPromptCode 1)
 
 
   shopt -s checkwinsize

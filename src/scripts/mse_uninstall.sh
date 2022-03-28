@@ -34,11 +34,11 @@ mse_uninstall() {
   if [ $EUID != 0 ] && [ "${mseTarget}" == "global" ]; then
     mseIsOk=0
 
-    mse_int_setIMessage "" 1
-    mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
-    mse_int_setIMessage "${lbl_mse_uninstall_fail_notAllowed}"
-    mse_int_setIMessage ""
-    mse_int_alertUser
+    mse_mmod_setIMessage "" 1
+    mse_mmod_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
+    mse_mmod_setIMessage "${lbl_mse_uninstall_fail_notAllowed}"
+    mse_mmod_setIMessage ""
+    mse_mmod_alertUser
   else
 
     #
@@ -46,12 +46,12 @@ mse_uninstall() {
     if [ ! -d "${mseInstallationPath}/.myShellEnv/src/bashrcBackup" ]; then
       mseIsOk=0
 
-      mse_int_setIMessage "" 1
-      mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
-      mse_int_setIMessage "${lbl_mse_uninstall_fail_directoryNotFound}"
-      mse_int_setIMessage "${mseInstallationPath}/.myShellEnv"
-      mse_int_setIMessage ""
-      mse_int_alertUser
+      mse_mmod_setIMessage "" 1
+      mse_mmod_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
+      mse_mmod_setIMessage "${lbl_mse_uninstall_fail_directoryNotFound}"
+      mse_mmod_setIMessage "${mseInstallationPath}/.myShellEnv"
+      mse_mmod_setIMessage ""
+      mse_mmod_alertUser
     else
 
       #
@@ -90,36 +90,36 @@ mse_uninstall() {
         if [ $? != 0 ]; then
           mseIsOk=0
 
-          mse_int_setIMessage "" 1
-          mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
-          mse_int_setIMessage "${lbl_mse_uninstall_fail_restoreBashrc}"
-          mse_int_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
-          mse_int_setIMessage "${lbl_mse_uninstall_fail_restoreBashrcPresentFile}"
-          mse_int_setIMessage "${mseSelectedBackupPath}"
-          mse_int_setIMessage ""
-          mse_int_alertUser
+          mse_mmod_setIMessage "" 1
+          mse_mmod_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
+          mse_mmod_setIMessage "${lbl_mse_uninstall_fail_restoreBashrc}"
+          mse_mmod_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
+          mse_mmod_setIMessage "${lbl_mse_uninstall_fail_restoreBashrcPresentFile}"
+          mse_mmod_setIMessage "${mseSelectedBackupPath}"
+          mse_mmod_setIMessage ""
+          mse_mmod_alertUser
         else
 
           #
           # remove o diretório da instalação
           rm -rf "${mseInstallationPath}/.myShellEnv"
           if [ $? != 0 ]; then
-            mse_int_setIMessage "" 1
-            mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
-            mse_int_setIMessage "${lbl_mse_uninstall_fail_cannotRemoveDirectory}"
-            mse_int_setIMessage "${mseInstallationPath}/.myShellEnv"
-            mse_int_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
-            mse_int_setIMessage "${lbl_mse_uninstall_fail_tryManually}"
-            mse_int_setIMessage ""
-            mse_int_setIMessage "${lbl_mse_uninstall_fail_ATTENTION}"
-            mse_int_setIMessage "${lbl_mse_uninstall_success_restoreBashrc}"
-            mse_int_setIMessage ""
-            mse_int_alertUser
+            mse_mmod_setIMessage "" 1
+            mse_mmod_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
+            mse_mmod_setIMessage "${lbl_mse_uninstall_fail_cannotRemoveDirectory}"
+            mse_mmod_setIMessage "${mseInstallationPath}/.myShellEnv"
+            mse_mmod_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
+            mse_mmod_setIMessage "${lbl_mse_uninstall_fail_tryManually}"
+            mse_mmod_setIMessage ""
+            mse_mmod_setIMessage "${lbl_mse_uninstall_fail_ATTENTION}"
+            mse_mmod_setIMessage "${lbl_mse_uninstall_success_restoreBashrc}"
+            mse_mmod_setIMessage ""
+            mse_mmod_alertUser
           else
-            mse_int_setIMessage "" 1
-            mse_int_setIMessage "${mseLBLUE}${lbl_mse_uninstall_success_SUCCESS}${mseNONE}"
-            mse_int_setIMessage "${mseDGREY}${lbl_mse_uninstall_success_completed}${mseNONE}"
-            mse_int_alertUser
+            mse_mmod_setIMessage "" 1
+            mse_mmod_setIMessage "${mseLBLUE}${lbl_mse_uninstall_success_SUCCESS}${mseNONE}"
+            mse_mmod_setIMessage "${mseDGREY}${lbl_mse_uninstall_success_completed}${mseNONE}"
+            mse_mmod_alertUser
           fi
 
         fi
@@ -129,7 +129,7 @@ mse_uninstall() {
 
 
   if [ $mseIsOk == 0 ]; then
-    mse_int_setIMessage "${lbl_mse_uninstall_fail_endMsg}" 1
-    mse_int_alertUser
+    mse_mmod_setIMessage "${lbl_mse_uninstall_fail_endMsg}" 1
+    mse_mmod_alertUser
   fi
 }
