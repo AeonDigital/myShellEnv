@@ -12,6 +12,7 @@
 # Instala atualizações do 'myShellEnv', se houverem.
 mse_update() {
   if [ $EUID == 0 ]; then
-    echo $1 # todo
+    git -C "~/.myShellEnv" pull
+    git -C "~/.myShellEnv" submodule update --remote
   fi
 }

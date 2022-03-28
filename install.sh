@@ -417,6 +417,8 @@ else
   fi
 
   mse_install_alertUser
+
+  rm install.sh
 fi
 
 
