@@ -10,23 +10,7 @@
 	path = Shell-MSE-String
 	url = https://github.com/AeonDigital/Shell-MSE-String
 	branch = main
-[submodule "Shell-MSE-Character"]
-	path = Shell-MSE-Character
-	url = https://github.com/AeonDigital/Shell-MSE-Character
-	branch = main
-[submodule "Shell-MSE-Management-Config-Files"]
-	path = Shell-MSE-Management-Config-Files
-	url = https://github.com/AeonDigital/Shell-MSE-Management-Config-Files
-	branch = main
-[submodule "Shell-MSE-Interface"]
-	path = Shell-MSE-Interface
-	url = https://github.com/AeonDigital/Shell-MSE-Interface
-	branch = main
-[submodule "Shell-MSE-Interface-Color"]
-	path = Shell-MSE-Interface-Color
-	url = https://github.com/AeonDigital/Shell-MSE-Interface-Color
-	branch = main
-[submodule "Shell-MSE-Interface-Terminal"]
-	path = Shell-MSE-Interface-Terminal
-	url = https://github.com/AeonDigital/Shell-MSE-Interface-Terminal
+[submodule "Shell-MSE-Terminal"]
+	path = Shell-MSE-Terminal
+	url = https://github.com/AeonDigital/Shell-MSE-Terminal.git
 	branch = main

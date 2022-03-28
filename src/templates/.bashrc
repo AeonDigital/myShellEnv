@@ -7,7 +7,13 @@
 # 'myshellenv' to manage your custom bashrc.
 if [ -f ~/.myShellEnv/src/init.sh ]; then
   . ~/.myShellEnv/src/init.sh || true
+
+  # load personal configuration of myShellEnv if exists
+  if [ -f ~/.myShellEnvConf.sh ]; then
+    .  ~/.myShellEnvConf.sh || true
+  fi
   PS1=$(mse_iter_retrieveRawPromptCode 1)
+
 
   shopt -s checkwinsize
   shopt -s histappend

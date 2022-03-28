@@ -35,7 +35,7 @@ mse_uninstall() {
     mseIsOk=0
 
     mse_int_setIMessage "" 1
-    mse_int_setIMessage "${LRED}${lbl_mse_uninstall_fail_FAIL}${NONE}\n"
+    mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
     mse_int_setIMessage "${lbl_mse_uninstall_fail_notAllowed}"
     mse_int_setIMessage ""
     mse_int_alertUser
@@ -47,7 +47,7 @@ mse_uninstall() {
       mseIsOk=0
 
       mse_int_setIMessage "" 1
-      mse_int_setIMessage "${LRED}${lbl_mse_uninstall_fail_FAIL}${NONE}\n"
+      mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
       mse_int_setIMessage "${lbl_mse_uninstall_fail_directoryNotFound}"
       mse_int_setIMessage "${mseInstallationPath}/.myShellEnv"
       mse_int_setIMessage ""
@@ -91,7 +91,7 @@ mse_uninstall() {
           mseIsOk=0
 
           mse_int_setIMessage "" 1
-          mse_int_setIMessage "${LRED}${lbl_mse_uninstall_fail_FAIL}${NONE}\n"
+          mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
           mse_int_setIMessage "${lbl_mse_uninstall_fail_restoreBashrc}"
           mse_int_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
           mse_int_setIMessage "${lbl_mse_uninstall_fail_restoreBashrcPresentFile}"
@@ -105,7 +105,7 @@ mse_uninstall() {
           rm -rf "${mseInstallationPath}/.myShellEnv"
           if [ $? != 0 ]; then
             mse_int_setIMessage "" 1
-            mse_int_setIMessage "${LRED}${lbl_mse_uninstall_fail_FAIL}${NONE}\n"
+            mse_int_setIMessage "${mseLRED}${lbl_mse_uninstall_fail_FAIL}${mseNONE}\n"
             mse_int_setIMessage "${lbl_mse_uninstall_fail_cannotRemoveDirectory}"
             mse_int_setIMessage "${mseInstallationPath}/.myShellEnv"
             mse_int_setIMessage "${lbl_mse_uninstall_fail_checkPermission}"
@@ -117,8 +117,8 @@ mse_uninstall() {
             mse_int_alertUser
           else
             mse_int_setIMessage "" 1
-            mse_int_setIMessage "${LBLUE}${lbl_mse_uninstall_success_SUCCESS}${NONE}"
-            mse_int_setIMessage "${DGREY}${lbl_mse_uninstall_success_completed}${NONE}"
+            mse_int_setIMessage "${mseLBLUE}${lbl_mse_uninstall_success_SUCCESS}${mseNONE}"
+            mse_int_setIMessage "${mseDGREY}${lbl_mse_uninstall_success_completed}${mseNONE}"
             mse_int_alertUser
           fi
 
