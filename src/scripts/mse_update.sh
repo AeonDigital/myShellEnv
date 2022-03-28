@@ -15,5 +15,5 @@ mse_update() {
   git -C "${HOME}/.myShellEnv" pull
   git -C "${HOME}/.myShellEnv" submodule update --remote
   printf "===== UPDATE 'myShellEnv' END =====\n"
-  printf "=== Updates will be loaded on next terminal startup ===\n"
+  printf "===== Updates will be loaded on next shell startup =====\n"
 }
