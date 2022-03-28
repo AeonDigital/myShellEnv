@@ -21,7 +21,7 @@ MSE_TMP_THIS_MODULE_DIRECTORY=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> 
 #
 # Identifica se o módulo principal está carregado.
 # Caso seja necessário, tenta carregá-lo
-if [ "$(type -t "mse_mod_registerModule")" != "function" ]; then
+if [ "$(type -t "mse_mmod_registerModule")" != "function" ]; then
   MSE_TMP_PATH_TO_MAIN_MODULE_INIT_SCRIPT="${MSE_TMP_THIS_MODULE_DIRECTORY}/../Shell-MSE-Main-Module/src/init.sh"
 
   if [ ! -f "${MSE_TMP_PATH_TO_MAIN_MODULE_INIT_SCRIPT}" ]; then

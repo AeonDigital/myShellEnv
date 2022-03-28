@@ -53,7 +53,7 @@ if [ $MSE_TMP_ISOK == 1 ]; then
   if [ $MSE_TMP_STANDALONE == 0 ]; then
     #
     # Registra/inicia este módulo usando o módulo principal.
-    mse_mod_registerModule "${MSE_TMP_THIS_MODULE_NAME}" "${MSE_TMP_THIS_MODULE_DIRECTORY}"
+    mse_mmod_registerModule "${MSE_TMP_THIS_MODULE_NAME}" "${MSE_TMP_THIS_MODULE_DIRECTORY}"
   else
     mseModFiles=$(find "${MSE_TMP_THIS_MODULE_DIRECTORY}/scripts" -name "*.sh")
 
@@ -88,7 +88,7 @@ if [ $MSE_TMP_ISOK == 1 ]; then
 
         #
         # Se o módulo ainda não foi carregado
-        mseIsDependencyModuleLoaded=$(mse_mod_checkIfHasValueInArray "${mseDependency}" "MSE_GLOBAL_MODULES_NAMES")
+        mseIsDependencyModuleLoaded=$(mse_mmod_checkIfHasValueInArray "${mseDependency}" "MSE_GLOBAL_MODULES_NAMES")
         if [ $mseIsDependencyModuleLoaded == 0 ]; then
           msePathToModule="${MSE_TMP_THIS_MODULE_DIRECTORY}/../${mseDependency}/src/init.sh"
           if [ -f "${msePathToModule}" ]; then
@@ -98,7 +98,7 @@ if [ $MSE_TMP_ISOK == 1 ]; then
             . "${MSE_TMP_THIS_MODULE_DIRECTORY}/config/load.sh"
           else
             MSE_TMP_ISOK=0
-            mse_mod_replacePlaceHolder "MODULE" "${mseDependency}" "${lbl_generic_ModuleNotFound}"
+            mse_mmod_replacePlaceHolder "MODULE" "${mseDependency}" "${lbl_generic_ModuleNotFound}"
             printf "${msePathToModule}\n"
           fi
         fi
